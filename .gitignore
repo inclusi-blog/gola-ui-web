@@ -21,3 +21,30 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Logs
+logs
+*.log
+
+# Dependency directory
+node_modules
+
+# Build folder
+dist
+
+# IDE metadata
+.idea
+.vscode
+*.iml
+
+# Test generated
+coverage
+test-reports
+
+# Optional eslint cache
+.eslintcache
+
+# vscode file history
+.history
+
+config/config.js
