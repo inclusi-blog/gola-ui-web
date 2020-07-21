@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "baseUrl": ".",
+    "paths": {
+      "translations/*": ["./src/translations/*"]
+    }
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
+}

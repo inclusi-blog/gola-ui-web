@@ -27,7 +27,7 @@ const jestConfig = {
     "\\.(png|jpg|jpeg|svg|xlsx)$": '<rootDir>/fileTransformer.js',
   },
   transformIgnorePatterns: [
-    "<rootDir>/node_modules/((?!@idfc/ccl-commons/assets/|@idfc/ui-commons/src))"
+    "<rootDir>/node_modules/(())"
   ],
   testPathIgnorePatterns: [
     '/node_modules/',
