@@ -53,6 +53,7 @@
     "react-hot-loader": "^4.12.21",
     "react-scripts": "3.4.1",
     "style-loader": "^1.2.1",
+    "styled-components": "^5.1.1",
     "stylelint": "^13.6.1",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-recommended": "^3.0.0",
