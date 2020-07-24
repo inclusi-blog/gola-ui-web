@@ -88,7 +88,7 @@
     "lint:css:fix": "yarn lint:css --fix",
     "lint:error:fix": "yarn lint --quiet --fix",
     "lint:error:nocache": "eslint --config ./config/eslint.config.js --quiet ./src/",
-    "ci": "yarn prettier && yarn lint:error:nocache && cross-env CI=true yarn jest --ci --no-colors --silent",
+    "ci": "yarn prettier && yarn lint:error:nocache",
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack/prod.config.js",
     "open:coverage": "open ./coverage/lcov-report/index.html",
     "todo": "yarn leasot -x -r table \"src/**/*.js\"",

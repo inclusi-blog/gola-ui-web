@@ -1,0 +1,102 @@
+format_version: 3
+pipelines:
+  ui-web:
+    group: UI
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    secure_variables:
+    materials:
+      gola-ui-web:
+        git: https://gitlab.com/hsivakum/gola-web-ui.git
+        username: hsivakum
+        shallow_clone: false
+        auto_update: true
+        branch: master
+        destination: gola-ui-web
+    stages:
+    - install_dep_and_test:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          install_dep_and_test_job:
+            timeout: 0
+            resources:
+            - Linux
+            tasks:
+            - exec:
+                arguments:
+                - install
+                command: ./sam.sh
+                working_directory: gola-ui-web
+                run_if: passed
+            - exec:
+                arguments:
+                - test
+                command: ./sam.sh
+                working_directory: gola-ui-web
+                run_if: passed
+    - package:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          package:
+            timeout: 0
+            resources:
+            - Linux
+            - PKS
+            tasks:
+            - exec:
+                arguments:
+                - install
+                command: ./sam.sh
+                working_directory: ui-web
+                run_if: passed
+            - exec:
+                arguments:
+                - build_dist
+                command: ./sam.sh
+                working_directory: ui-web
+                run_if: passed
+            - exec:
+                arguments:
+                - dockerise
+                command: ./sam.sh
+                working_directory: ui-web
+                run_if: passed
+            - exec:
+                arguments:
+                - push
+                command: ./sam.sh
+                working_directory: ui-web
+                run_if: passed
+    - publish_version:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          publish_version:
+            timeout: 0
+            artifacts:
+            - build:
+                source: golaui-web/metadata
+                destination: ''
+            - build:
+                source: gola-ui-web/release_artifacts.tar.gz
+                destination: ''
+            tasks:
+            - exec:
+                command: ./sam-scripts/generate-version-metadata.sh
+                working_directory: gola-ui-web
+                run_if: passed
