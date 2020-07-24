@@ -6,7 +6,7 @@ source $SOURCE_DIR/docker-artifactory-login.sh
 echo "Pushing docker images to Artifactory"
 
 docker login -u $ARTIFACTORY_USER -p $ARTIFACTORY_PASSWORD
-docker tag gola-ui-web gola-ui-web:latest
+docker tag gola-ui-web gola05/gola-ui-web:$GO_REVISION_GOLA_UI_WEB
 docker push $ARTIFACTORY_USER/gola-ui-web:$GO_REVISION_GOLA_UI_WEB
 
 echo "cleaning pushed docker image  ... "
