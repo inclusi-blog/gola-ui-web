@@ -93,9 +93,6 @@ pipelines:
             - build:
                 source: gola-ui-web/metadata
                 destination: ''
-            - build:
-                source: gola-ui-web/release_artifacts.tar.gz
-                destination: ''
             tasks:
             - exec:
                 command: ./sam-scripts/generate-version-metadata.sh
