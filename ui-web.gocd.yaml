@@ -14,6 +14,7 @@ pipelines:
         auto_update: true
         branch: master
         destination: gola-ui-web
+        encrypted_password: AES:nCk5NGNLcPm3/4s35IOnaA==:V6EiMvjpZBeu71iH6PV66Q==
     stages:
     - install_dep_and_test:
         fetch_materials: true
