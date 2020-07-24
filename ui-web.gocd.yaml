@@ -59,25 +59,25 @@ pipelines:
                 arguments:
                 - install
                 command: ./sam.sh
-                working_directory: ui-web
+                working_directory: gola-ui-web
                 run_if: passed
             - exec:
                 arguments:
                 - build_dist
                 command: ./sam.sh
-                working_directory: ui-web
+                working_directory: gola-ui-web
                 run_if: passed
             - exec:
                 arguments:
                 - dockerise
                 command: ./sam.sh
-                working_directory: ui-web
+                working_directory: gola-ui-web
                 run_if: passed
             - exec:
                 arguments:
                 - push
                 command: ./sam.sh
-                working_directory: ui-web
+                working_directory: gola-ui-web
                 run_if: passed
     - publish_version:
         fetch_materials: true
@@ -91,7 +91,7 @@ pipelines:
             timeout: 0
             artifacts:
             - build:
-                source: golaui-web/metadata
+                source: gola-ui-web/metadata
                 destination: ''
             - build:
                 source: gola-ui-web/release_artifacts.tar.gz
