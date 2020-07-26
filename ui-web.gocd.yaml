@@ -98,3 +98,9 @@ pipelines:
                 command: ./sam-scripts/generate-version-metadata.sh
                 working_directory: gola-ui-web
                 run_if: passed
+            - exec:
+                arguments:
+                  - generate_release_artifacts
+                command: make
+                working_directory: gola-ui-web
+                run-if: passed
