@@ -1,6 +1,6 @@
 format_version: 3
 pipelines:
-  ui-web:
+  gola-ui-web:
     group: UI
     label_template: ${COUNT}
     lock_behavior: none

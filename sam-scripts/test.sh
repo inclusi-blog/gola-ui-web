@@ -7,9 +7,9 @@ source $SOURCE_DIR/docker-artifactory-login.sh
 
 docker run --rm \
     -u `id -u`:`id -g` \
-    -v $SOURCE_DIR/..:/ui-web \
+    -v $SOURCE_DIR/..:/gola-ui-web \
     node:10-alpine \
-    sh -c "cd /ui-web && yarn ci"
+    sh -c "cd /gola-ui-web && yarn ci"
 
 retVal=$?
 if [ $retVal -ne 0 ]; then
