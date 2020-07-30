@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
 import { hot } from 'react-hot-loader/root';
+import Header from './app-header/Heder';
 import BaseLayers from './layers/BaseLayer';
 import LazyLoader from './LazyLoader';
 
@@ -9,6 +10,7 @@ const AppRoot = () => {
   return (
     <BaseLayers>
       <Suspense fallback={<LazyLoader />}>
+        <Header />
         <PostLogin />
       </Suspense>
     </BaseLayers>
