@@ -1,10 +1,11 @@
 import styled from 'styled-components';
 
-const AppWrapper = styled.div`
-  background: white;
-  position: fixed;
-  width: 100%;
+const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  box-sizing: content-box;
+  overflow: hidden;
 `;
 
-export default AppWrapper;
+export default MainWrapper;

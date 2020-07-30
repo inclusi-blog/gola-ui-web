@@ -4,7 +4,7 @@ module.exports = {
     browser: true,
     'jest/globals': true,
   },
-  extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:jest/all', 'plugin:jsx-control-statements/recommended'],
+  extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:jest/all', 'plugin:jsx-control-statements/recommended', 'plugin:jsx-a11y/recommended'],
   plugins: ['import', 'compat', 'react-hooks', 'jest', 'module-resolver', 'jsx-control-statements'],
   rules: {
     semi: [2, 'always'],
