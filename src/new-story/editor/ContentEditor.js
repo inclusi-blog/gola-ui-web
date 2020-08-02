@@ -16,7 +16,8 @@ const ContentEditor = () => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
   return (
     <Slate editor={editor} value={value} onChange={changedText => setValue(changedText)}>
-      <Editable placeholder="Enter some plain text..." />
+      <Editable
+        placeholder="Enter some plain text..." />
     </Slate>
   );
 };

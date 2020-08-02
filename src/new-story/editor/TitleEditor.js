@@ -5,7 +5,6 @@ import { withHistory } from 'slate-history';
 import HoveringToolbar from "./HoveringToolbar";
 import Leaf from "./Leaf";
 import { toggleFormat } from "./utils/formatUtils";
-import Icon from '@material-ui/core/Icon';
 
 const initialValue = [
   {
@@ -24,6 +23,12 @@ const TitleEditor = () => {
       <Slate editor={editor} value={value} onChange={changedTitle => setValue(changedTitle)}>
         <HoveringToolbar />
         <Editable
+          style={{
+            height: 75,
+            fontSize: 64,
+            fontFamily: 'Times New Roman',
+            marginBottom: 10
+          }}
           renderLeaf={props => <Leaf {...props} />}
           placeholder="Title"
           /* eslint-disable-next-line consistent-return */
