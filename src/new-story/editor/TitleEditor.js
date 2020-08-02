@@ -24,8 +24,7 @@ const TitleEditor = () => {
         <HoveringToolbar />
         <Editable
           style={{
-            height: 75,
-            fontSize: 64,
+            fontSize: '3em',
             fontFamily: 'Times New Roman',
             marginBottom: 10
           }}
