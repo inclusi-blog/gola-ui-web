@@ -46,6 +46,10 @@ const HoveringToolbar = () => {
           padding: 8px 7px 6px;
           position: absolute;
           z-index: 1;
+          height: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           top: -10000px;
           left: -10000px;
           margin-top: -6px;
@@ -58,6 +62,7 @@ const HoveringToolbar = () => {
         <FormatButton format="bold" icon="format_bold" />
         <FormatButton format="italic" icon="format_italic" />
         <FormatButton format="underlined" icon="format_underlined" />
+        <FormatButton format="link" icon="link" />
       </Menu>
     </Portal>
   );
