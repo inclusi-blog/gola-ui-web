@@ -1,6 +1,6 @@
 import React from 'react';
-import ContentEditor from "./editor/ContentEditor";
-import TitleEditor from "./editor/TitleEditor";
+import ContentEditor from './editor/ContentEditor';
+import TitleEditor from './editor/TitleEditor';
 
 const NewStory = () => {
   return (
@@ -13,7 +13,7 @@ const NewStory = () => {
       <div
         style={{
           width: '62%',
-          marginTop: 246
+          marginTop: 246,
         }}
       >
         <TitleEditor />

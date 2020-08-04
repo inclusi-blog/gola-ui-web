@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 import { useSlate } from 'slate-react';
-import { Button, Icon } from "./components/Components";
-import { isFormatActive, toggleFormat } from "./utils/formatUtils";
+import { Button, Icon } from './components/Components';
+import { isFormatActive, toggleFormat } from './utils/formatUtils';
 
 // eslint-disable-next-line react/prop-types
 const FormatButton = ({ format, icon }) => {
@@ -10,7 +10,7 @@ const FormatButton = ({ format, icon }) => {
     <Button
       reversed
       active={isFormatActive(editor, format)}
-      onMouseDown={event => {
+      onMouseDown={(event) => {
         event.preventDefault();
         toggleFormat(editor, format);
       }}

@@ -1,19 +1,29 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from 'react';
 import { useSlate, ReactEditor } from 'slate-react';
 import { Editor, Range } from 'slate';
 import { css } from 'emotion';
-import { Menu, Portal } from "./components/Components";
-import FormatButton from "./FormatButton";
+import { Menu, Portal } from './components/Components';
+import LinkFormatter from './components/LinkFormatter';
+import FormatButton from './FormatButton';
+import { insertLink, isFormatActive } from './utils/formatUtils';
 
 const HoveringToolbar = () => {
   const ref = useRef();
   const editor = useSlate();
+  const isLinkActive = isFormatActive(editor, 'link');
+  const [showLinkInput, setShowLinkInput] = useState(false);
+  const [linkValue, setLinkValue] = useState('');
+  const [storedSelection, setStoredSelection] = useState({});
 
   useEffect(() => {
     const el = ref.current;
     const { selection } = editor;
 
     if (!el) {
+      return;
+    }
+
+    if (showLinkInput) {
       return;
     }
 
@@ -32,10 +42,7 @@ const HoveringToolbar = () => {
     const rect = domRange.getBoundingClientRect();
     el.style.opacity = 1;
     el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`;
-    el.style.left = `${rect.left +
-    window.pageXOffset -
-    el.offsetWidth / 2 +
-    rect.width / 2}px`;
+    el.style.left = `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2}px`;
   });
 
   return (
@@ -59,10 +66,43 @@ const HoveringToolbar = () => {
           transition: opacity 0.75s;
         `}
       >
-        <FormatButton format="bold" icon="format_bold" />
-        <FormatButton format="italic" icon="format_italic" />
-        <FormatButton format="underlined" icon="format_underlined" />
-        <FormatButton format="link" icon="link" />
+        <Choose>
+          <When condition={showLinkInput}>
+            <input
+              /* eslint-disable-next-line jsx-a11y/no-autofocus */
+              autoFocus
+              type="text"
+              value={linkValue}
+              onChange={(event) => setLinkValue(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  if (!linkValue) return;
+                  editor.selection = storedSelection;
+                  insertLink(editor, linkValue);
+                  setShowLinkInput(false);
+                  setLinkValue('');
+                }
+              }}
+            />
+          </When>
+          <Otherwise>
+            <FormatButton format="bold" icon="format_bold" />
+            <FormatButton format="italic" icon="format_italic" />
+            <FormatButton format="underlined" icon="format_underlined" />
+            <LinkFormatter
+              format="link"
+              icon="link"
+              showInput={() => {
+                if (!isLinkActive) {
+                  setShowLinkInput(false);
+                  return;
+                }
+                setStoredSelection(editor.selection);
+                setShowLinkInput(true);
+              }}
+            />
+          </Otherwise>
+        </Choose>
       </Menu>
     </Portal>
   );

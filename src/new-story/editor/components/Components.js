@@ -5,14 +5,13 @@ import { cx, css } from 'emotion';
 const colorMapper = {
   reversed: {
     true: 'white',
-    false: '#aaa'
+    false: '#aaa',
   },
   notReversed: {
     true: 'black',
-    false: '#ccc'
-  }
+    false: '#ccc',
+  },
 };
-
 
 const getButtonColor = (reversed, active) => {
   if (reversed) {
@@ -52,8 +51,8 @@ export const EditorValue = React.forwardRef(
   ({ className, value, ...props }, ref) => {
     // eslint-disable-next-line react/prop-types
     const textLines = value.document.nodes
-    // eslint-disable-next-line react/prop-types
-      .map(node => node.text)
+      // eslint-disable-next-line react/prop-types
+      .map((node) => node.text)
       .toArray()
       .join('\n');
     return (
