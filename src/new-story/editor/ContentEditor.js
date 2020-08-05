@@ -1,8 +1,10 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import { createEditor } from 'slate';
 import isUrl from 'is-url';
 import { Slate, Editable, withReact } from 'slate-react';
 import { withHistory } from 'slate-history';
+import LinkTooltip from '../../common-components/LinkTooltip';
+import Context from '../../context-providers/HoverProvider/Context';
 import Element from './components/Element';
 import HoveringToolbar from './HoveringToolbar';
 import Leaf from './Leaf';
@@ -47,10 +49,12 @@ const withLinks = (editor) => {
 
 const ContentEditor = () => {
   const [value, setValue] = useState(initialValue);
+  const { linkValue, isHovered } = useContext(Context);
   const editor = useMemo(() => withLinks(withHistory(withReact(createEditor()))), []);
   return (
     <Slate editor={editor} value={value} onChange={(changedText) => setValue(changedText)}>
       <HoveringToolbar />
+      <LinkTooltip value={linkValue} visibility={isHovered.toString()} />
       <Editable
         renderElement={(props) => <Element {...props} />}
         style={{
