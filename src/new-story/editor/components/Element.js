@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import ImageElement from 'common-components/ImageElement';
 import Context from '../../../context-providers/HoverProvider/Context';
 
 // eslint-disable-next-line react/prop-types
@@ -28,6 +29,9 @@ const Element = ({ attributes, children, element }) => {
           {children}
         </a>
       );
+    case 'image':
+      // eslint-disable-next-line jsx-control-statements/jsx-jcs-no-undef
+      return <ImageElement {...props} />;
     default:
       return <p {...attributes}>{children}</p>;
   }

@@ -49,6 +49,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "http-proxy-middleware": "^1.0.5",
+    "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "jest": "^26.0.1",
     "path": "^0.12.7",
