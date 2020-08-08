@@ -3,7 +3,7 @@ import Context from '../../../context-providers/HoverProvider/Context';
 
 // eslint-disable-next-line react/prop-types
 const Element = ({ attributes, children, element }) => {
-  const { setLinkValue, setIsHovered } = useContext(Context);
+  const { setLinkValue, setIsHovered, setClientX, setClientY } = useContext(Context);
   // eslint-disable-next-line react/prop-types
   switch (element.type) {
     case 'link':
@@ -11,10 +11,12 @@ const Element = ({ attributes, children, element }) => {
         // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
         <a
           {...attributes}
-          onMouseOver={() => {
+          onMouseOver={(event) => {
             // eslint-disable-next-line react/prop-types
             setLinkValue(element.url);
             setIsHovered(true);
+            setClientX(event.clientX);
+            setClientY(event.clientY);
           }}
           onMouseOut={() => {
             setLinkValue('');

@@ -5,8 +5,16 @@ import Context from './Context';
 const Provider = ({ children }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [linkValue, setLinkValue] = useState('');
+  const [clientX, setClientX] = useState(0);
+  const [clientY, setClientY] = useState(0);
 
-  return <Context.Provider value={{ isHovered, setIsHovered, linkValue, setLinkValue }}>{children}</Context.Provider>;
+  return (
+    <Context.Provider
+      value={{ isHovered, setIsHovered, linkValue, setLinkValue, clientX, clientY, setClientX, setClientY }}
+    >
+      {children}
+    </Context.Provider>
+  );
 };
 
 Provider.propTypes = {
