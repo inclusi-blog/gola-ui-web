@@ -14,7 +14,7 @@ import { toggleFormat, wrapLink } from './utils/formatUtils';
 
 const initialValue = [
   {
-    children: [{ text: 'This is editable plain text, just like a <textarea>!' }],
+    children: [{ text: '' }],
   },
 ];
 
@@ -111,6 +111,7 @@ const ContentEditor = ({ setShowSideBar }) => {
       // const domRange = selection.getRangeAt(0);
       // const rect = domRange.getBoundingClientRect();
       const range = selection.getRangeAt(0);
+      console.log(range);
       if (
         (range.startOffset === 0 && range.startContainer.nodeName === 'SPAN' && range.endOffset === 0) ||
         (range.startOffset === 1 && range.startContainer.nodeName === '#text' && range.endOffset === 0)
