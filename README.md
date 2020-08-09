@@ -85,5 +85,6 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 ### Commands to run before pushing code to gitlab
 * add the code to stage
 * check whether the code is formatted by running `yarn ci` or `yarn prepush:check`
+* if you face linting errors try running `yarn prettier:fix` for prettier error
 * commit the code when all the warnings has been resolved
 * push the code with `git commit -m "[dev-name] . Feature added message with complete intent"`
