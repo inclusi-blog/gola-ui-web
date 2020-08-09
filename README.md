@@ -12,6 +12,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
+### `yarn start:dashboard`
+
+Runs the app in the development mode along with webpack dashboard.<br />
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+The page will reload if you make edits.<br />
+You will also see any lint errors in the console.
+
 ### `yarn test`
 
 Launches the test runner in the interactive watch mode.<br />
@@ -30,7 +38,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `yarn eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
 If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
 Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
@@ -66,3 +73,17 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+**Things to make sure while pushing code to remote repository**
+
+* Make sure your feature is working
+* Make sure you don't have any warnings or any kind of errors
+* Make sure you don't break any other feature
+* Make sure you don't install package dependencies which has security flaws
+
+### Commands to run before pushing code to gitlab
+* add the code to stage
+* check whether the code is formatted by running `yarn ci` or `yarn prepush:check`
+* commit the code when all the warnings has been resolved
+* push the code with `git commit -m "[dev-name] . Feature added message with complete intent"`
