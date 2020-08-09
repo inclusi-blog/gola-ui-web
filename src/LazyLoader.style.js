@@ -5,6 +5,8 @@ const LazyLoaderContainer = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+  position: absolute;
+  width: 100%;
 
   img {
     width: 70px;
