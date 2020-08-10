@@ -15,7 +15,6 @@ const NewStory = () => {
     >
       <If condition={showSideBar}>
         <SideBar
-          onClick={()=> console.log('hello')}
           style={{
             borderRadius: 400 / 2,
             display: 'flex',

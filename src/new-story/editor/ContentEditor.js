@@ -111,7 +111,6 @@ const ContentEditor = ({ setShowSideBar }) => {
       // const domRange = selection.getRangeAt(0);
       // const rect = domRange.getBoundingClientRect();
       const range = selection.getRangeAt(0);
-      console.log(range);
       if (
         (range.startOffset === 0 && range.startContainer.nodeName === 'SPAN' && range.endOffset === 0) ||
         (range.startOffset === 1 && range.startContainer.nodeName === '#text' && range.endOffset === 0)

@@ -1,12 +1,10 @@
 import { css } from 'emotion';
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Context from '../context-providers/HoverProvider/Context';
 import { Menu, Portal } from '../new-story/editor/components/Components';
 import { LinkHoverText, LinkToolTipSpan } from './LinkTooltip.style';
 
 const LinkTooltip = ({ value, visibility }) => {
-  const { clientX, clientY } = useContext(Context);
   const ref = useRef();
   useEffect(() => {
     const el = ref.current;
@@ -15,9 +13,12 @@ const LinkTooltip = ({ value, visibility }) => {
       return;
     }
 
-    el.style.opacity = 1;
-    el.style.top = `${clientY + window.pageYOffset - el.offsetHeight}px`;
-    el.style.left = `${clientX + window.pageXOffset - el.offsetWidth}px`;
+    if (document.getElementsByClassName(`link-${value}`)[0]) {
+      const rect = document.getElementsByClassName(`link-${value}`)[0].getBoundingClientRect();
+      el.style.opacity = 1;
+      el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`;
+      el.style.left = `${rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2}px`;
+    }
   });
 
   return (
