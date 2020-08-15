@@ -25,7 +25,12 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         exclude: [/node_modules\/(?!(react-hook-form|react-hook-form-input|uuidv4|swiper|dom7)\/).*/, /\.test\.jsx?$/],
-        loader: 'babel-loader',
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]  //Preset used for env setup
+          }
+        },
       },
       {
         test: /\.(css)$/,
