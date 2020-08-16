@@ -15,10 +15,13 @@
     "@hot-loader/react-dom": "^16.13.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@testing-library/dom": "^7.22.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^7.1.2",
     "autoprefixer": "latest",
+    "babel-jest": "^26.3.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-import-glob": "^2.0.0",
@@ -54,6 +57,13 @@
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "jest": "^26.0.1",
+    "jest-canvas-mock": "^2.2.0",
+    "jest-cli": "^26.4.0",
+    "jest-stare": "^2.0.1",
+    "jest-styled-components": "^7.0.2",
+    "jest-validate": "^26.4.0",
+    "jest-watch-master": "^1.0.0",
+    "jest-watch-typeahead": "^0.6.0",
     "path": "^0.12.7",
     "prettier": "^2.0.5",
     "prop-types": "latest",
@@ -111,6 +121,27 @@
     "todo": "yarn leasot -x -r table \"src/**/*.js\"",
     "check-update": "yarn upgrade-interactive"
   },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "eslint --cache --config ./config/eslint.config.js"
+    ],
+    "src/**/*.styles.js": [
+      "prettier --write",
+      "stylelint"
+    ],
+    "src/**/*.test.js": [
+      "prettier --write",
+      "eslint --cache --config ./config/eslint.config.js",
+      "yean test --collectCoverage=false"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn prepush:check && yarn test:prepush"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -125,5 +156,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest-stare": {
+    "coverageLink": "../coverage/lcov-report/index.html",
+    "hidePassing": true,
+    "hidePending": true,
+    "resultDir": "test-reposts"
   }
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from './Main';
 import Welcome from './welcome/Welcome';
