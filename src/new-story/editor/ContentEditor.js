@@ -27,6 +27,7 @@ const insertImage = (editor, url) => {
 const isImageUrl = (url) => {
   if (!url) return false;
   if (!isUrl(url)) return false;
+  // eslint-disable-next-line compat/compat
   const ext = new URL(url).pathname.split('.').pop();
   return imageExtensions.includes(ext);
 };
@@ -111,7 +112,7 @@ const ContentEditor = ({ setShowSideBar }) => {
       // const domRange = selection.getRangeAt(0);
       // const rect = domRange.getBoundingClientRect();
       const range = selection.getRangeAt(0);
-      console.log(range);
+      // console.log(range);
       if (
         (range.startOffset === 0 && range.startContainer.nodeName === 'SPAN' && range.endOffset === 0) ||
         (range.startOffset === 1 && range.startContainer.nodeName === '#text' && range.endOffset === 0)
@@ -121,7 +122,7 @@ const ContentEditor = ({ setShowSideBar }) => {
         setShowSideBar(false);
       }
     }
-  }, [editor.children]);
+  }, [editor.children, setShowSideBar]);
 
   return (
     <Slate

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ImageElement from 'common-components/ImageElement';
-import Context from '../../../context-providers/HoverProvider/Context';
+import Context from 'context-providers/HoverProvider/Context';
 
 // eslint-disable-next-line react/prop-types
 const Element = ({ attributes, children, element }) => {

@@ -1,7 +1,7 @@
 import { css } from 'emotion';
 import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Context from '../context-providers/HoverProvider/Context';
+import Context from 'context-providers/HoverProvider/Context';
 import { Menu, Portal } from '../new-story/editor/components/Components';
 import { LinkHoverText, LinkToolTipSpan } from './LinkTooltip.style';
 
