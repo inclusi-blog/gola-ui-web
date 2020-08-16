@@ -135,7 +135,7 @@
     "src/**/*.test.js": [
       "prettier --write",
       "eslint --cache --config ./config/eslint.config.js",
-      "yean test --collectCoverage=false"
+      "yarn test --collectCoverage=false"
     ]
   },
   "husky": {
