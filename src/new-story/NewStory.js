@@ -7,6 +7,7 @@ import './fab-style.css';
 
 const NewStory = () => {
   const [showSideBar, setShowSideBar] = useState(true);
+  const [sideBarCoords, setSideBarCoords] = useState({ x: 240, y: 380 });
 
   return (
     <div
@@ -16,7 +17,7 @@ const NewStory = () => {
       }}
     >
       <If condition={showSideBar}>
-        <div className="fab-container">
+        <div className="fab-container" style={{ top: sideBarCoords.y, left: sideBarCoords.x }}>
           <div className="fab fab-icon-holder">
             <FontAwesomeIcon icon={faPlus} />
           </div>
@@ -42,7 +43,12 @@ const NewStory = () => {
         }}
       >
         <TitleEditor />
-        <ContentEditor setShowSideBar={setShowSideBar} />
+        <ContentEditor
+          setShowSideBar={setShowSideBar}
+          setClientRects={(rect) => {
+            setSideBarCoords({ x: rect.x - 80, y: rect.y - 17 });
+          }}
+        />
       </div>
     </div>
   );
