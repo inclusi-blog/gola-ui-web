@@ -1,9 +1,9 @@
 import React, { useState, useMemo, useContext, useEffect } from 'react';
-import { createEditor, Transforms } from 'slate';
+import { createEditor, Transforms, Node } from 'slate';
 import isUrl from 'is-url';
 import PropTypes from 'prop-types';
 import imageExtensions from 'image-extensions';
-import { Slate, Editable, withReact } from 'slate-react';
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import LinkTooltip from 'common-components/LinkTooltip';
 import Context from 'context-providers/HoverProvider/Context';
@@ -101,7 +101,7 @@ const withLinks = (editor) => {
   return editor;
 };
 
-const ContentEditor = ({ setShowSideBar }) => {
+const ContentEditor = ({ setShowSideBar, setClientRects }) => {
   const [value, setValue] = useState(initialValue);
   const { linkValue, isHovered } = useContext(Context);
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
@@ -111,12 +111,12 @@ const ContentEditor = ({ setShowSideBar }) => {
     if (selection && selection.rangeCount > 0) {
       // const domRange = selection.getRangeAt(0);
       // const rect = domRange.getBoundingClientRect();
-      const range = selection.getRangeAt(0);
-      // console.log(range);
-      if (
-        (range.startOffset === 0 && range.startContainer.nodeName === 'SPAN' && range.endOffset === 0) ||
-        (range.startOffset === 1 && range.startContainer.nodeName === '#text' && range.endOffset === 0)
-      ) {
+      // const range = selection.getRangeAt(0);
+      if (editor.selection.anchor.offset === 0) {
+        setClientRects(
+          ReactEditor.toDOMNode(editor, Node.get(editor, editor.selection.anchor.path)).getBoundingClientRect()
+        );
+        // console.log(ReactEditor.toDOMNode(editor, Node.get(editor, editor.selection.anchor.path)).getBoundingClientRect());
         setShowSideBar(true);
       } else {
         setShowSideBar(false);
@@ -164,6 +164,7 @@ const ContentEditor = ({ setShowSideBar }) => {
 
 ContentEditor.propTypes = {
   setShowSideBar: PropTypes.func.isRequired,
+  setClientRects: PropTypes.func.isRequired,
 };
 
 export default ContentEditor;

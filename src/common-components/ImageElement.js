@@ -7,7 +7,15 @@ const ImageElement = ({ attributes, children, element }) => {
   const selected = useSelected();
   const focused = useFocused();
   return (
-    <div {...attributes}>
+    <div
+      {...attributes}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        width: '100%',
+      }}
+    >
+      {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
       <div contentEditable={false}>
         {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
         <img
