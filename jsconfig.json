@@ -3,7 +3,11 @@
     "target": "esnext",
     "baseUrl": ".",
     "paths": {
-      "translations/*": ["./src/translations/*"]
+      "config/*": ["./config/*"],
+      "tests/*": ["./tests/*"],
+      "assets/*": ["./src/assets/*"],
+      "translations/*": ["./src/translations/*"],
+      "l10n/*": ["./src/l10n/*"]
     }
   },
   "exclude": [

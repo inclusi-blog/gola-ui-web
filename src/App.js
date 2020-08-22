@@ -1,9 +1,9 @@
 import React from 'react';
-import './App.css';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from './Main';
+import Welcome from './welcome/Welcome';
 
-const loginFlowEnabled = false;
+const loginFlowEnabled = true;
 
 const MainController = withRouter(({ location }) => {
   const { pathname } = location;
@@ -20,7 +20,7 @@ const App = () => {
   return (
     <Switch>
       <If condition={loginFlowEnabled}>
-        <p>Hello</p>
+        <Route path="/welcome" component={Welcome} />
       </If>
       <Route path="/" component={MainController} />
     </Switch>

@@ -27,6 +27,7 @@ const insertImage = (editor, url) => {
 const isImageUrl = (url) => {
   if (!url) return false;
   if (!isUrl(url)) return false;
+  // eslint-disable-next-line compat/compat
   const ext = new URL(url).pathname.split('.').pop();
   return imageExtensions.includes(ext);
 };
@@ -105,9 +106,6 @@ const ContentEditor = ({ setShowSideBar, setClientRects }) => {
   const { linkValue, isHovered } = useContext(Context);
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
 
-  // if(editor && editor.selection && editor.selection.anchor) {
-  //
-  // }
   useEffect(() => {
     const selection = window.getSelection && window.getSelection();
     if (selection && selection.rangeCount > 0) {
@@ -124,7 +122,7 @@ const ContentEditor = ({ setShowSideBar, setClientRects }) => {
         setShowSideBar(false);
       }
     }
-  }, [editor.children]);
+  }, [editor.children, setShowSideBar]);
 
   return (
     <Slate

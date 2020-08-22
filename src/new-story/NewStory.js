@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ContentEditor from './editor/ContentEditor';
 import TitleEditor from './editor/TitleEditor';

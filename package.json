@@ -8,7 +8,7 @@
     "@babel/core": "^7.10.5",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-export-default-from": "^7.10.4",
-    "@babel/preset-env": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
     "@emotion/cache": "^10.0.29",
     "@emotion/serialize": "^0.11.16",
     "@emotion/utils": "^0.11.3",
@@ -19,10 +19,13 @@
     "@hot-loader/react-dom": "^16.13.0",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@testing-library/dom": "^7.22.2",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
+    "@testing-library/react-hooks": "^3.4.1",
     "@testing-library/user-event": "^7.1.2",
     "autoprefixer": "latest",
+    "babel-jest": "^26.3.0",
     "babel-loader": "^8.1.0",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-import-glob": "^2.0.0",
@@ -33,6 +36,7 @@
     "bootstrap": "^4.5.2",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
+    "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "emotion": "10.0.9",
@@ -54,9 +58,19 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "http-proxy-middleware": "^1.0.5",
+    "husky": "^4.2.5",
     "image-extensions": "^1.1.0",
     "is-url": "^1.2.4",
     "jest": "^26.0.1",
+    "jest-canvas-mock": "^2.2.0",
+    "jest-cli": "^26.4.0",
+    "jest-stare": "^2.0.1",
+    "jest-styled-components": "^7.0.2",
+    "jest-validate": "^26.4.0",
+    "jest-watch-master": "^1.0.0",
+    "jest-watch-typeahead": "^0.6.0",
+    "lint-staged": "^10.2.11",
+    "mutationobserver-shim": "^0.3.7",
     "path": "^0.12.7",
     "prettier": "^2.0.5",
     "prop-types": "latest",
@@ -68,6 +82,7 @@
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "react-transition-group": "^4.4.1",
     "slate": "^0.58.4",
     "slate-history": "^0.58.4",
     "slate-react": "^0.58.4",
@@ -94,6 +109,7 @@
     "start": "cross-env NODE_ENV=development node ./scripts/dev-server.js",
     "start:api": "API=true yarn start",
     "start:dashboard": "webpack-dashboard yarn start",
+    "jest": "cross-env NODE_ICU_DATA=node_modules/full-icu TZ='Asia/Kolkata' NODE_ENV=test jest --config=./config/jest.config.js",
     "verify": "yarn install --check-files",
     "prepush:check": "yarn verify && yarn prettier && yarn lint",
     "test": "yarn verify && yarn jest",
@@ -114,6 +130,27 @@
     "todo": "yarn leasot -x -r table \"src/**/*.js\"",
     "check-update": "yarn upgrade-interactive"
   },
+  "lint-staged": {
+    "src/**/*.js": [
+      "prettier --write",
+      "eslint --cache --config ./config/eslint.config.js"
+    ],
+    "src/**/*.styles.js": [
+      "prettier --write",
+      "stylelint"
+    ],
+    "src/**/*.test.js": [
+      "prettier --write",
+      "eslint --cache --config ./config/eslint.config.js",
+      "yarn test --collectCoverage=false"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn prepush:check && yarn test:prepush"
+    }
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -128,5 +165,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "jest-stare": {
+    "coverageLink": "../coverage/lcov-report/index.html",
+    "hidePassing": true,
+    "hidePending": true,
+    "resultDir": "test-reposts"
   }
 }
