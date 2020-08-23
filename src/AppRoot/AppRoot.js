@@ -1,10 +1,10 @@
 import React, { lazy, Suspense } from 'react';
 import { hot } from 'react-hot-loader/root';
-import Header from './app-header/Heder';
+import Header from '../app-header/Heder';
 import BaseLayers from './layers/BaseLayer';
-import LazyLoader from './LazyLoader';
+import LazyLoader from '../LazyLoader';
 
-const PostLogin = lazy(() => import('./App'));
+const PostLogin = lazy(() => import('../App'));
 
 const AppRoot = () => {
   return (

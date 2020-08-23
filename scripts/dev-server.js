@@ -18,7 +18,12 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.use(webpackHotMiddleware(compiler));
+app.use(webpackHotMiddleware(compiler,{
+  log: console.log,
+  path: '/__webpack_hmr',
+  heartbeat: 10 * 1000
+}));
+
 
 app.use(createProxyMiddleware('/api', { target: 'http://localhost:8080' }));
 

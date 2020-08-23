@@ -10,6 +10,7 @@ const Header = ({ location: { pathname } }) => {
         <h1
           style={{
             margin: 0,
+            fontFamily: 'Poppins',
           }}
         >
           Hello

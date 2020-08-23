@@ -27,7 +27,8 @@ module.exports = {
           // alias folders should come here
           // l10n: './src/l10n',
           "common-components": "./src/common-components",
-          "context-providers": "./src/context-providers"
+          "context-providers": "./src/context-providers",
+          "global-styles": "./src/GlobalStyles"
         },
       },
     ],
