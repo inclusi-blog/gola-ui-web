@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import HeaderWrapper from './Header.style';
 
-// eslint-disable-next-line react/prop-types,no-unused-vars
+// eslint-disable-next-line no-unused-vars
 const Header = ({ location: { pathname } }) => {
   return (
     <div>
@@ -18,6 +19,12 @@ const Header = ({ location: { pathname } }) => {
       </HeaderWrapper>
     </div>
   );
+};
+
+Header.propTypes = {
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
 };
 
 export default withRouter(Header);
