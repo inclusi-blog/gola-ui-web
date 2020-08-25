@@ -9,6 +9,7 @@ export const LanguageButtonWrapper = styled.div`
   border: 1px solid #388697;
   box-sizing: border-box;
   border-radius: 8px;
+  cursor: default;
 `;
 
 export const LanguageChangeText = styled.p`
