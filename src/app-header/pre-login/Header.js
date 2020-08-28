@@ -21,8 +21,8 @@ const Header = ({ location: { pathname } }) => {
   const { t } = useTranslation();
 
   return (
-    <div>
-      <HeaderWrapper>
+    <HeaderWrapper>
+      <div style={{ width: '1366px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
           <LogoIcon alt="logo" src={Logo} />
           <AppHeaderName>{t('welcome.title')}</AppHeaderName>
@@ -36,8 +36,8 @@ const Header = ({ location: { pathname } }) => {
           </SubscribeButton>
           <LanguageChangeButton />
         </RightHeader>
-      </HeaderWrapper>
-    </div>
+      </div>
+    </HeaderWrapper>
   );
 };
 

@@ -6,7 +6,7 @@ export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};
   height: 64px;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
 
   @media ${device.laptop} {
     background-color: white;

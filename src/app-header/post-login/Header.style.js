@@ -5,6 +5,7 @@ import device from '../../helper/styleHelper';
 const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};
   height: 64px;
+  width: 1366px;
 
   @media ${device.laptop} {
     background-color: white;
