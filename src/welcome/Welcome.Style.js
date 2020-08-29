@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const BigText = styled.p`
+export const TitleText = styled.p`
   width: 557px;
   height: 120px;
   font-family: Quando;
@@ -12,7 +12,7 @@ export const BigText = styled.p`
   margin: 0;
 `;
 
-export const Para = styled.p`
+export const TitleContent = styled.p`
   width: 526px;
   height: 36px;
   font-family: Poppins;
@@ -22,8 +22,11 @@ export const Para = styled.p`
   line-height: 36px;
   color: #2c363f;
   margin: 0;
+  text-align: center;
 `;
 
 export const PillContainer = styled.div`
   width: 1044px;
+  display: flex;
+  flex-wrap: wrap;
 `;

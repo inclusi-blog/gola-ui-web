@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const PillWrapper = styled.div`
-  width: 133px;
   height: 39px;
   border: 1px solid #3b3b58;
   box-sizing: border-box;
@@ -10,6 +9,10 @@ export const PillWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background: ${(props) => (props.isSelected ? '#2C363F' : 'transparent')};
+  margin-top: 27px;
+  margin-left: 46px;
+  padding-left: 30px;
+  padding-right: 30px;
 `;
 
 export const PillContent = styled.p`
