@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Pill from 'common-components/Pill';
 import { useTranslation } from 'react-i18next';
+import SignupModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
 const Welcome = () => {
+  const [showSignupModal, setShowSignupModal] = useState(false);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -73,6 +75,14 @@ const Welcome = () => {
   ]);
   const { t, i18n } = useTranslation();
 
+  useEffect(() => {
+    if (showSignupModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [showSignupModal]);
+
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
       <Pill
@@ -106,9 +116,10 @@ const Welcome = () => {
         <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
       </div>
       <PillContainer>{getInterestPills()}</PillContainer>
-      <SignupBorder>
+      <SignupBorder onClick={() => setShowSignupModal(true)}>
         <SignupText>Signup</SignupText>
       </SignupBorder>
+      <SignupModal showModal={showSignupModal} closeModal={() => setShowSignupModal(false)} />
     </div>
   );
 };
