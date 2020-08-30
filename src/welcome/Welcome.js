@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Pill from 'common-components/Pill';
 import { useTranslation } from 'react-i18next';
 import SignupModal from './signup/SignupModal';
@@ -74,14 +74,6 @@ const Welcome = () => {
     },
   ]);
   const { t, i18n } = useTranslation();
-
-  useEffect(() => {
-    if (showSignupModal) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [showSignupModal]);
 
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (

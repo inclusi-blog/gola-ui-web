@@ -17,6 +17,10 @@ code {
   filter: none;
 }
 
+body.ReactModal__Body--open {
+  overflow-y: hidden;
+}
+
 body.ReactModal__Body--open > #root {
   filter: blur(2px);
 }
