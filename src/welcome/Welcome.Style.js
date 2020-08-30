@@ -6,6 +6,7 @@ export const TitleText = styled.p`
   font-family: Quando;
   font-style: normal;
   font-weight: normal;
+  text-align: center;
   font-size: 6em;
   line-height: 120px;
   color: #3b3b58;

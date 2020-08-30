@@ -13,6 +13,7 @@ export const PillWrapper = styled.div`
   margin-left: 46px;
   padding-left: 30px;
   padding-right: 30px;
+  cursor: default;
 `;
 
 export const PillContent = styled.p`
