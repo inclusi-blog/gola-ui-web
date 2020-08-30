@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Pill from 'common-components/Pill';
 import { useTranslation } from 'react-i18next';
-import { TitleText, TitleContent, PillContainer } from './Welcome.Style';
+import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
 const Welcome = () => {
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
-      isSelected: true,
+      isSelected: false,
       id: 1,
     },
     {
@@ -106,6 +106,9 @@ const Welcome = () => {
         <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
       </div>
       <PillContainer>{getInterestPills()}</PillContainer>
+      <SignupBorder>
+        <SignupText>Signup</SignupText>
+      </SignupBorder>
     </div>
   );
 };

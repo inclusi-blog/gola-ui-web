@@ -31,3 +31,30 @@ export const PillContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
+export const SignupBorder = styled.div`
+  width: 253px;
+  height: 86px;
+  background: #fa163f;
+  border-radius: 52.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 55px;
+  margin-bottom: 75px;
+`;
+
+export const SignupText = styled.p`
+  width: 125px;
+  height: 54px;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 36px;
+  line-height: 54px;
+  margin: 0;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
