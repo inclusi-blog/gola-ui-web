@@ -71,7 +71,7 @@ const Welcome = () => {
       id: 14,
     },
   ]);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
@@ -102,8 +102,8 @@ const Welcome = () => {
           marginTop: 65,
         }}
       >
-        <TitleText>{t('welcome.title')}</TitleText>
-        <TitleContent>{t('welcome.sentence')}</TitleContent>
+        <TitleText lang={i18n.language}>{t('welcome.title')}</TitleText>
+        <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
       </div>
       <PillContainer>{getInterestPills()}</PillContainer>
     </div>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const TitleText = styled.p`
   width: 557px;
   height: 120px;
-  font-family: Quando;
+  font-family: ${(props) => (props.lang === 'tam' ? 'BalooThambi' : 'Quando')};
   font-style: normal;
   font-weight: normal;
   text-align: center;
@@ -16,8 +16,8 @@ export const TitleText = styled.p`
 export const TitleContent = styled.p`
   width: 526px;
   height: 36px;
-  font-family: Poppins;
   font-style: normal;
+  font-family: ${(props) => (props.lang === 'tam' ? 'MuktaMalar' : 'Poppins')};
   font-weight: normal;
   font-size: 1.5em;
   line-height: 36px;
