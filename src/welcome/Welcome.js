@@ -100,7 +100,7 @@ const Welcome = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 304,
+          marginBottom: 139,
           marginTop: 65,
         }}
       >
