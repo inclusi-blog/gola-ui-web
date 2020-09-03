@@ -9,8 +9,8 @@ const Main = () => {
   return (
     <Provider>
       <Switch>
-        <Route path="/" component={HomePage} />
         <Route path="/new-story" component={NewStory} />
+        <Route path="/" component={HomePage} />
         <>
           <MainWrapper>
             <p>Hello</p>
