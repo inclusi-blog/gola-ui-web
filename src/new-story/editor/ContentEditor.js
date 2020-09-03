@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useContext, useEffect } from 'react';
 import { createEditor, Transforms, Node } from 'slate';
+import { v4 as uuidv4 } from 'uuid';
 import isUrl from 'is-url';
 import PropTypes from 'prop-types';
 import imageExtensions from 'image-extensions';
@@ -101,10 +102,12 @@ const withLinks = (editor) => {
   return editor;
 };
 
-const ContentEditor = ({ setShowSideBar, setClientRects }) => {
+const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute }) => {
+  const [isStartedTyping, setIsStartedTyping] = useState(false);
   const [value, setValue] = useState(initialValue);
   const { linkValue, isHovered } = useContext(Context);
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
+  const puid = uuidv4().substring(24);
 
   useEffect(() => {
     const selection = window.getSelection && window.getSelection();
@@ -130,6 +133,13 @@ const ContentEditor = ({ setShowSideBar, setClientRects }) => {
       value={value}
       onChange={(changedText) => {
         setValue(changedText);
+        if (isStartedTyping) {
+          return;
+        }
+        setIsStartedTyping(true);
+        setInterval(() => {
+          onChangeRoute(puid);
+        }, 5000);
       }}
     >
       <HoveringToolbar />
@@ -165,6 +175,7 @@ const ContentEditor = ({ setShowSideBar, setClientRects }) => {
 ContentEditor.propTypes = {
   setShowSideBar: PropTypes.func.isRequired,
   setClientRects: PropTypes.func.isRequired,
+  onChangeRoute: PropTypes.func.isRequired,
 };
 
 export default ContentEditor;
