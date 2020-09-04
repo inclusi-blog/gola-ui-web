@@ -1,24 +1,24 @@
 import { createGlobalStyle } from 'styled-components';
 
-import BalooThambiEot from '../assets/fonts/baloothambi.eot';
-import BalooThambiWoff2 from '../assets/fonts/baloothambi.woff2';
-import BalooThambiWoff from '../assets/fonts/baloothambi.woff';
-import BalooThambiTtf from '../assets/fonts/baloothambi.ttf';
+import BalooThambiEot from 'assets/fonts/baloothambi.eot';
+import BalooThambiWoff2 from 'assets/fonts/baloothambi.woff2';
+import BalooThambiWoff from 'assets/fonts/baloothambi.woff';
+import BalooThambiTtf from 'assets/fonts/baloothambi.ttf';
 
-import MuktaMalarEot from '../assets/fonts/muktamalar.eot';
-import MuktaMalarWoff2 from '../assets/fonts/muktamalar.woff2';
-import MuktaMalarWoff from '../assets/fonts/muktamalar.woff';
-import MuktaMalarTtf from '../assets/fonts/muktamalar.ttf';
+import MuktaMalarEot from 'assets/fonts/muktamalar.eot';
+import MuktaMalarWoff2 from 'assets/fonts/muktamalar.woff2';
+import MuktaMalarWoff from 'assets/fonts/muktamalar.woff';
+import MuktaMalarTtf from 'assets/fonts/muktamalar.ttf';
 
-import PoppinsEot from '../assets/fonts/poppins.eot';
-import PoppinsWoff2 from '../assets/fonts/poppins.woff2';
-import PoppinsWoff from '../assets/fonts/poppins.woff';
-import PoppinsTtf from '../assets/fonts/poppins.ttf';
+import PoppinsEot from 'assets/fonts/poppins.eot';
+import PoppinsWoff2 from 'assets/fonts/poppins.woff2';
+import PoppinsWoff from 'assets/fonts/poppins.woff';
+import PoppinsTtf from 'assets/fonts/poppins.ttf';
 
-import QuandoEot from '../assets/fonts/quando.eot';
-import QuandoWoff2 from '../assets/fonts/quando.woff2';
-import QuandoWoff from '../assets/fonts/quando.woff';
-import QuandoTtf from '../assets/fonts/quando.ttf';
+import QuandoEot from 'assets/fonts/quando.eot';
+import QuandoWoff2 from 'assets/fonts/quando.woff2';
+import QuandoWoff from 'assets/fonts/quando.woff';
+import QuandoTtf from 'assets/fonts/quando.ttf';
 
 const GlobalStyle = createGlobalStyle`
    
