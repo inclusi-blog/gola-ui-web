@@ -33,8 +33,8 @@ export const PillContainer = styled.div`
 `;
 
 export const SignupBorder = styled.div`
-  width: 253px;
-  height: 86px;
+  width: 164px;
+  height: 68px;
   background: #fa163f;
   border-radius: 52.5px;
   display: flex;

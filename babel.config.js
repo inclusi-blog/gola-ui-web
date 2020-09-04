@@ -28,7 +28,8 @@ module.exports = {
           // l10n: './src/l10n',
           "common-components": "./src/common-components",
           "context-providers": "./src/context-providers",
-          "global-styles": "./src/GlobalStyles"
+          "global-styles": "./src/GlobalStyles",
+          "assets" : "./src/assets"
         },
       },
     ],
