@@ -30,16 +30,15 @@ import {
 const SignupModal = ({ showModal, closeModal }) => {
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      borderRadius: '10px',
-      borderColor: 'black',
-      width: '646px',
-      height: '695px',
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: 'transparent',
+      overflow: 'scroll',
     },
     overlay: {
       backgroundColor: 'transparent',
@@ -57,32 +56,42 @@ const SignupModal = ({ showModal, closeModal }) => {
       contentLabel="Example Modal"
       style={customStyles}
     >
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <SignupHeader>Mensuvadi</SignupHeader>
+      <div
+        style={{
+          width: 646,
+          height: 689,
+          borderRadius: 10,
+          border: '1px solid black',
+          backgroundColor: 'white',
+        }}
+      >
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <SignupHeader>Mensuvadi</SignupHeader>
+        </div>
+        <SignupContainer>
+          <Google src={GoogleImg} />
+          <Facebook src={FacebookImg} />
+          <Twitter src={TwitterImg} />
+          <LinkedIn src={LinkedinImg} />
+        </SignupContainer>
+        <SignupLabelContainer>
+          <SignupLabel>or sign in with</SignupLabel>
+        </SignupLabelContainer>
+        <SignupWrapper>
+          <EmailLabel>Email</EmailLabel>
+          <EmailInput placeholder="abc_123@gmail.com" />
+          <PassLabel>Password</PassLabel>
+          <PasswordInput />
+          <SignInButton>
+            <SignInTxt>Sign in</SignInTxt>
+          </SignInButton>
+          <TxtContainer>
+            <AccountTxt>Don’t have an account ?</AccountTxt>
+            <SignUpLink>Sign up</SignUpLink>
+            <ForgetPass>Forgot password ?</ForgetPass>
+          </TxtContainer>
+        </SignupWrapper>
       </div>
-      <SignupContainer>
-        <Google src={GoogleImg} />
-        <Facebook src={FacebookImg} />
-        <Twitter src={TwitterImg} />
-        <LinkedIn src={LinkedinImg} />
-      </SignupContainer>
-      <SignupLabelContainer>
-        <SignupLabel>or sign in with</SignupLabel>
-      </SignupLabelContainer>
-      <SignupWrapper>
-        <EmailLabel>Email</EmailLabel>
-        <EmailInput placeholder="abc_123@gmail.com" />
-        <PassLabel>Password</PassLabel>
-        <PasswordInput />
-        <SignInButton>
-          <SignInTxt>Sign in</SignInTxt>
-        </SignInButton>
-        <TxtContainer>
-          <AccountTxt>Don’t have an account ?</AccountTxt>
-          <SignUpLink>Sign up</SignUpLink>
-          <ForgetPass>Forgot password ?</ForgetPass>
-        </TxtContainer>
-      </SignupWrapper>
     </Modal>
   );
 };
