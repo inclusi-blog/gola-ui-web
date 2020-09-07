@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useContext, useEffect } from 'react';
+import React, { useState, useMemo, useContext, useEffect, useRef } from 'react';
 import { createEditor, Transforms, Node } from 'slate';
 import { v4 as uuidv4 } from 'uuid';
 import { debounce } from 'lodash';
@@ -127,7 +127,7 @@ const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute }) => {
     }
   }, [editor.children, setShowSideBar]);
 
-  const delayedHandleChange = debounce((eventData) => onChangeRoute(puid, eventData), 5000);
+  const delayedHandleChange = useRef(debounce((eventData) => onChangeRoute(puid, eventData), 5000)).current;
 
   return (
     <Slate
