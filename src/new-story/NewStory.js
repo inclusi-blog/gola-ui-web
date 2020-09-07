@@ -9,7 +9,7 @@ import './fab-style.css';
 
 const NewStory = ({ location: { pathname } }) => {
   const [showSideBar, setShowSideBar] = useState(true);
-  const [sideBarCoords, setSideBarCoords] = useState({ x: 336, y: 380 });
+  const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 380 });
 
   const SaveDraft = (postData, postID, commandToRun = {}) => {
     ajax
@@ -44,7 +44,7 @@ const NewStory = ({ location: { pathname } }) => {
         justifyContent: 'center',
       }}
     >
-      <div style={{ width: '1366px', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ width: '1260px', display: 'flex', justifyContent: 'center' }}>
         <If condition={showSideBar}>
           <div className="fab-container" style={{ top: sideBarCoords.y, left: sideBarCoords.x }}>
             <div className="fab fab-icon-holder">

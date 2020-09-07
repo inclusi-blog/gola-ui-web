@@ -1,22 +1,18 @@
-const size = {
-  mobileS: '320px',
-  mobileM: '375px',
-  mobileL: '425px',
-  tablet: '768px',
-  laptop: '1024px',
-  laptopL: '1440px',
-  desktop: '2560px',
-};
+import { generateMedia } from 'styled-media-query';
+import breakpoints from '../styles/breakpoints';
 
-const device = {
-  mobileS: `(min-width: ${size.mobileS})`,
-  mobileM: `(min-width: ${size.mobileM})`,
-  mobileL: `(min-width: ${size.mobileL})`,
-  tablet: `(min-width: ${size.tablet})`,
-  laptop: `(min-width: ${size.laptop})`,
-  laptopL: `(min-width: ${size.laptopL})`,
-  desktop: `(min-width: ${size.desktop})`,
-  desktopL: `(min-width: ${size.desktop})`,
-};
+const mq = generateMedia(breakpoints);
 
-export default device;
+export const mediaquery = {};
+
+mediaquery.tablet = mq.greaterThan('tablet');
+
+mediaquery.desktop = mq.greaterThan('desktop');
+
+export const hexToRgb = (hex) => {
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  const expandedHex = hex.replace(shorthandRegex, (input, red, green, blue) => red + red + green + green + blue + blue);
+  const { groups } = /^#?(?<red>[a-f\d]{2})(?<green>[a-f\d]{2})(?<blue>[a-f\d]{2})$/i.exec(expandedHex) ?? {};
+
+  return groups ? `${parseInt(groups.red, 16)}, ${parseInt(groups.green, 16)}, ${parseInt(groups.blue, 16)}` : '';
+};
