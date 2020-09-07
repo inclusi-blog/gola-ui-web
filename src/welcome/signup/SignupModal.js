@@ -65,7 +65,7 @@ const SignupModal = ({ showModal, closeModal }) => {
           backgroundColor: 'white',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
           <SignupHeader>Mensuvadi</SignupHeader>
         </div>
         <SignupContainer>

@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-export const SignupHeader = styled.div`
+export const SignupHeader = styled.p`
   width: 279px;
+  margin: 0;
   height: 60px;
   font-family: Quando;
   font-style: normal;
