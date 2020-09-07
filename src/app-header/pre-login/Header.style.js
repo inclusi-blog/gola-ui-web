@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Z_INDEX from '../../constants/zIndex';
-import device from '../../helper/styleHelper';
+import device from '../../helpers/styleHelper';
 
 export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};

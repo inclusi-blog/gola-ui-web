@@ -74,7 +74,9 @@
     "jest-watch-master": "^1.0.0",
     "jest-watch-typeahead": "^0.6.0",
     "lint-staged": "^10.2.11",
+    "lodash": "^4.17.20",
     "mutationobserver-shim": "^0.3.7",
+    "node-http-proxy-json": "^0.1.9",
     "path": "^0.12.7",
     "prettier": "^2.0.5",
     "prop-types": "latest",
@@ -178,5 +180,8 @@
     "hidePassing": true,
     "hidePending": true,
     "resultDir": "test-reposts"
+  },
+  "devDependencies": {
+    "simple-progress-webpack-plugin": "^1.1.2"
   }
 }

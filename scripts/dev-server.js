@@ -18,24 +18,37 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.use(webpackHotMiddleware(compiler,{
+app.use(webpackHotMiddleware(compiler, {
   log: console.log,
   path: '/__webpack_hmr',
   heartbeat: 10 * 1000
 }));
 
+const routerProxyConfig = {
+  '/post/v1': 'http://localhost:8080'
+};
 
-app.use(createProxyMiddleware('/api', { target: 'http://localhost:8080' }));
+const options = {
+  target: 'http://localhost:3000',
+  changeOrigin: true,
+  secure: false,
+  router: routerProxyConfig,
+};
+
+app.use(createProxyMiddleware('/api', options));
 
 app.use('*', (req, res) => {
   const filename = path.join(compiler.outputPath, './index.html');
 
   compiler.outputFileSystem.readFile(filename, (err, result) => {
     res.set('content-type', 'text/html');
+    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.set('Access-Control-Allow-Headers', 'X-Requested-With, content-type, Authorization');
 
     if (err) {
       res.send(`<meta http-equiv="refresh" content="1">
-        <center style="line-height: 100vh;">Hold your horses! Still bundling the files…</center>`);
+        <div style="line-height: 100vh; text-align: center;">Hold your horses! Still bundling the files…</div>`);
     } else {
       res.send(result);
     }

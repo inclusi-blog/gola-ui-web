@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
+import ajax from '../helpers/ajaxHelper';
 import ContentEditor from './editor/ContentEditor';
 import TitleEditor from './editor/TitleEditor';
 import './fab-style.css';
@@ -10,10 +11,30 @@ const NewStory = ({ location: { pathname } }) => {
   const [showSideBar, setShowSideBar] = useState(true);
   const [sideBarCoords, setSideBarCoords] = useState({ x: 336, y: 380 });
 
-  const ChangeRoute = (postID) => {
+  const SaveDraft = (postData, postID, commandToRun = {}) => {
+    ajax
+      .post('/post/v1/draft/upsertDraft', {
+        user_id: '1',
+        draft_id: postID,
+        post_data: postData,
+      })
+      .then(() => {
+        commandToRun();
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong', err);
+      });
+  };
+
+  const ChangeRoute = (postID, postData) => {
     if (pathname === '/new-story') {
-      window.history.replaceState(null, 'Draft', `/p/${postID}/edit`);
+      SaveDraft(postData, postID, () => {
+        window.history.replaceState(null, 'Draft', `/p/${postID}/edit`);
+      });
+      return;
     }
+    SaveDraft(postData, postID, () => {});
   };
 
   return (
@@ -56,7 +77,7 @@ const NewStory = ({ location: { pathname } }) => {
             setClientRects={(rect) => {
               setSideBarCoords({ x: rect.x - 80, y: rect.y - 17 });
             }}
-            onChangeRoute={(postID) => ChangeRoute(postID)}
+            onChangeRoute={(postID, postData) => ChangeRoute(postID, postData)}
           />
         </div>
       </div>

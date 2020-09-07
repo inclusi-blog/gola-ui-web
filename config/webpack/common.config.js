@@ -5,6 +5,7 @@ const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const SimplProgressWebpackPlugin = require('simple-progress-webpack-plugin');
 
 const { APP_DIR, DIST_DIR } = require('./paths');
 const { APP_ID } = require('../app.config');
@@ -74,6 +75,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       Promise: 'es6-promise-promise',
     }),
+    new SimplProgressWebpackPlugin(),
   ],
   externals: {
     appConfig: 'environmentConfiguration'
