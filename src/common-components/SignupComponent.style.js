@@ -91,3 +91,13 @@ export const ValidationFactorName = styled.div`
   margin-top: 0;
   margin-bottom: 0;
 `;
+
+export const CapslockNotifierText = styled.p`
+  margin: 0;
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #fa163f;
+`;

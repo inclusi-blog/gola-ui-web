@@ -2009,6 +2009,11 @@
     prop-types "^15.7.2"
     react-is "^16.8.0"
 
+"@matsun/reactiscapslockactive@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@matsun/reactiscapslockactive/-/reactiscapslockactive-1.1.0.tgz#1bfd4a49fb16876920cc53c8fe2f5dbf9905506b"
+  integrity sha512-0b6B6gX05idm5pbvA0bmnj8aBDy7thjaW/yI1dgERtfg1cpwMOKHQb7vUzk1SMFm3YcvYTv/Ky4XlAqDvmYR1A==
+
 "@most/multicast@^1.2.5":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@most/multicast/-/multicast-1.3.0.tgz#e01574840df634478ac3fabd164c6e830fb3b966"

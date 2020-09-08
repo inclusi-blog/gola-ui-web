@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import EmptyNotify from 'assets/images/EmptyNotify.svg';
 import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
+import ReactIsCapsLockActive from '@matsun/reactiscapslockactive';
 import Tick from 'assets/images/tick.svg';
 import {
   EmailInput,
@@ -14,6 +15,7 @@ import {
   AuthBottomContainer,
 } from '../welcome/signup/Signup.style';
 import {
+  CapslockNotifierText,
   PasswordContainer,
   PasswordToolTip,
   TermsConditionsLabel,
@@ -29,14 +31,17 @@ const SignupComponent = () => {
     {
       name: 'One small',
       isValid: false,
+      id: 1,
     },
     {
       name: 'One caps',
       isValid: false,
+      id: 2,
     },
     {
       name: 'minimum 8 characters',
       isValid: false,
+      id: 3,
     },
   ]);
 
@@ -70,7 +75,10 @@ const SignupComponent = () => {
             <ToolTipSpan>
               {isValidPassword.map((item) => {
                 return (
-                  <div style={{ display: 'flex', flexDirection: 'row', height: 21, alignItems: 'center' }}>
+                  <div
+                    key={item.id}
+                    style={{ display: 'flex', flexDirection: 'row', height: 21, alignItems: 'center' }}
+                  >
                     <img src={item.isValid ? Tick : ValidatorWarning} width={12} height={12} alt="acceptance factor" />
                     <ValidationFactorName>{item.name}</ValidationFactorName>
                   </div>
@@ -78,6 +86,9 @@ const SignupComponent = () => {
               })}
             </ToolTipSpan>
           </PasswordToolTip>
+          <ReactIsCapsLockActive>
+            {(active) => (active ? <CapslockNotifierText>Caps on</CapslockNotifierText> : null)}
+          </ReactIsCapsLockActive>
         </If>
       </PasswordContainer>
       <PasswordInput
