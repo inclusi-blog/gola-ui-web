@@ -90,6 +90,7 @@ export const EmailLabel = styled.p`
 `;
 
 export const EmailInput = styled.input`
+  padding-left: 24px;
   width: 489px;
   height: 68px;
   border: 0.881285px solid #2c363f;
@@ -122,6 +123,7 @@ export const PassLabel = styled.p`
 `;
 
 export const PasswordInput = styled.input`
+  padding-left: 24px;
   width: 489px;
   height: 68px;
   font-size: 24px;
