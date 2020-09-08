@@ -23,7 +23,7 @@ export const PasswordToolTip = styled.div`
 
   &:nth-child(3) {
     visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
-    width: 193px;
+    width: 198px;
     height: 71px;
     color: #fff;
     border-radius: 6px;
@@ -77,4 +77,17 @@ export const ToolTipSpan = styled.div`
     transform: rotate(90deg);
     margin-left: -6px;
   }
+`;
+
+export const ValidationFactorName = styled.div`
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #2c363f;
+  margin-left: 5px;
+  margin-right: 0;
+  margin-top: 0;
+  margin-bottom: 0;
 `;
