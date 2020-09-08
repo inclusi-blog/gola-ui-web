@@ -19,6 +19,7 @@ import {
   PasswordContainer,
   PasswordToolTip,
   TermsConditionsLabel,
+  TermsConditionsLink,
   ToolTipSpan,
   ValidationFactorName,
 } from './SignupComponent.style';
@@ -104,7 +105,11 @@ const SignupComponent = () => {
         <SignInText>Sign up</SignInText>
       </SignInButton>
       <AuthBottomContainer style={{ marginTop: 24 }}>
-        <TermsConditionsLabel>By signing up you agree with all our terms and conditions</TermsConditionsLabel>
+        <TermsConditionsLabel>
+          By signing up you agree with all our{' '}
+          <TermsConditionsLink href="https://www.google.com">terms</TermsConditionsLink> and{' '}
+          <TermsConditionsLink href="https://www.google.com">conditions</TermsConditionsLink>
+        </TermsConditionsLabel>
       </AuthBottomContainer>
     </SignupWrapper>
   );

@@ -101,3 +101,12 @@ export const CapslockNotifierText = styled.p`
   line-height: 21px;
   color: #fa163f;
 `;
+
+export const TermsConditionsLink = styled.a`
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #03527c;
+`;
