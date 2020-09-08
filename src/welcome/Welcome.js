@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import Pill from 'common-components/Pill';
 import { useTranslation } from 'react-i18next';
-import SignupModal from './signup/SignupModal';
+import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
 const Welcome = () => {
   const [showSignupModal, setShowSignupModal] = useState(false);
+  const [isSignup, setIsSignup] = useState(false);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -96,22 +97,41 @@ const Welcome = () => {
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div
         style={{
+          width: 1260,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: 139,
-          marginTop: 65,
         }}
       >
-        <TitleText lang={i18n.language}>{t('welcome.title')}</TitleText>
-        <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginBottom: 139,
+            marginTop: 65,
+          }}
+        >
+          <TitleText lang={i18n.language}>{t('welcome.title')}</TitleText>
+          <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
+        </div>
+        <PillContainer>{getInterestPills()}</PillContainer>
+        <SignupBorder
+          onClick={() => {
+            setIsSignup(true);
+            setShowSignupModal(true);
+          }}
+        >
+          <SignupText>Signup</SignupText>
+        </SignupBorder>
+        <SignupOrSignInModal
+          showModal={showSignupModal}
+          closeModal={() => setShowSignupModal(false)}
+          isSignup={isSignup}
+        />
       </div>
-      <PillContainer>{getInterestPills()}</PillContainer>
-      <SignupBorder onClick={() => setShowSignupModal(true)}>
-        <SignupText>Signup</SignupText>
-      </SignupBorder>
-      <SignupModal showModal={showSignupModal} closeModal={() => setShowSignupModal(false)} />
     </div>
   );
 };

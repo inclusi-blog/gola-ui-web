@@ -16,50 +16,52 @@ export const SignupHeader = styled.p`
 `;
 
 export const SignupContainer = styled.div`
-  margin-left: 78px;
-  margin-right: 79px;
-  margin-top: 55px;
+  margin-top: 40px;
   display: flex;
-  flex: row;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 `;
 
-export const Facebook = styled.img`
+export const FacebookIcon = styled.img`
   width: 47px;
   height: 47px;
   cursor: pointer;
 `;
 
-export const Twitter = styled.img`
+export const TwitterIcon = styled.img`
   width: 46px;
   height: 47px;
   cursor: pointer;
 `;
 
-export const Google = styled.img`
+export const GoogleIcon = styled.img`
   width: 46px;
   height: 46px;
   cursor: pointer;
 `;
 
-export const LinkedIn = styled.img`
+export const LinkedInIcon = styled.img`
   width: 46px;
   height: 47px;
   cursor: pointer;
 `;
 export const SignupWrapper = styled.div`
-  margin-left: 78px;
-  margin-right: 79px;
-  margin-top: 39px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
 `;
+
+export const CenterSignupModalWrapper = styled.div`
+  display: flex;
+  padding-left: 78px;
+  padding-right: 78px;
+  flex-direction: column;
+`;
+
 export const SignupLabelContainer = styled.div`
-  margin-left: 78px;
-  margin-right: 79px;
   margin-top: 39px;
   display: flex;
   flex-direction: column;
@@ -117,12 +119,12 @@ export const PassLabel = styled.p`
   line-height: 25px;
   color: #3b3b58;
   margin: 0;
-  margin-top: 34px;
 `;
 
 export const PasswordInput = styled.input`
   width: 489px;
   height: 68px;
+  font-size: 24px;
   border: 0.881285px solid #2c363f;
   box-sizing: border-box;
   border-radius: 8px;
@@ -143,25 +145,26 @@ export const SignInButton = styled.div`
   border-radius: 8px;
   display: flex;
   justify-content: center;
-  margin-items: center;
+  align-items: center;
   margin-top: 40px;
 `;
 
-export const SignInTxt = styled.p`
+export const SignInText = styled.p`
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
   line-height: 30px;
   color: #ffffff;
-  mragin: 0 auto;
+  margin: 0 auto;
 `;
 
-export const TxtContainer = styled.div`
+export const AuthBottomContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 32px;
-  margin-bottom: 30px;
+  justify-content: center;
+  margin-top 28px;
+  width: 100%;
 `;
 
 export const AccountTxt = styled.p`

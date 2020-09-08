@@ -5,29 +5,21 @@ import FacebookImg from 'assets/images/Facebook.svg';
 import GoogleImg from 'assets/images/google.svg';
 import LinkedinImg from 'assets/images/LinkedIn.svg';
 import TwitterImg from 'assets/images/Twitter.png';
+import SigninComponent from '../../common-components/SigninComponent';
+import SignupComponent from '../../common-components/SignupComponent';
 import {
   SignupHeader,
   SignupContainer,
-  Twitter,
-  Facebook,
-  Google,
-  LinkedIn,
-  SignupWrapper,
+  TwitterIcon,
+  FacebookIcon,
+  GoogleIcon,
+  LinkedInIcon,
   SignupLabelContainer,
   SignupLabel,
-  EmailLabel,
-  EmailInput,
-  PassLabel,
-  PasswordInput,
-  SignInButton,
-  SignInTxt,
-  TxtContainer,
-  AccountTxt,
-  SignUpLink,
-  ForgetPass,
+  CenterSignupModalWrapper,
 } from './Signup.style';
 
-const SignupModal = ({ showModal, closeModal }) => {
+const SignupModal = ({ showModal, closeModal, isSignup }) => {
   const customStyles = {
     content: {
       top: 0,
@@ -35,7 +27,6 @@ const SignupModal = ({ showModal, closeModal }) => {
       left: 0,
       right: 0,
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: 'transparent',
       overflow: 'scroll',
@@ -63,34 +54,41 @@ const SignupModal = ({ showModal, closeModal }) => {
           borderRadius: 10,
           border: '1px solid black',
           backgroundColor: 'white',
+          justifyContent: 'center',
         }}
       >
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 16 }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderBottom: '1px solid #DEE4EB',
+            padding: 16,
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
           <SignupHeader>Mensuvadi</SignupHeader>
         </div>
-        <SignupContainer>
-          <Google src={GoogleImg} />
-          <Facebook src={FacebookImg} />
-          <Twitter src={TwitterImg} />
-          <LinkedIn src={LinkedinImg} />
-        </SignupContainer>
-        <SignupLabelContainer>
-          <SignupLabel>or sign in with</SignupLabel>
-        </SignupLabelContainer>
-        <SignupWrapper>
-          <EmailLabel>Email</EmailLabel>
-          <EmailInput placeholder="abc_123@gmail.com" />
-          <PassLabel>Password</PassLabel>
-          <PasswordInput />
-          <SignInButton>
-            <SignInTxt>Sign in</SignInTxt>
-          </SignInButton>
-          <TxtContainer>
-            <AccountTxt>Don’t have an account ?</AccountTxt>
-            <SignUpLink>Sign up</SignUpLink>
-            <ForgetPass>Forgot password ?</ForgetPass>
-          </TxtContainer>
-        </SignupWrapper>
+        <CenterSignupModalWrapper>
+          <SignupContainer>
+            <GoogleIcon src={GoogleImg} />
+            <FacebookIcon src={FacebookImg} />
+            <TwitterIcon src={TwitterImg} />
+            <LinkedInIcon src={LinkedinImg} />
+          </SignupContainer>
+          <SignupLabelContainer>
+            <SignupLabel>or sign in with</SignupLabel>
+          </SignupLabelContainer>
+          <Choose>
+            <When condition={isSignup}>
+              <SignupComponent />
+            </When>
+            <Otherwise>
+              <SigninComponent />
+            </Otherwise>
+          </Choose>
+        </CenterSignupModalWrapper>
       </div>
     </Modal>
   );
@@ -99,6 +97,7 @@ const SignupModal = ({ showModal, closeModal }) => {
 SignupModal.propTypes = {
   showModal: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
+  isSignup: PropTypes.bool.isRequired,
 };
 
 export default SignupModal;
