@@ -1,7 +1,8 @@
 import axios from 'axios';
+import CONFIGS from 'appConfig';
 
 const ajax = axios.create({
-  baseURL: 'http://localhost:3000/api',
+  baseURL: `${CONFIGS.API_BASE_URL}/api`,
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },

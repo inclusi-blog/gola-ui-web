@@ -4,6 +4,7 @@ import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
 import ReactIsCapsLockActive from '@matsun/reactiscapslockactive';
 import Tick from 'assets/images/tick.svg';
+import encrypt from '../helpers/encrypt';
 import {
   EmailInput,
   EmailLabel,
@@ -26,6 +27,7 @@ import {
 
 const SignupComponent = () => {
   const showWarning = false;
+  const [email, setEmail] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [showCritieria, setShowCriteria] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState([
@@ -62,10 +64,34 @@ const SignupComponent = () => {
     setIsValidPassword(updatedValidation);
   }, [passwordValue]);
 
+  const validate = () => {
+    // eslint-disable-next-line no-control-regex
+    const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+
+    return expression.test(String(email).toLowerCase());
+  };
+
+  const canSubmit = () => {
+    const isValid = isValidPassword.filter((item) => item.isValid === true).length;
+    return isValid === 3 && validate();
+  };
+
+  const onSubmit = () => {
+    if (!canSubmit()) {
+      // eslint-disable-next-line no-console
+      console.log('something is invalid');
+      return;
+    }
+    const encryptedEmail = encrypt(email);
+    const encryptedPassword = encrypt(passwordValue);
+    // eslint-disable-next-line no-console
+    console.log(encryptedEmail, encryptedPassword);
+  };
+
   return (
     <SignupWrapper>
       <EmailLabel>Email</EmailLabel>
-      <EmailInput placeholder="abc_123@gmail.com" />
+      <EmailInput placeholder="abc_123@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
       <PasswordContainer>
         <PassLabel>Password</PassLabel>
         <If condition={showWarning}>
@@ -101,7 +127,7 @@ const SignupComponent = () => {
           setPasswordValue(event.target.value);
         }}
       />
-      <SignInButton>
+      <SignInButton onClick={() => onSubmit()}>
         <SignInText>Sign up</SignInText>
       </SignInButton>
       <AuthBottomContainer style={{ marginTop: 24 }}>

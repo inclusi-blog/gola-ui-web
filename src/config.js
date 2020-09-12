@@ -8,4 +8,11 @@ var environmentConfiguration = {
     HTTP_INTERVAL_MS: 3000,
     API_KEY: 'secret',
   },
+  PASSWORD_ENC_PUBLIC_KEY:
+    '-----BEGIN PUBLIC KEY-----\n' +
+    'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC8i/3CDBa0ka2n/iA76wN1VmcK\n' +
+    'zJTRad+BwGr6WFUpQKxhExN6tvXC2We2Ks9THP1LG+L9SXFCCO2uMKfyBt1We5EE\n' +
+    'AHIujjV4TsHKPvvhPFVgc0dhZkLGCwGUMVuNhA3euvWDOFdHWnYJ4+WPHtmBXXHr\n' +
+    'zX4qYNsIPD8dw6/PrwIDAQAB\n' +
+    '-----END PUBLIC KEY-----\n',
 };
