@@ -16,7 +16,14 @@ const ImageElement = ({ attributes, children, element }) => {
       }}
     >
       {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
-      <div contentEditable={false}>
+      <div
+        contentEditable={false}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}
+      >
         {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
         <img
           /* eslint-disable-next-line react/prop-types */
