@@ -74,6 +74,7 @@
     "jest-validate": "^26.4.0",
     "jest-watch-master": "^1.0.0",
     "jest-watch-typeahead": "^0.6.0",
+    "jsencrypt": "^3.0.0-rc.1",
     "lint-staged": "^10.2.11",
     "lodash": "^4.17.20",
     "mutationobserver-shim": "^0.3.7",
