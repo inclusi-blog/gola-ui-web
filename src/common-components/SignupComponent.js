@@ -93,6 +93,9 @@ const SignupComponent = () => {
   };
 
   const checkEmailAvailability = (value) => {
+    if (value.length === 0) {
+      return;
+    }
     ajax
       .post('/idp/v1/user/emailAvailable', { email: value })
       .then(({ data }) => {
@@ -122,11 +125,9 @@ const SignupComponent = () => {
         }}
       >
         <EmailLabel>Email</EmailLabel>
-        <If condition={email.length !== 0 && emailAlreadyExists}>
+        <If condition={emailAlreadyExists}>
           <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
-          <EmailExistenceError showExistsError={email.length !== 0 && emailAlreadyExists}>
-            Email already exists.
-          </EmailExistenceError>
+          <EmailExistenceError showExistsError={emailAlreadyExists}>Email already exists.</EmailExistenceError>
           <Else />
           <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
         </If>
