@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { debounce } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 import EmptyNotify from 'assets/images/EmptyNotify.svg';
 import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
 import ReactIsCapsLockActive from '@matsun/reactiscapslockactive';
 import Tick from 'assets/images/tick.svg';
+import ajax from '../helpers/ajaxHelper';
 import encrypt from '../helpers/encrypt';
 import {
   EmailInput,
@@ -17,6 +19,7 @@ import {
 } from '../welcome/signup/Signup.style';
 import {
   CapslockNotifierText,
+  EmailExistenceError,
   PasswordContainer,
   PasswordToolTip,
   TermsConditionsLabel,
@@ -30,6 +33,7 @@ const SignupComponent = () => {
   const [email, setEmail] = useState('');
   const [passwordValue, setPasswordValue] = useState('');
   const [showCritieria, setShowCriteria] = useState(false);
+  const [emailAlreadyExists, setEmailAlreadyExists] = useState(false);
   const [isValidPassword, setIsValidPassword] = useState([
     {
       name: 'One small',
@@ -88,10 +92,54 @@ const SignupComponent = () => {
     console.log(encryptedEmail, encryptedPassword);
   };
 
+  const checkEmailAvailability = (value) => {
+    ajax
+      .post('/idp/v1/user/emailAvailable', { email: value })
+      .then(({ data }) => {
+        const { isEmailAvailable } = data;
+        if (isEmailAvailable) {
+          setEmailAlreadyExists(true);
+          return;
+        }
+        setEmailAlreadyExists(false);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+      });
+  };
+
+  const delayedHandleChange = useRef(debounce((value) => checkEmailAvailability(value), 700)).current;
+
   return (
     <SignupWrapper>
-      <EmailLabel>Email</EmailLabel>
-      <EmailInput placeholder="abc_123@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <EmailLabel>Email</EmailLabel>
+        <If condition={email.length !== 0 && emailAlreadyExists}>
+          <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <EmailExistenceError showExistsError={email.length !== 0 && emailAlreadyExists}>
+            Email already exists.
+          </EmailExistenceError>
+          <Else />
+          <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+        </If>
+      </div>
+      <EmailInput
+        placeholder="abc_123@gmail.com"
+        value={email}
+        onChange={({ target }) => {
+          setEmailAlreadyExists(false);
+          setEmail(target.value);
+          delayedHandleChange(target.value);
+        }}
+      />
       <PasswordContainer>
         <PassLabel>Password</PassLabel>
         <If condition={showWarning}>

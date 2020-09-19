@@ -149,6 +149,7 @@ export const SignInButton = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 40px;
+  cursor: pointer;
 `;
 
 export const SignInText = styled.p`

@@ -110,3 +110,14 @@ export const TermsConditionsLink = styled.a`
   line-height: 21px;
   color: #03527c;
 `;
+
+export const EmailExistenceError = styled.p`
+  visibility: ${(props) => (props.showExistsError ? 'visible' : 'hidden')};
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ff6e05;
+  margin: 0;
+`;
