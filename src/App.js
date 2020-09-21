@@ -22,7 +22,7 @@ const App = () => {
     <Switch>
       <If condition={loginFlowEnabled}>
         <Route path="/welcome" component={Welcome} />
-        <Route path="/m/callback/email?token=:token" component={NewUserActivation} />
+        <Route path="/m/callback/email" component={NewUserActivation} />
       </If>
       <Route path="/" component={MainController} />
     </Switch>

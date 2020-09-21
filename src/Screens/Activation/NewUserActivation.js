@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ajax from '../../helpers/ajaxHelper';
 
+const useQuery = () => {
+  // eslint-disable-next-line compat/compat
+  return new URLSearchParams(useLocation().search);
+};
+
 const NewUserActivation = () => {
-  const { token } = useParams();
+  const query = useQuery();
   const [activated, setActivated] = useState(false);
+
+  // eslint-disable-next-line no-console
+  const token = query.get('token');
 
   useEffect(() => {
     if (token) {
