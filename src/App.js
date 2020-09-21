@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from './Main';
+import NewUserActivation from './Screens/Activation/NewUserActivation';
 import Welcome from './welcome/Welcome';
 
 const loginFlowEnabled = true;
@@ -21,6 +22,7 @@ const App = () => {
     <Switch>
       <If condition={loginFlowEnabled}>
         <Route path="/welcome" component={Welcome} />
+        <Route path="/m/callback/email?token=:token" component={NewUserActivation} />
       </If>
       <Route path="/" component={MainController} />
     </Switch>
