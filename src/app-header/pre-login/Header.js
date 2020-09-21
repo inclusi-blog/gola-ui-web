@@ -19,23 +19,38 @@ import {
 // eslint-disable-next-line no-unused-vars
 const Header = ({ location: { pathname } }) => {
   const { t } = useTranslation();
-
   return (
     <HeaderWrapper>
-      <div style={{ width: '1366px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
-        <LeftHeader>
-          <LogoIcon alt="logo" src={Logo} />
-          <AppHeaderName>{t('welcome.title')}</AppHeaderName>
-        </LeftHeader>
-        <RightHeader>
-          <SignInButton>
-            <SignInButtonText>Signin</SignInButtonText>
-          </SignInButton>
-          <SubscribeButton>
-            <SubscribeText>Subscribe</SubscribeText>
-          </SubscribeButton>
-          <LanguageChangeButton />
-        </RightHeader>
+      <div
+        style={{
+          width: '1366px',
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          height: '64px',
+          justifyContent: 'center',
+        }}
+      >
+        <If condition={pathname === '/m/callback/email'}>
+          <LeftHeader margin={0} style={{ justifyContent: 'center' }}>
+            <LogoIcon alt="logo" src={Logo} />
+            <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+          </LeftHeader>
+          <Else />
+          <LeftHeader margin={50}>
+            <LogoIcon alt="logo" src={Logo} />
+            <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+          </LeftHeader>
+          <RightHeader>
+            <SignInButton>
+              <SignInButtonText>Signin</SignInButtonText>
+            </SignInButton>
+            <SubscribeButton>
+              <SubscribeText>Subscribe</SubscribeText>
+            </SubscribeButton>
+            <LanguageChangeButton />
+          </RightHeader>
+        </If>
       </div>
     </HeaderWrapper>
   );

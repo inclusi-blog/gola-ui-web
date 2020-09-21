@@ -16,7 +16,7 @@ export const LeftHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 50px;
+  margin-left: ${(props) => props.margin}px;
 `;
 
 export const LogoIcon = styled.img`
