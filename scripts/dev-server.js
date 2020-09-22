@@ -26,7 +26,8 @@ app.use(webpackHotMiddleware(compiler, {
 
 const routerProxyConfig = {
   '/post/v1': 'http://localhost:8080',
-  '/idp/v1': 'http://localhost:8081'
+  '/idp/v1': 'http://localhost:8081',
+  'api/v1': 'http://localhost:3001'
 };
 
 const options = {

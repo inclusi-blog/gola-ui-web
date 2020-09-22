@@ -9,6 +9,7 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import LinkTooltip from 'common-components/LinkTooltip';
 import Context from 'context-providers/HoverProvider/Context';
+import ajax from '../../helpers/ajaxHelper';
 import Element from './components/Element';
 import HoveringToolbar from './HoveringToolbar';
 import Leaf from './Leaf';
@@ -50,17 +51,29 @@ const withImages = (editor) => {
     if (files && files.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (const file of files) {
-        const reader = new FileReader();
-        const [mime] = file.type.split('/');
+        const fromData = new FormData();
+        fromData.append('file', file, file.fileName);
 
-        if (mime === 'image') {
-          reader.addEventListener('load', () => {
-            const url = reader.result;
-            insertImage(editor, url);
+        ajax
+          .post('/v1/upload', fromData, {
+            headers: {
+              accept: 'application/json',
+              'Accept-Language': 'en-US,en;q=0.8',
+              // eslint-disable-next-line no-underscore-dangle
+              'Content-Type': `multipart/form-data; boundary=${fromData._boundary}`,
+            },
+          })
+          .then(({ data: steam }) => {
+            const imageUrl = steam.filePath.replace(
+              'https://golaimage.s3.ap-south-1.amazonaws.com',
+              'https://d14r87p68zn22t.cloudfront.net'
+            );
+            insertImage(editor, imageUrl);
+          })
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(err);
           });
-
-          reader.readAsDataURL(file);
-        }
       }
     } else if (isImageUrl(text)) {
       insertImage(editor, text);
