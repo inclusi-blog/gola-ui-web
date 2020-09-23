@@ -93,7 +93,7 @@ export const EmailInput = styled.input`
   padding-left: 24px;
   width: 489px;
   height: 68px;
-  border: 0.881285px solid #2c363f;
+  border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 8px;
@@ -106,8 +106,7 @@ export const EmailInput = styled.input`
   color: #2d2d2d;
 
   &:focus {
-    background: #f1f5f8;
-    border: 0px;
+    border: border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};;
     outline: none;
   }
 `;
@@ -127,14 +126,13 @@ export const PasswordInput = styled.input`
   width: 489px;
   height: 68px;
   font-size: 24px;
-  border: 0.881285px solid #2c363f;
+  border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};
   box-sizing: border-box;
   border-radius: 8px;
   margin-top: 8px;
 
   &:focus {
-    background: #f1f5f8;
-    border: 0px;
+    border: border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};;
     outline: none;
   }
 `;
@@ -200,4 +198,31 @@ export const ForgetPass = styled.p`
   color: #fa163f;
   margin: 0;
   margin-left: 120px;
+`;
+
+export const UsernameUniqueTitle = styled.p`
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  color: #3b3b58;
+  margin-top: 50px;
+`;
+
+export const UsernameLabel = styled(EmailLabel)`
+  color: ${(props) => (props.isError ? '#FF6E05' : '#3B3B58')};
+`;
+
+export const UsernameInput = styled(EmailInput)`
+  margin-top: 8px;
+`;
+
+export const ContinueButton = styled(SignInButton)`
+  background-color: ${(props) => (props.canSubmit ? '#fa163f' : '#959595')};
+`;
+
+export const UsernameInputWrapper = styled.div`
+  margin-top: 70px;
 `;

@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 import FacebookImg from 'assets/images/Facebook.svg';
 import GoogleImg from 'assets/images/google.svg';
 import LinkedinImg from 'assets/images/LinkedIn.svg';
 import TwitterImg from 'assets/images/Twitter.png';
-import SigninComponent from '../../common-components/SigninComponent';
-import SignupComponent from '../../common-components/SignupComponent';
+import SigninComponent from 'common-components/SigninComponent';
+import SignupComponent from 'common-components/SignupComponent';
 import {
   SignupHeader,
   SignupContainer,
@@ -18,8 +18,22 @@ import {
   SignupLabel,
   CenterSignupModalWrapper,
 } from './Signup.style';
+import UsernameInputScreen from './UsernameInputScreen';
 
 const SignupModal = ({ showModal, closeModal, isSignup }) => {
+  const [userSignupDetails, setUserSignupDetails] = useState({
+    username: '',
+    encryptedPassword: '',
+    email: '',
+  });
+  const [shouldRenderUsernameField, setShouldRenderUsernameField] = useState(false);
+
+  useEffect(() => {
+    if (userSignupDetails.email.length) {
+      setShouldRenderUsernameField(true);
+    }
+  }, [userSignupDetails]);
+
   const customStyles = {
     content: {
       top: 0,
@@ -70,25 +84,33 @@ const SignupModal = ({ showModal, closeModal, isSignup }) => {
         >
           <SignupHeader>Mensuvadi</SignupHeader>
         </div>
-        <CenterSignupModalWrapper>
-          <SignupContainer>
-            <GoogleIcon src={GoogleImg} />
-            <FacebookIcon src={FacebookImg} />
-            <TwitterIcon src={TwitterImg} />
-            <LinkedInIcon src={LinkedinImg} />
-          </SignupContainer>
-          <SignupLabelContainer>
-            <SignupLabel>or sign in with</SignupLabel>
-          </SignupLabelContainer>
-          <Choose>
-            <When condition={isSignup}>
-              <SignupComponent />
-            </When>
-            <Otherwise>
-              <SigninComponent />
-            </Otherwise>
-          </Choose>
-        </CenterSignupModalWrapper>
+        <If condition={shouldRenderUsernameField}>
+          <UsernameInputScreen />
+          <Else />
+          <CenterSignupModalWrapper>
+            <SignupContainer>
+              <GoogleIcon src={GoogleImg} />
+              <FacebookIcon src={FacebookImg} />
+              <TwitterIcon src={TwitterImg} />
+              <LinkedInIcon src={LinkedinImg} />
+            </SignupContainer>
+            <SignupLabelContainer>
+              <SignupLabel>or sign in with</SignupLabel>
+            </SignupLabelContainer>
+            <Choose>
+              <When condition={isSignup}>
+                <SignupComponent
+                  renderUsernameField={(email, password) => {
+                    setUserSignupDetails({ ...userSignupDetails, email, encryptedPassword: password });
+                  }}
+                />
+              </When>
+              <Otherwise>
+                <SigninComponent />
+              </Otherwise>
+            </Choose>
+          </CenterSignupModalWrapper>
+        </If>
       </div>
     </Modal>
   );
