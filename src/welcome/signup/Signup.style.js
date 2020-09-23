@@ -208,7 +208,7 @@ export const UsernameUniqueTitle = styled.p`
   line-height: 36px;
   text-align: center;
   color: #3b3b58;
-  margin-top: 50px;
+  margin-top: 103px;
 `;
 
 export const UsernameLabel = styled(EmailLabel)`
@@ -224,5 +224,5 @@ export const ContinueButton = styled(SignInButton)`
 `;
 
 export const UsernameInputWrapper = styled.div`
-  margin-top: 70px;
+  margin-top: 46px;
 `;

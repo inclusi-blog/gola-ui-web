@@ -35,7 +35,7 @@ const UsernameInputScreen = () => {
           onChange={({ target }) => setUsername(target.value)}
         />
       </UsernameInputWrapper>
-      <div style={{ marginTop: 80 }}>
+      <div style={{ marginTop: 92 }}>
         <ContinueButton canSubmit={false} onClick={() => {}}>
           <SignInText>Continue</SignInText>
         </ContinueButton>
