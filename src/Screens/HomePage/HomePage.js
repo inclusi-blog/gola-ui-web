@@ -1,10 +1,22 @@
 import React from 'react';
 import { Top, Best, Hot, Recent, Personalized, VerticalLine, FrontPage } from './HomePage.style';
+import GeneralFeed from './GeneralFeed';
 
 const HomePage = () => {
   return (
-    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-      <div style={{ display: 'flex', flexDirection: 'row', marginRight: 87 }}>
+    <div style={{ display: 'flex' }}>
+      <GeneralFeed />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          position: 'absolute',
+          top: 200,
+          right: 74,
+          width: 154,
+          height: 337,
+        }}
+      >
         <VerticalLine />
 
         <div>
