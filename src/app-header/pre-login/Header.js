@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
-import Logo from '../../assets/images/logo.png';
+import Logo from 'assets/images/logo.png';
 import LanguageChangeButton from '../LanugageChangeButton';
 import {
   AppHeaderName,
+  HeaderWidthWrapper,
   HeaderWrapper,
   LeftHeader,
   LogoIcon,
@@ -21,16 +22,7 @@ const Header = ({ location: { pathname } }) => {
   const { t } = useTranslation();
   return (
     <HeaderWrapper>
-      <div
-        style={{
-          width: '1260px',
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems: 'center',
-          height: '64px',
-          justifyContent: 'center',
-        }}
-      >
+      <HeaderWidthWrapper>
         <If condition={pathname === '/m/callback/email'}>
           <LeftHeader margin={0} style={{ justifyContent: 'center' }}>
             <LogoIcon alt="logo" src={Logo} />
@@ -51,7 +43,7 @@ const Header = ({ location: { pathname } }) => {
             <LanguageChangeButton />
           </RightHeader>
         </If>
-      </div>
+      </HeaderWidthWrapper>
     </HeaderWrapper>
   );
 };

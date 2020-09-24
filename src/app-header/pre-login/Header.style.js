@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Z_INDEX from '../../constants/zIndex';
+import { mediaquery } from '../../helpers/styleHelper';
 
 export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};
@@ -9,6 +10,23 @@ export const HeaderWrapper = styled.header`
   background-color: white;
   box-shadow: 0px 8px 46px rgba(0, 0, 0, 0.07);
   box-sizing: border-box;
+  width: 100%;
+`;
+
+export const HeaderWidthWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 64px;
+  justify-content: center;
+
+  ${mediaquery.tablet`
+    width: 768px; 
+  `}
+
+  ${mediaquery.desktop`
+    width: 1260px; 
+  `}
 `;
 
 export const LeftHeader = styled.div`

@@ -93,6 +93,9 @@ const SignupModal = ({ showModal, closeModal, isSignup }) => {
           <Redirect
             to={{
               pathname: '/verify',
+              state: {
+                email: userSignupDetails.email,
+              },
             }}
           />
         </If>
