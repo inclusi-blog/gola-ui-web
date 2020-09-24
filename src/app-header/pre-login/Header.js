@@ -23,7 +23,7 @@ const Header = ({ location: { pathname } }) => {
     <HeaderWrapper>
       <div
         style={{
-          width: '1366px',
+          width: '1260px',
           display: 'flex',
           flexDirection: 'row',
           alignItems: 'center',
