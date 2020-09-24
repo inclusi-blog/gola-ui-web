@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from './Main';
 import NewUserActivation from './Screens/Activation/NewUserActivation';
+import ActivateAccount from './welcome/signup/ActivateAccount';
 import Welcome from './welcome/Welcome';
 
 const loginFlowEnabled = true;
@@ -23,6 +24,7 @@ const App = () => {
       <If condition={loginFlowEnabled}>
         <Route path="/welcome" component={Welcome} />
         <Route path="/m/callback/email" component={NewUserActivation} />
+        <Route path="/verify" component={ActivateAccount} />
       </If>
       <Route path="/" component={MainController} />
     </Switch>

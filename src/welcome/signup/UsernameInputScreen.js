@@ -1,5 +1,6 @@
-import { debounce } from 'lodash';
 import React, { useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 import ajax from '../../helpers/ajaxHelper';
 import {
   ContinueButton,
@@ -10,7 +11,7 @@ import {
   UsernameUniqueTitle,
 } from './Signup.style';
 
-const UsernameInputScreen = () => {
+const UsernameInputScreen = ({ onSubmit }) => {
   const [usernameLabel, setUserNameLabel] = useState('Username');
   const [username, setUsername] = useState('');
   const [usernameExistsErr, setUsernameExistsErr] = useState(false);
@@ -67,12 +68,23 @@ const UsernameInputScreen = () => {
         />
       </UsernameInputWrapper>
       <div style={{ marginTop: 92 }}>
-        <ContinueButton canSubmit={false} onClick={() => {}}>
+        <ContinueButton
+          canSubmit={!usernameExistsErr}
+          onClick={() => {
+            if (!usernameExistsErr) {
+              onSubmit(username);
+            }
+          }}
+        >
           <SignInText>Continue</SignInText>
         </ContinueButton>
       </div>
     </div>
   );
+};
+
+UsernameInputScreen.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default UsernameInputScreen;

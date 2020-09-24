@@ -7,6 +7,8 @@ import LinkedinImg from 'assets/images/LinkedIn.svg';
 import TwitterImg from 'assets/images/Twitter.png';
 import SigninComponent from 'common-components/SigninComponent';
 import SignupComponent from 'common-components/SignupComponent';
+import { Redirect } from 'react-router-dom';
+import ajax from '../../helpers/ajaxHelper';
 import {
   SignupHeader,
   SignupContainer,
@@ -26,11 +28,27 @@ const SignupModal = ({ showModal, closeModal, isSignup }) => {
     encryptedPassword: '',
     email: '',
   });
+  const [redirect, setRedirect] = useState(false);
   const [shouldRenderUsernameField, setShouldRenderUsernameField] = useState(false);
 
   useEffect(() => {
     if (userSignupDetails.email.length) {
       setShouldRenderUsernameField(true);
+    }
+    if (userSignupDetails.username && userSignupDetails.email && userSignupDetails.encryptedPassword) {
+      ajax
+        .post('/idp/v1/user/register', {
+          email: userSignupDetails.email,
+          password: userSignupDetails.encryptedPassword,
+          username: userSignupDetails.username,
+        })
+        .then(() => {
+          setRedirect(true);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('something went wrong', err);
+        });
     }
   }, [userSignupDetails]);
 
@@ -71,6 +89,13 @@ const SignupModal = ({ showModal, closeModal, isSignup }) => {
           justifyContent: 'center',
         }}
       >
+        <If condition={redirect}>
+          <Redirect
+            to={{
+              pathname: '/verify',
+            }}
+          />
+        </If>
         <div
           style={{
             display: 'flex',
@@ -85,7 +110,7 @@ const SignupModal = ({ showModal, closeModal, isSignup }) => {
           <SignupHeader>Mensuvadi</SignupHeader>
         </div>
         <If condition={shouldRenderUsernameField}>
-          <UsernameInputScreen />
+          <UsernameInputScreen onSubmit={(username) => setUserSignupDetails({ ...userSignupDetails, username })} />
           <Else />
           <CenterSignupModalWrapper>
             <SignupContainer>
