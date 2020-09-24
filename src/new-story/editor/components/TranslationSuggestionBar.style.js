@@ -4,6 +4,7 @@ export const SuggestionOuterWrapper = styled.div`
   width: 665px;
   position: absolute;
   height: 88px;
+  z-index: 5;
   background: #eaeaf7;
   border-radius: 8px;
   display: flex;
