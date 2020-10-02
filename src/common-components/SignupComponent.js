@@ -17,7 +17,7 @@ import {
   SignInText,
   SignupWrapper,
   AuthBottomContainer,
-} from '../welcome/signup/Signup.style';
+} from '../Screens/welcome/signup/Signup.style';
 import {
   CapslockNotifierText,
   EmailExistenceError,

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import Logo from 'assets/images/logo.png';
+import Context from 'context-providers/auth-modal-provider/Context';
 import LanguageChangeButton from '../LanugageChangeButton';
 import {
   AppHeaderName,
@@ -19,6 +20,7 @@ import {
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({ location: { pathname } }) => {
+  const { setModalName, setShowModal } = useContext(Context);
   const { t } = useTranslation();
   return (
     <HeaderWrapper>
@@ -34,7 +36,12 @@ const Header = ({ location: { pathname } }) => {
             <AppHeaderName>{t('welcome.title')}</AppHeaderName>
           </LeftHeader>
           <RightHeader>
-            <SignInButton>
+            <SignInButton
+              onClick={() => {
+                setModalName('signin');
+                setShowModal(true);
+              }}
+            >
               <SignInButtonText>Signin</SignInButtonText>
             </SignInButton>
             <SubscribeButton>

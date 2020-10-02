@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import Main from './Main';
 import NewUserActivation from './Screens/Activation/NewUserActivation';
-import ActivateAccount from './welcome/signup/ActivateAccount';
-import Welcome from './welcome/Welcome';
+import ActivateAccount from './Screens/welcome/signup/ActivateAccount';
+import Welcome from './Screens/welcome/Welcome';
 
 const loginFlowEnabled = true;
 

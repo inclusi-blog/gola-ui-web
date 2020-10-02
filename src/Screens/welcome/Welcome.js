@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Pill from 'common-components/Pill';
+import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
 const Welcome = () => {
-  const [showSignupModal, setShowSignupModal] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
+  const { modalName, setModalName, showModal, setShowModal } = useContext(Context);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -120,16 +120,16 @@ const Welcome = () => {
         <PillContainer>{getInterestPills()}</PillContainer>
         <SignupBorder
           onClick={() => {
-            setIsSignup(true);
-            setShowSignupModal(true);
+            setModalName('signup');
+            setShowModal(true);
           }}
         >
           <SignupText>Signup</SignupText>
         </SignupBorder>
         <SignupOrSignInModal
-          showModal={showSignupModal}
-          closeModal={() => setShowSignupModal(false)}
-          isSignup={isSignup}
+          showModal={showModal}
+          closeModal={() => setShowModal(false)}
+          isSignup={!!(modalName && modalName === 'signup')}
         />
       </div>
     </div>

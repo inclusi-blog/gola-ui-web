@@ -8,7 +8,7 @@ import TwitterImg from 'assets/images/Twitter.png';
 import SigninComponent from 'common-components/SigninComponent';
 import SignupComponent from 'common-components/SignupComponent';
 import { Redirect } from 'react-router-dom';
-import ajax from '../../helpers/ajaxHelper';
+import ajax from '../../../helpers/ajaxHelper';
 import {
   SignupHeader,
   SignupContainer,

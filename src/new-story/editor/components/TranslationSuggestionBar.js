@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor, Range } from "slate";
-import { ReactEditor, useSlate } from "slate-react";
-import { Portal } from "./Components";
+import { Editor, Range } from 'slate';
+import { ReactEditor, useSlate } from 'slate-react';
+import { Portal } from './Components';
 import { SuggestionOuterWrapper, SuggestionWord, SuggestionWordWrapper } from './TranslationSuggestionBar.style';
 
 const TranslationSuggestionBar = () => {
@@ -48,6 +48,7 @@ const TranslationSuggestionBar = () => {
       id: 8,
     },
   ]);
+  // eslint-disable-next-line no-unused-vars
   const [selectedValue, setSelectedValue] = useState('');
   const ref = useRef();
   const editor = useSlate();
@@ -57,19 +58,18 @@ const TranslationSuggestionBar = () => {
     const { selection } = editor;
 
     if (!el) {
+      // eslint-disable-next-line no-console
       console.log('came to return');
       return;
     }
 
-    if (
-      !ReactEditor.isFocused(editor) ||
-      Range.isCollapsed(selection) ||
-      Editor.string(editor, selection) === ''
-    ) {
+    if (!ReactEditor.isFocused(editor) || Range.isCollapsed(selection) || Editor.string(editor, selection) === '') {
+      // eslint-disable-next-line no-console
       console.log('came here');
       el.removeAttribute('style');
       return;
     }
+    // eslint-disable-next-line no-console
     console.log('came outside if');
     const domSelection = window.getSelection();
     const domRange = domSelection.getRangeAt(0);
@@ -82,10 +82,14 @@ const TranslationSuggestionBar = () => {
   const getSuggestions = () => {
     return suggestions.map((suggestion, index) => {
       return (
-        <SuggestionWordWrapper key={suggestion.id} selected={suggestion.isSelected} onClick={() => {
-          setSelectedIndex(index);
-          setSelectedValue(suggestion.value);
-        }}>
+        <SuggestionWordWrapper
+          key={suggestion.id}
+          selected={suggestion.isSelected}
+          onClick={() => {
+            setSelectedIndex(index);
+            setSelectedValue(suggestion.value);
+          }}
+        >
           <SuggestionWord selected={suggestion.isSelected}>{`${suggestion.id}.${suggestion.value}`}</SuggestionWord>
         </SuggestionWordWrapper>
       );
@@ -94,41 +98,49 @@ const TranslationSuggestionBar = () => {
 
   const ReduceOne = () => {
     if (selectedIndex === 0) {
-      setSuggestions(suggestions.map((item, index) => {
-        if (index === suggestions.length - 1) {
-          return {...item, isSelected: true};
-        }
-        return {...item, isSelected: false};
-      }));
+      setSuggestions(
+        suggestions.map((item, index) => {
+          if (index === suggestions.length - 1) {
+            return { ...item, isSelected: true };
+          }
+          return { ...item, isSelected: false };
+        })
+      );
       setSelectedIndex(suggestions.length - 1);
       return;
     }
-    setSuggestions(suggestions.map((item, index) => {
-      if (index === selectedIndex - 1) {
-        return {...item, isSelected: true};
-      }
-      return {...item, isSelected: false};
-    }));
+    setSuggestions(
+      suggestions.map((item, index) => {
+        if (index === selectedIndex - 1) {
+          return { ...item, isSelected: true };
+        }
+        return { ...item, isSelected: false };
+      })
+    );
     setSelectedIndex(selectedIndex - 1);
   };
 
   const IncreaseOne = () => {
-    if (selectedIndex === suggestions.length -1 ) {
-      setSuggestions(suggestions.map((item, index) => {
-        if (index === 0) {
-          return {...item, isSelected: true};
-        }
-        return {...item, isSelected: false};
-      }));
+    if (selectedIndex === suggestions.length - 1) {
+      setSuggestions(
+        suggestions.map((item, index) => {
+          if (index === 0) {
+            return { ...item, isSelected: true };
+          }
+          return { ...item, isSelected: false };
+        })
+      );
       setSelectedIndex(0);
       return;
     }
-    setSuggestions(suggestions.map((item, index) => {
-      if (index === selectedIndex + 1) {
-        return {...item, isSelected: true};
-      }
-      return {...item, isSelected: false};
-    }));
+    setSuggestions(
+      suggestions.map((item, index) => {
+        if (index === selectedIndex + 1) {
+          return { ...item, isSelected: true };
+        }
+        return { ...item, isSelected: false };
+      })
+    );
     setSelectedIndex(selectedIndex + 1);
   };
 
@@ -141,23 +153,28 @@ const TranslationSuggestionBar = () => {
         autoFocus
         onKeyDown={(event) => {
           event.preventDefault();
-          if (event.which === 38) { // up-arrow
+          if (event.which === 38) {
+            // up-arrow
             ReduceOne();
             return;
           }
-          if (event.which === 40) {  // down arrow
+          if (event.which === 40) {
+            // down arrow
             IncreaseOne();
             return;
           }
-          if (event.which === 13) {  // on enter
+          if (event.which === 13) {
+            // on enter
             setSelectedValue(suggestions[selectedIndex].value);
             return;
           }
-          if (event.which === 37) { // left arrow
+          if (event.which === 37) {
+            // left arrow
             ReduceOne();
             return;
           }
-          if (event.which === 39) { // right arrow
+          if (event.which === 39) {
+            // right arrow
             IncreaseOne();
           }
         }}

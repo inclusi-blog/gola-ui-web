@@ -75,7 +75,7 @@ const NewStory = ({ location: { pathname } }) => {
           <ContentEditor
             setShowSideBar={setShowSideBar}
             setClientRects={(rect) => {
-              setSideBarCoords({ x: rect.x - 80, y: rect.y - 17 });
+              setSideBarCoords({ ...sideBarCoords, y: rect.y - 17 });
             }}
             onChangeRoute={(postID, postData) => ChangeRoute(postID, postData)}
           />

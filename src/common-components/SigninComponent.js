@@ -13,7 +13,7 @@ import {
   SignUpLink,
   SignupWrapper,
   AuthBottomContainer,
-} from '../welcome/signup/Signup.style';
+} from '../Screens/welcome/signup/Signup.style';
 import { PasswordContainer } from './SignupComponent.style';
 
 const SigninComponent = () => {

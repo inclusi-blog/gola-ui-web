@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { mediaquery } from '../../helpers/styleHelper';
+import { mediaquery } from '../../../helpers/styleHelper';
 
 export const AcknowledgeWrapper = styled.div`
   display: flex;
