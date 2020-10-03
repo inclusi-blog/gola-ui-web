@@ -37,6 +37,7 @@
     "babel-plugin-styled-components": "^1.10.7",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "bootstrap": "^4.5.2",
+    "broadcast-channel": "^3.2.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.0.3",
     "core-js": "^3.6.5",
@@ -144,6 +145,7 @@
     "build": "cross-env NODE_ENV=production webpack --config ./config/webpack/prod.config.js",
     "open:coverage": "open ./coverage/lcov-report/index.html",
     "todo": "yarn leasot -x -r table \"src/**/*.js\"",
+    "mysterio": "node ./scripts/mysterio.js",
     "check-update": "yarn upgrade-interactive"
   },
   "lint-staged": {

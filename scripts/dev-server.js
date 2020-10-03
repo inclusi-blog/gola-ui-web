@@ -6,6 +6,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const DashboardPlugin = require('webpack-dashboard/plugin');
+const mysterio = require('./mysterio');
 const config = require('../config/webpack/dev.config');
 
 
@@ -26,7 +27,7 @@ app.use(webpackHotMiddleware(compiler, {
 
 const routerProxyConfig = {
   '/post/v1': 'http://localhost:8080',
-  '/idp/v1': 'http://localhost:8081',
+  '/idp/v1': 'http://localhost:9000',
   'api/v1': 'http://localhost:3001'
 };
 
@@ -37,7 +38,14 @@ const options = {
   router: routerProxyConfig,
 };
 
+const authProxy = {
+  target: 'http://localhost:9000',
+  changeOrigin: true,
+  secure: false,
+};
+
 app.use(createProxyMiddleware('/api', options));
+app.use(createProxyMiddleware('/oauth2', authProxy));
 
 app.use('*', (req, res) => {
   const filename = path.join(compiler.outputPath, './index.html');
@@ -58,6 +66,8 @@ app.use('*', (req, res) => {
     res.end();
   });
 });
+
+mysterio(9000);
 
 // Serve the files on port 3000.
 app.listen(3000, () => {

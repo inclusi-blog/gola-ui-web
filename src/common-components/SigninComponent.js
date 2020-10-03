@@ -1,6 +1,11 @@
-import React from 'react';
-import EmptyNotify from 'assets/images/EmptyNotify.svg';
-import WarningNotify from 'assets/images/WarningNotify.png';
+import React, { useState } from 'react';
+import encrypt from '../helpers/encrypt';
+import {
+  broadCastFetchLoginChallenge,
+  generateRandomString,
+  handleConsentAndFetchToken,
+} from '../Screens/welcome/signin/helper';
+import loginService from '../Screens/welcome/signin/loginService';
 import {
   AccountTxt,
   EmailInput,
@@ -17,21 +22,48 @@ import {
 import { PasswordContainer } from './SignupComponent.style';
 
 const SigninComponent = () => {
-  const showWarning = false;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSuccessfulLogin = async (responseData, loginVerifier) => {
+    // eslint-disable-next-line no-unused-vars
+    let tokenData;
+    try {
+      tokenData = await handleConsentAndFetchToken(responseData.data.redirect_to, loginVerifier);
+    } catch {
+      // eslint-disable-next-line no-console
+      console.log('something went wrong');
+      return;
+    }
+    // eslint-disable-next-line no-console
+    console.log('successfully logged in', tokenData);
+  };
+
+  const handleFailureLogin = () => {};
+
+  const submitPassword = async () => {
+    const code = generateRandomString();
+    let loginChallengeFromResponse = '';
+    try {
+      loginChallengeFromResponse = await broadCastFetchLoginChallenge(code);
+    } catch {
+      return;
+    }
+    loginService
+      .loginUser(email, encrypt(password), loginChallengeFromResponse)
+      .then((responseData) => handleSuccessfulLogin(responseData, code))
+      .catch(handleFailureLogin);
+  };
+
   return (
     <SignupWrapper>
       <EmailLabel>Email</EmailLabel>
-      <EmailInput placeholder="abc_123@gmail.com" />
+      <EmailInput placeholder="abc_123@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
       <PasswordContainer>
         <PassLabel>Password</PassLabel>
-        <If condition={showWarning}>
-          <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
-          <Else />
-          <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
-        </If>
       </PasswordContainer>
-      <PasswordInput type="password" />
-      <SignInButton>
+      <PasswordInput type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
+      <SignInButton onClick={() => submitPassword()}>
         <SignInText>Sign in</SignInText>
       </SignInButton>
       <AuthBottomContainer>
