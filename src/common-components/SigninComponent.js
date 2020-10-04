@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import encrypt from '../helpers/encrypt';
 import {
   broadCastFetchLoginChallenge,
@@ -24,6 +25,7 @@ import { PasswordContainer } from './SignupComponent.style';
 const SigninComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const { login } = useContext(LoggedInContext);
 
   const handleSuccessfulLogin = async (responseData, loginVerifier) => {
     // eslint-disable-next-line no-unused-vars
@@ -37,6 +39,7 @@ const SigninComponent = () => {
     }
     // eslint-disable-next-line no-console
     console.log('successfully logged in', tokenData);
+    login(tokenData);
   };
 
   const handleFailureLogin = () => {};

@@ -2,11 +2,14 @@ import React, { useContext, useState } from 'react';
 import Pill from 'common-components/Pill';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
+import { Redirect } from 'react-router';
+import LoggedInContext from '../../context-providers/loggedin-provider/LoggedInContext';
 import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
 const Welcome = () => {
   const { modalName, setModalName, showModal, setShowModal } = useContext(Context);
+  const { isLoggedIn } = useContext(LoggedInContext);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -95,6 +98,9 @@ const Welcome = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <If condition={isLoggedIn}>
+        <Redirect to="/" />
+      </If>
       <div
         style={{
           width: 1260,
