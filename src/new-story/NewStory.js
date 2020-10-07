@@ -28,9 +28,9 @@ const NewStory = ({ location: { pathname } }) => {
       draft_id: puid,
     };
     if (title) {
-      data = { ...data, title_data: title };
+      data = { ...data, title_data: title, target: 'title' };
     } else {
-      data = { ...data, post_data: post };
+      data = { ...data, post_data: post, target: 'post' };
     }
 
     ajax
