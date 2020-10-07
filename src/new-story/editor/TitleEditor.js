@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
@@ -6,19 +7,18 @@ import HoveringToolbar from './HoveringToolbar';
 import Leaf from './Leaf';
 import { toggleFormat } from './utils/formatUtils';
 
-const initialValue = [
-  {
-    children: [{ text: '' }],
-  },
-];
-
-const TitleEditor = () => {
-  const [value, setValue] = useState(initialValue);
+const TitleEditor = ({ onChangeTitle, value }) => {
   const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
   return (
     <div>
-      <Slate editor={editor} value={value} onChange={(changedTitle) => setValue(changedTitle)}>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(changedTitle) => {
+          onChangeTitle(changedTitle);
+        }}
+      >
         <HoveringToolbar />
         <Editable
           style={{
@@ -45,6 +45,11 @@ const TitleEditor = () => {
       </Slate>
     </div>
   );
+};
+
+TitleEditor.propTypes = {
+  onChangeTitle: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf(PropTypes.shape).isRequired,
 };
 
 export default TitleEditor;

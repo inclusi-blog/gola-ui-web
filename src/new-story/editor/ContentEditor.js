@@ -1,7 +1,5 @@
-import React, { useState, useMemo, useContext, useEffect, useRef } from 'react';
+import React, { useMemo, useContext, useEffect } from 'react';
 import { createEditor, Transforms, Node } from 'slate';
-import { v4 as uuidv4 } from 'uuid';
-import { debounce } from 'lodash';
 import isUrl from 'is-url';
 import PropTypes from 'prop-types';
 import imageExtensions from 'image-extensions';
@@ -14,12 +12,6 @@ import Element from './components/Element';
 import HoveringToolbar from './HoveringToolbar';
 import Leaf from './Leaf';
 import { toggleFormat, wrapLink } from './utils/formatUtils';
-
-const initialValue = [
-  {
-    children: [{ text: '' }],
-  },
-];
 
 const insertImage = (editor, url) => {
   const text = { text: '' };
@@ -116,11 +108,9 @@ const withLinks = (editor) => {
   return editor;
 };
 
-const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute }) => {
-  const [value, setValue] = useState(initialValue);
+const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute, value }) => {
   const { linkValue, isHovered } = useContext(Context);
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
-  const puid = uuidv4().substring(24);
 
   useEffect(() => {
     const selection = window.getSelection && window.getSelection();
@@ -140,15 +130,12 @@ const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute }) => {
     }
   }, [editor.children, setShowSideBar]);
 
-  const delayedHandleChange = useRef(debounce((eventData) => onChangeRoute(puid, eventData), 5000)).current;
-
   return (
     <Slate
       editor={editor}
       value={value}
       onChange={(changedText) => {
-        setValue(changedText);
-        delayedHandleChange(changedText);
+        onChangeRoute(changedText);
       }}
     >
       <HoveringToolbar />
@@ -185,6 +172,7 @@ ContentEditor.propTypes = {
   setShowSideBar: PropTypes.func.isRequired,
   setClientRects: PropTypes.func.isRequired,
   onChangeRoute: PropTypes.func.isRequired,
+  value: PropTypes.arrayOf(PropTypes.shape).isRequired,
 };
 
 export default ContentEditor;
