@@ -4,8 +4,10 @@ import Main from './Main';
 import NewUserActivation from './Screens/Activation/NewUserActivation';
 import ActivateAccount from './Screens/welcome/signup/ActivateAccount';
 import Welcome from './Screens/welcome/Welcome';
+import UserPublication from './user/UserPublication';
 
 const loginFlowEnabled = true;
+const userPageEntered = true;
 
 const MainController = withRouter(({ location }) => {
   const { pathname } = location;
@@ -25,6 +27,9 @@ const App = () => {
         <Route path="/welcome" component={Welcome} />
         <Route path="/m/callback/email" component={NewUserActivation} />
         <Route path="/verify" component={ActivateAccount} />
+      </If>
+      <If condition={userPageEntered}>
+        <Route path="/userpublication" component={UserPublication} />
       </If>
       <Route path="/" component={MainController} />
     </Switch>
