@@ -27,7 +27,7 @@ const Header = ({ location: { pathname } }) => {
 
   return (
     <HeaderWrapper>
-      <div style={{ width: '1366px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
+      <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
           <LogoIcon alt="logo" src={Logo} />
           <AppHeaderName>{t('welcome.title')}</AppHeaderName>

@@ -5,6 +5,7 @@ export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};
   height: 64px;
   display: flex;
+  width: 100%;
   justify-content: center;
   background-color: white;
   box-shadow: 0px 8px 46px rgba(0, 0, 0, 0.07);
