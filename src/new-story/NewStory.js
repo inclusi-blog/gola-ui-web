@@ -6,6 +6,7 @@ import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 import ajax from '../helpers/ajaxHelper';
 import ContentEditor from './editor/ContentEditor';
+import PreviewCard from './editor/PreviewCard';
 import TitleEditor from './editor/TitleEditor';
 import './fab-style.css';
 
@@ -18,7 +19,7 @@ const initialValue = [
 const NewStory = ({ location: { pathname } }) => {
   const [showSideBar, setShowSideBar] = useState(true);
   const puid = uuidv4().substring(24);
-  const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 380 });
+  const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
   const [titleData, setTitleData] = useState(initialValue);
 
@@ -80,7 +81,15 @@ const NewStory = ({ location: { pathname } }) => {
         justifyContent: 'center',
       }}
     >
-      <div style={{ width: '1260px', display: 'flex', justifyContent: 'center' }}>
+      <div
+        style={{
+          width: '1260px',
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
         <If condition={showSideBar}>
           <div className="fab-container" style={{ top: sideBarCoords.y, left: sideBarCoords.x }}>
             <div className="fab fab-icon-holder">
@@ -101,10 +110,15 @@ const NewStory = ({ location: { pathname } }) => {
             </ul>
           </div>
         </If>
+        <div style={{ marginTop: 51 }}>
+          <If condition={titleData[0].children[0].text.length}>
+            <PreviewCard title={titleData[0].children[0].text} />
+          </If>
+        </div>
         <div
           style={{
             width: '62%',
-            marginTop: 246,
+            marginTop: titleData[0].children[0].text.length ? 83 : 246,
           }}
         >
           <TitleEditor

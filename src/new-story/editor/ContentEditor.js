@@ -118,7 +118,7 @@ const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute, value })
       // const domRange = selection.getRangeAt(0);
       // const rect = domRange.getBoundingClientRect();
       // const range = selection.getRangeAt(0);
-      if (editor.selection.anchor.offset === 0) {
+      if (editor.selection && editor.selection.anchor && editor.selection.anchor.offset === 0) {
         setClientRects(
           ReactEditor.toDOMNode(editor, Node.get(editor, editor.selection.anchor.path)).getBoundingClientRect()
         );

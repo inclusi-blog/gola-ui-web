@@ -106,7 +106,7 @@ export const EmailInput = styled.input`
   color: #2d2d2d;
 
   &:focus {
-    border: border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};;
+    border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};
     outline: none;
   }
 `;
@@ -132,7 +132,7 @@ export const PasswordInput = styled.input`
   margin-top: 8px;
 
   &:focus {
-    border: border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};;
+    border: 0.881285px solid ${(props) => (props.isError ? '#FF6E05' : '#2c363f')};
     outline: none;
   }
 `;
