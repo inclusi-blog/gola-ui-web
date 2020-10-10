@@ -10,9 +10,9 @@ const Main = () => {
   return (
     <Provider>
       <Switch>
+        <Route path="/userpublication" component={UserPublication} />
         <Route path="/new-story" component={NewStory} />
         <Route path="/" component={HomePage} />
-        <Route path="/userpublication" component={UserPublication} />
         <>
           <MainWrapper>
             <p>Hello</p>
