@@ -4,7 +4,7 @@ import Provider from './context-providers/providers';
 import MainWrapper from './GlobalStyles/App.style';
 import NewStory from './new-story/NewStory';
 import HomePage from './Screens/HomePage';
-import UserPublication from './user/UserPublication';
+import UserPublication from './Screens/user/UserPublication';
 
 const Main = () => {
   return (
