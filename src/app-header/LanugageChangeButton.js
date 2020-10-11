@@ -21,7 +21,7 @@ const LanguageChangeButton = () => {
         setSelectedLanguage(toggledLanguage);
       }}
     >
-      <LanguageChangeText>ENG</LanguageChangeText>
+      <LanguageChangeText>{selectedLanguage === 'en' ? 'தமிழ்' : 'ENG'}</LanguageChangeText>
     </LanguageButtonWrapper>
   );
 };
