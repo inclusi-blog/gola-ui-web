@@ -8,13 +8,13 @@ pipelines:
     secure_variables:
     materials:
       gola-ui-web:
-        git: https://gitlab.com/hsivakum/gola-web-ui.git
+        git: https://github.com/gola-glitch/gola-ui-web.git
         username: hsivakum
         shallow_clone: false
         auto_update: true
         branch: master
         destination: gola-ui-web
-        encrypted_password: AES:nCk5NGNLcPm3/4s35IOnaA==:V6EiMvjpZBeu71iH6PV66Q==
+        encrypted_password: AES:L8egUP1ZBiO8nDvLgp2fiw==:DeQ+r5KAHZCxI0nHvOL9Ig==
     stages:
     - install_dep_and_test:
         fetch_materials: true
