@@ -245,14 +245,14 @@ const GeneralFeed = () => {
       </GeneralPostsContainer>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <ReadMore style={{ display: 'flex', marginTop: 53, marginLeft: 536 }}>Read More</ReadMore>
-        <Split style={{ display: 'flex', marginLeft: 131, marginTop: 24 }} />
+        <ReadMore style={{ display: 'flex', marginTop: 53, marginLeft: 407 }}>Read More</ReadMore>
+        <Split style={{ display: 'flex', marginTop: 24 }} />
 
-        <SelectInterests style={{ display: 'flex', marginLeft: 354, marginTop: 28, marginBottom: 32 }}>
+        <SelectInterests style={{ display: 'flex', marginLeft: 223, marginTop: 28, marginBottom: 32 }}>
           Choose your interests
         </SelectInterests>
-        <div style={{ display: 'flex', width: 804, height: 39, marginLeft: 228, marginBottom: 42 }} />
-        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 296 }}>
+        <div style={{ display: 'flex', width: 804, height: 39, marginLeft: 97, marginBottom: 42 }} />
+        <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 165 }}>
           <Video />
 
           <div style={{ display: 'flex', width: 642, height: 168, marginTop: 34 }}>

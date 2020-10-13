@@ -4,7 +4,6 @@ export const GeneralPostsContainer = styled.div`
   width: 901px;
   height: 468px;
   margin-top: 135px;
-  margin-left: 133px;
 `;
 
 export const PostPicture = styled.img``;
