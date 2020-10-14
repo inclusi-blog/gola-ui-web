@@ -3,13 +3,13 @@ import breakpoints from '../styles/breakpoints';
 
 const mq = generateMedia(breakpoints);
 
+// eslint-disable-next-line import/prefer-default-export
 export const mediaquery = {};
 
 mediaquery.tablet = mq.greaterThan('tablet');
 
 mediaquery.desktop = mq.greaterThan('desktop');
 
-export default styleHelper;
 
 /* export const hexToRgb = (hex) => {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;

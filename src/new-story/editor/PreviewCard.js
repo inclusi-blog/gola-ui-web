@@ -20,7 +20,7 @@ import {
   TaglineInput,
   VerticalLine,
 } from './PreviewCard.style';
-import ajax from "../../helpers/ajaxHelper";
+import ajax from '../../helpers/ajaxHelper';
 
 const PreviewCard = ({ title }) => {
   const [tagline, setTagline] = useState('');
@@ -69,7 +69,7 @@ const PreviewCard = ({ title }) => {
             'Content-Type': `multipart/form-data; boundary=${fromData._boundary}`,
           },
         })
-        .then(({data: steam}) => {
+        .then(({ data: steam }) => {
           const imageUrl = steam.filePath.replace(
             'https://golaimage.s3.ap-south-1.amazonaws.com',
             'https://d14r87p68zn22t.cloudfront.net'
@@ -83,7 +83,7 @@ const PreviewCard = ({ title }) => {
     }
   }, [selectedFile]);
 
-  const onInputFileChange = (event)  => {
+  const onInputFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
@@ -93,8 +93,20 @@ const PreviewCard = ({ title }) => {
         <If condition={previewImage}>
           <img src={previewImage} alt="" style={{ width: 163, height: 163 }} />
           <Else />
-          <input type="file" style={{ display: 'none' }} ref={pickerRef} accept=".jpg,.jpeg,.png" onChange={(event) => onInputFileChange(event)} />
-          <img onKeyDown={() => {}} onClick={() => pickerRef.current.click()} src={PreviewPicker} alt="preview picker" style={{ marginRight: 6, marginBottom: 6 }} />
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={pickerRef}
+            accept=".jpg,.jpeg,.png"
+            onChange={(event) => onInputFileChange(event)}
+          />
+          <img
+            onKeyDown={() => {}}
+            onClick={() => pickerRef.current.click()}
+            src={PreviewPicker}
+            alt="preview picker"
+            style={{ marginRight: 6, marginBottom: 6 }}
+          />
         </If>
       </PreviewImageContainer>
       <PreviewContentContainer>
