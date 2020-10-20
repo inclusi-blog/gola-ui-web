@@ -10,7 +10,6 @@ mediaquery.tablet = mq.greaterThan('tablet');
 
 mediaquery.desktop = mq.greaterThan('desktop');
 
-
 /* export const hexToRgb = (hex) => {
   const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
   const expandedHex = hex.replace(shorthandRegex, (input, red, green, blue) => red + red + green + green + blue + blue);

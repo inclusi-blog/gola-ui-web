@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 import ajax from '../helpers/ajaxHelper';
+import { SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
 import PreviewCard from './editor/PreviewCard';
 import TitleEditor from './editor/TitleEditor';
@@ -45,6 +46,29 @@ const NewStory = ({ location: { pathname } }) => {
       });
   };
 
+  const SaveTaglineAndChangeRouteName = (tagline, commandToRun = {}) => {
+    if (pathname === '/new-story') {
+      SaveTagline(puid, tagline, '1')
+        .then(() => {
+          commandToRun();
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('something went wrong', err);
+        });
+      return;
+    }
+    SaveTagline(puid, tagline, '1')
+      .then(() => {
+        // eslint-disable-next-line no-console
+        console.log('saved tagline');
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong', err);
+      });
+  };
+
   const onChangeTitle = (titleContent) => {
     if (pathname === '/new-story') {
       SaveDraft({
@@ -73,6 +97,13 @@ const NewStory = ({ location: { pathname } }) => {
 
   const delayedHandleChangeTitle = useRef(debounce((eventData) => onChangeTitle(eventData), 5000)).current;
   const delayedHandleChangeContent = useRef(debounce((eventData) => onChangeContent(eventData), 5000)).current;
+  const delayedHandleChangeTagline = useRef(
+    debounce(
+      (eventData) =>
+        SaveTaglineAndChangeRouteName(eventData, () => window.history.replaceState(null, 'Draft', `/p/${puid}/edit`)),
+      3000
+    )
+  ).current;
 
   return (
     <div
@@ -112,7 +143,10 @@ const NewStory = ({ location: { pathname } }) => {
         </If>
         <div style={{ marginTop: 51 }}>
           <If condition={titleData[0].children[0].text.length}>
-            <PreviewCard title={titleData[0].children[0].text} />
+            <PreviewCard
+              title={titleData[0].children[0].text}
+              onChangeTagline={(tagline) => delayedHandleChangeTagline(tagline)}
+            />
           </If>
         </div>
         <div

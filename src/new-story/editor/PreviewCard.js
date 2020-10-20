@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
-import GetInterests from '../draft.service';
+import { GetInterests } from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -23,7 +23,7 @@ import {
 } from './PreviewCard.style';
 import ajax from '../../helpers/ajaxHelper';
 
-const PreviewCard = ({ title }) => {
+const PreviewCard = ({ title, onChangeTagline }) => {
   const [tagline, setTagline] = useState('');
   const [showInterestTagPills, setShowInterestTagPills] = useState(false);
   const [interestInputValue, setInterestInputValue] = useState('');
@@ -99,8 +99,20 @@ const PreviewCard = ({ title }) => {
         <If condition={previewImage}>
           <img src={previewImage} alt="" style={{ width: 163, height: 163 }} />
           <Else />
-          <input type="file" style={{ display: 'none' }} ref={pickerRef} accept=".jpg,.jpeg,.png" onChange={(event) => onInputFileChange(event)} />
-          <img onKeyDown={() => {}} onClick={() => pickerRef.current.click()} src={PreviewPicker} alt="preview picker" style={{ marginRight: 6, marginBottom: 6 }} />
+          <input
+            type="file"
+            style={{ display: 'none' }}
+            ref={pickerRef}
+            accept=".jpg,.jpeg,.png"
+            onChange={(event) => onInputFileChange(event)}
+          />
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
+          <img
+            onClick={() => pickerRef.current.click()}
+            src={PreviewPicker}
+            alt="preview picker"
+            style={{ marginRight: 6, marginBottom: 6 }}
+          />
         </If>
       </PreviewImageContainer>
       <PreviewContentContainer>
@@ -108,7 +120,10 @@ const PreviewCard = ({ title }) => {
         <TaglineInput
           placeholder="Add tagline"
           showPen={tagline.length}
-          onChange={({ target }) => setTagline(target.value)}
+          onChange={({ target }) => {
+            setTagline(target.value);
+            onChangeTagline(target.value);
+          }}
         />
         <If condition={selectedTags.length}>
           <InterestPillsContainer>
@@ -184,6 +199,7 @@ const PreviewCard = ({ title }) => {
 
 PreviewCard.propTypes = {
   title: PropTypes.string.isRequired,
+  onChangeTagline: PropTypes.func.isRequired,
 };
 
 export default PreviewCard;

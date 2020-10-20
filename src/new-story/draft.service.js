@@ -1,6 +1,7 @@
 import ajax from '../helpers/ajaxHelper';
-import GET_INTERESTS from '../Config/api.routes.config';
+import { GET_INTERESTS, SAVE_TAGLINE } from '../Config/api.routes.config';
 
-const GetInterests = () => ajax.get(GET_INTERESTS);
+export const GetInterests = () => ajax.get(GET_INTERESTS);
 
-export default GetInterests;
+export const SaveTagline = (postID, tagline, userID) =>
+  ajax.post(SAVE_TAGLINE, { draft_id: postID, tagline, user_id: userID });
