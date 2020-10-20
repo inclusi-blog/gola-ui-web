@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
+import GetInterests from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -28,20 +29,25 @@ const PreviewCard = ({ title }) => {
   const [interestInputValue, setInterestInputValue] = useState('');
   const [suggestionBoxPosition, setSuggestionBoxPosition] = useState({ top: 0, left: 0 });
   const pickerRef = useRef(null);
-  const interestStore = [
-    'Arasiyal',
-    'Vilayattu',
-    'Maruthuvam',
-    'Poriyiyal',
-    'Varthagam',
-    'Ulaga arasiyal',
-    'Kattamaippu',
-  ];
+  const [interestStore, setInterestStore] = useState([]);
   const [interestsList, setInterestsList] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const ref = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
+
+  useEffect(() => {
+    GetInterests()
+      .then(({ data }) => {
+        if (data && data.length) {
+          setInterestStore(data);
+        }
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong', err);
+      });
+  }, []);
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -93,20 +99,8 @@ const PreviewCard = ({ title }) => {
         <If condition={previewImage}>
           <img src={previewImage} alt="" style={{ width: 163, height: 163 }} />
           <Else />
-          <input
-            type="file"
-            style={{ display: 'none' }}
-            ref={pickerRef}
-            accept=".jpg,.jpeg,.png"
-            onChange={(event) => onInputFileChange(event)}
-          />
-          <img
-            onKeyDown={() => {}}
-            onClick={() => pickerRef.current.click()}
-            src={PreviewPicker}
-            alt="preview picker"
-            style={{ marginRight: 6, marginBottom: 6 }}
-          />
+          <input type="file" style={{ display: 'none' }} ref={pickerRef} accept=".jpg,.jpeg,.png" onChange={(event) => onInputFileChange(event)} />
+          <img onKeyDown={() => {}} onClick={() => pickerRef.current.click()} src={PreviewPicker} alt="preview picker" style={{ marginRight: 6, marginBottom: 6 }} />
         </If>
       </PreviewImageContainer>
       <PreviewContentContainer>
@@ -119,8 +113,8 @@ const PreviewCard = ({ title }) => {
         <If condition={selectedTags.length}>
           <InterestPillsContainer>
             {selectedTags.map((item, index) => (
-              <InterestTag key={item.toString()} onClick={() => removeSelectedTag(index)}>
-                <InterestTagText>{item}</InterestTagText>
+              <InterestTag key={item.id} onClick={() => removeSelectedTag(index)}>
+                <InterestTagText>{item.name}</InterestTagText>
               </InterestTag>
             ))}
           </InterestPillsContainer>
@@ -132,8 +126,9 @@ const PreviewCard = ({ title }) => {
             ref={ref}
             onChange={(event) => {
               setInterestInputValue(event.target.value);
+              const found = interestStore.filter((item) => selectedTags.indexOf(item) === -1);
               setInterestsList(
-                interestStore.filter((item) => item.toLowerCase().includes(event.target.value)).slice(0, 4)
+                found.filter((item) => item.name.toLowerCase().includes(event.target.value)).slice(0, 4)
               );
             }}
           />
@@ -146,19 +141,18 @@ const PreviewCard = ({ title }) => {
                     setInterestInputValue('');
                     setShowInterestTagPills(false);
                   }}
-                  key={item.toString()}
+                  key={item.id.toString()}
                   paddingTop={index === 0 ? 20 : 8}
                   height={index === 0 ? 54 : 42}
                   isLast={false}
                 >
-                  <InterestListItemText>{item}</InterestListItemText>
+                  <InterestListItemText>{item.name}</InterestListItemText>
                 </InterestListItem>
               ))}
               <InterestListItem
                 paddingTop={8}
                 height={42}
                 onClick={() => {
-                  setSelectedTags([...selectedTags, interestInputValue]);
                   setShowInterestTagPills(false);
                   setInterestInputValue('');
                 }}
