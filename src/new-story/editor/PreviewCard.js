@@ -1,3 +1,4 @@
+import { debounce } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
@@ -36,8 +37,8 @@ const PreviewCard = ({ title, onChangeTagline }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
 
-  useEffect(() => {
-    GetInterests()
+  const GetSearchedInterests = () => {
+    GetInterests(interestInputValue)
       .then(({ data }) => {
         if (data && data.length) {
           setInterestStore(data);
@@ -47,7 +48,14 @@ const PreviewCard = ({ title, onChangeTagline }) => {
         // eslint-disable-next-line no-console
         console.log('something went wrong', err);
       });
-  }, []);
+  };
+
+  useEffect(() => {
+    const found = interestStore.filter((item) => selectedTags.indexOf(item) === -1);
+    setInterestsList(found.filter((item) => item.name.toLowerCase().includes(interestInputValue)).slice(0, 4));
+  }, [interestStore]);
+
+  const delayedGetInterest = useRef(debounce((eventData) => GetSearchedInterests(eventData), 500)).current;
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -141,10 +149,7 @@ const PreviewCard = ({ title, onChangeTagline }) => {
             ref={ref}
             onChange={(event) => {
               setInterestInputValue(event.target.value);
-              const found = interestStore.filter((item) => selectedTags.indexOf(item) === -1);
-              setInterestsList(
-                found.filter((item) => item.name.toLowerCase().includes(event.target.value)).slice(0, 4)
-              );
+              delayedGetInterest(event.target.value);
             }}
           />
           <If condition={interestInputValue.length}>
