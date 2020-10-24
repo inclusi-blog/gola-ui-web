@@ -16,6 +16,7 @@ module.exports = {
     'import-glob',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-export-default-from',
+    "@babel/plugin-proposal-optional-chaining",
     'jsx-control-statements',
     'react-hot-loader/babel',
     ['babel-plugin-styled-components', { ssr: false, displayName: true }],

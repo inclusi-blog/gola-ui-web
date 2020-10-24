@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
 import { GetInterests } from '../draft.service';
@@ -37,8 +37,9 @@ const PreviewCard = ({ title, onChangeTagline }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
 
-  const GetSearchedInterests = () => {
-    GetInterests(interestInputValue)
+  const GetSearchedInterests = (searchedValue) => {
+    const selectedInterestNames = selectedTags.map((item) => item.name);
+    GetInterests(searchedValue, selectedInterestNames)
       .then(({ data }) => {
         if (data && data.length) {
           setInterestStore(data);
@@ -46,16 +47,21 @@ const PreviewCard = ({ title, onChangeTagline }) => {
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
-        console.log('something went wrong', err);
+        if (err?.response?.data?.errorCode === 'ERR_POST_PAYLOAD_INVALID') {
+          setInterestStore([]);
+        }
       });
   };
 
   useEffect(() => {
-    const found = interestStore.filter((item) => selectedTags.indexOf(item) === -1);
-    setInterestsList(found.filter((item) => item.name.toLowerCase().includes(interestInputValue)).slice(0, 4));
+    setInterestsList(interestStore.filter((item) => item.name.toLowerCase().includes(interestInputValue)).slice(0, 4));
   }, [interestStore]);
 
-  const delayedGetInterest = useRef(debounce((eventData) => GetSearchedInterests(eventData), 500)).current;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const delayedGetInterest = useCallback(
+    debounce((eventData) => GetSearchedInterests(eventData), 500),
+    [selectedTags]
+  );
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -64,6 +70,12 @@ const PreviewCard = ({ title, onChangeTagline }) => {
       setSuggestionBoxPosition({ top, left });
     }
   }, [ref.current]);
+
+  useEffect(() => {
+    if (interestInputValue.length === 0) {
+      setInterestStore([]);
+    }
+  }, [interestInputValue]);
 
   const removeSelectedTag = (selectedIndex) => {
     setSelectedTags(selectedTags.filter((item, index) => selectedIndex !== index));
