@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { useLocation, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from 'assets/images/logo.png';
 import SearchImg from 'assets/images/search.svg';
 import BookmarkImg from 'assets/images/bookmark.svg';
 import ProfileImg from 'assets/images/profile.png';
 import NotifyBell from 'common-components/NotifyBell';
+import { CommonFlexRow, SmallDots } from '../../common-components/InterestPostTile.style';
 import {
   AppHeaderName,
   HeaderWrapper,
@@ -17,6 +18,8 @@ import {
   SearchIcon,
   Bookmark,
   ProfileIcon,
+  PublishButton,
+  PublishButtonText,
 } from './Header.style';
 import LanguageChangeButton from '../LanugageChangeButton';
 
@@ -24,7 +27,7 @@ import LanguageChangeButton from '../LanugageChangeButton';
 const Header = ({ location: { pathname } }) => {
   const [unreadNotification] = useState(0);
   const { t } = useTranslation();
-
+  const location = useLocation();
   return (
     <HeaderWrapper>
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
@@ -33,10 +36,21 @@ const Header = ({ location: { pathname } }) => {
           <AppHeaderName>{t('welcome.title')}</AppHeaderName>
         </LeftHeader>
         <RightHeader>
-          <Explore>Explore</Explore>
-          <SearchIcon src={SearchImg} />
-          <NotifyBell unreadNotification={unreadNotification} />
-          <Bookmark src={BookmarkImg} />
+          <If condition={location.pathname === '/new-story' || location.pathname === '/edit'}>
+            <PublishButton style={{ marginRight: 32 }}>
+              <PublishButtonText>Publish</PublishButtonText>
+            </PublishButton>
+            <CommonFlexRow style={{ marginRight: 33 }}>
+              <SmallDots />
+              <SmallDots />
+              <SmallDots />
+            </CommonFlexRow>
+            <NotifyBell unreadNotification={unreadNotification} />
+            <Else />
+            <Explore>Explore</Explore>
+            <SearchIcon src={SearchImg} />
+            <Bookmark src={BookmarkImg} />
+          </If>
           <ProfileIcon src={ProfileImg} />
           <LanguageChangeButton />
         </RightHeader>

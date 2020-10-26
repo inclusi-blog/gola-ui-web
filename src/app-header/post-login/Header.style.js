@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Z_INDEX from '../../constants/zIndex';
+import { FollowStatus, FollowStatusButton } from '../../Screens/user/UserPublication.style';
 
 export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};
@@ -71,4 +72,17 @@ export const ProfileIcon = styled.img`
   width: 40px;
   height: 40px;
   margin-right: 40px;
+`;
+
+export const PublishButton = styled(FollowStatusButton)`
+  background: #fa163f;
+  border-radius: 8px;
+`;
+
+export const PublishButtonText = styled(FollowStatus)`
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 21px;
+  cursor: default;
 `;
