@@ -146,6 +146,7 @@ const NewStory = ({ location: { pathname } }) => {
             <PreviewCard
               title={titleData[0].children[0].text}
               onChangeTagline={(tagline) => delayedHandleChangeTagline(tagline)}
+              postID={puid}
             />
           </If>
         </div>

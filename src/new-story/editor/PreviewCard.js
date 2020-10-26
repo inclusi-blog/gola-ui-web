@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
-import { GetInterests } from '../draft.service';
+import { GetInterests, UpdateInterests } from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -24,7 +24,7 @@ import {
 } from './PreviewCard.style';
 import ajax from '../../helpers/ajaxHelper';
 
-const PreviewCard = ({ title, onChangeTagline }) => {
+const PreviewCard = ({ title, onChangeTagline, postID }) => {
   const [tagline, setTagline] = useState('');
   const [showInterestTagPills, setShowInterestTagPills] = useState(false);
   const [interestInputValue, setInterestInputValue] = useState('');
@@ -36,6 +36,7 @@ const PreviewCard = ({ title, onChangeTagline }) => {
   const ref = useRef(null);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
+  const [, setErrorStatus] = useState(false);
 
   const GetSearchedInterests = (searchedValue) => {
     const selectedInterestNames = selectedTags.map((item) => item.name);
@@ -62,6 +63,13 @@ const PreviewCard = ({ title, onChangeTagline }) => {
     debounce((eventData) => GetSearchedInterests(eventData), 500),
     [selectedTags]
   );
+
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    UpdateInterests(postID, selectedTags, '1')
+      .then(() => setErrorStatus(false))
+      .catch(() => setErrorStatus(true));
+  }, [selectedTags]);
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -217,6 +225,7 @@ const PreviewCard = ({ title, onChangeTagline }) => {
 PreviewCard.propTypes = {
   title: PropTypes.string.isRequired,
   onChangeTagline: PropTypes.func.isRequired,
+  postID: PropTypes.string.isRequired,
 };
 
 export default PreviewCard;
