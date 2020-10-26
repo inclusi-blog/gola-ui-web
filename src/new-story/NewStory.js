@@ -36,7 +36,7 @@ const NewStory = ({ location: { pathname } }) => {
     }
 
     ajax
-      .post('/post/v1/draft/upsertDraft', data)
+      .post('/post/v1/draft/upsert-draft', data)
       .then(() => {
         commandToRun();
       })
