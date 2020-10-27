@@ -86,3 +86,21 @@ export const PublishButtonText = styled(FollowStatus)`
   line-height: 21px;
   cursor: default;
 `;
+
+export const StoryTypeText = styled.p`
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  margin-left: 61px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 0;
+`;
+
+export const SaveStatusText = styled(StoryTypeText)`
+  color: #808080;
+  margin-left: 24px;
+`;

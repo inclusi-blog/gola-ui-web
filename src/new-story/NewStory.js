@@ -1,9 +1,10 @@
 import { debounce } from 'lodash';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
+import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import ajax from '../helpers/ajaxHelper';
 import { SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
@@ -22,9 +23,11 @@ const NewStory = ({ location: { pathname } }) => {
   const puid = uuidv4().substring(24);
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
+  const { setIsSaving, setIsInitiallySaved } = useContext(NewStoryContext);
   const [titleData, setTitleData] = useState(initialValue);
 
-  const SaveDraft = ({ title, post, commandToRun = {} }) => {
+  const SaveDraft = ({ title, post, commandToRun = () => {} }) => {
+    setIsSaving(true);
     let data = {
       user_id: '1',
       draft_id: puid,
@@ -38,15 +41,18 @@ const NewStory = ({ location: { pathname } }) => {
     ajax
       .post('/post/v1/draft/upsert-draft', data)
       .then(() => {
+        setIsSaving(false);
         commandToRun();
       })
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log('something went wrong', err);
+        setIsSaving(false);
       });
   };
 
   const SaveTaglineAndChangeRouteName = (tagline, commandToRun = {}) => {
+    setIsSaving(true);
     if (pathname === '/new-story') {
       SaveTagline(puid, tagline, '1')
         .then(() => {
@@ -60,22 +66,27 @@ const NewStory = ({ location: { pathname } }) => {
     }
     SaveTagline(puid, tagline, '1')
       .then(() => {
+        setIsSaving(false);
         // eslint-disable-next-line no-console
         console.log('saved tagline');
       })
       .catch((err) => {
+        setIsSaving(false);
         // eslint-disable-next-line no-console
         console.log('something went wrong', err);
       });
+  };
+
+  const changeRouteName = () => {
+    setIsInitiallySaved(true);
+    window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
   };
 
   const onChangeTitle = (titleContent) => {
     if (pathname === '/new-story') {
       SaveDraft({
         title: titleContent,
-        commandToRun: () => {
-          window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
-        },
+        commandToRun: changeRouteName(),
       });
       return;
     }
@@ -86,9 +97,7 @@ const NewStory = ({ location: { pathname } }) => {
     if (pathname === '/new-story') {
       SaveDraft({
         post: postData,
-        commandToRun: () => {
-          window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
-        },
+        commandToRun: changeRouteName(),
       });
       return;
     }
@@ -98,11 +107,7 @@ const NewStory = ({ location: { pathname } }) => {
   const delayedHandleChangeTitle = useRef(debounce((eventData) => onChangeTitle(eventData), 5000)).current;
   const delayedHandleChangeContent = useRef(debounce((eventData) => onChangeContent(eventData), 5000)).current;
   const delayedHandleChangeTagline = useRef(
-    debounce(
-      (eventData) =>
-        SaveTaglineAndChangeRouteName(eventData, () => window.history.replaceState(null, 'Draft', `/p/${puid}/edit`)),
-      3000
-    )
+    debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000)
   ).current;
 
   return (

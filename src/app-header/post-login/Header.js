@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +7,7 @@ import SearchImg from 'assets/images/search.svg';
 import BookmarkImg from 'assets/images/bookmark.svg';
 import ProfileImg from 'assets/images/profile.png';
 import NotifyBell from 'common-components/NotifyBell';
+import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import { CommonFlexRow, SmallDots } from '../../common-components/InterestPostTile.style';
 import {
   AppHeaderName,
@@ -20,6 +21,8 @@ import {
   ProfileIcon,
   PublishButton,
   PublishButtonText,
+  StoryTypeText,
+  SaveStatusText,
 } from './Header.style';
 import LanguageChangeButton from '../LanugageChangeButton';
 
@@ -28,16 +31,23 @@ const Header = ({ location: { pathname } }) => {
   const [unreadNotification] = useState(0);
   const { t } = useTranslation();
   const location = useLocation();
+  const { isInitiallySaved, isSaving } = useContext(NewStoryContext);
+  const isDraft = location.pathname === '/new-story' || location.pathname === '/edit';
+
   return (
     <HeaderWrapper>
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
           <LogoIcon alt="logo" src={Logo} />
           <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+          <If condition={isDraft}>
+            <StoryTypeText>Draft</StoryTypeText>
+            <SaveStatusText>{isSaving ? 'Saving...' : 'Saved'}</SaveStatusText>
+          </If>
         </LeftHeader>
         <RightHeader>
-          <If condition={location.pathname === '/new-story' || location.pathname === '/edit'}>
-            <PublishButton style={{ marginRight: 32 }}>
+          <If condition={isDraft}>
+            <PublishButton style={{ marginRight: 32, opacity: isInitiallySaved ? 1 : 0.5 }}>
               <PublishButtonText>Publish</PublishButtonText>
             </PublishButton>
             <CommonFlexRow style={{ marginRight: 33 }}>
