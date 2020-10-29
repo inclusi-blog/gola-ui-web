@@ -2,7 +2,7 @@ import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
-import { GetInterests, UpdateInterests } from '../draft.service';
+import { GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -63,6 +63,18 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
     debounce((eventData) => GetSearchedInterests(eventData), 500),
     [selectedTags]
   );
+
+  useEffect(() => {
+    UpdatePreviewImage(postID, previewImage, '1')
+      .then(({ data }) => {
+        if (data.status === 'succes') {
+          setErrorStatus(null);
+        }
+      })
+      .catch(() => {
+        setErrorStatus(true);
+      });
+  }, [previewImage]);
 
   useEffect(() => {
     // eslint-disable-next-line no-console
