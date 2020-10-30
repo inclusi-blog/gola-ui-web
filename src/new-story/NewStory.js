@@ -25,17 +25,13 @@ const NewStory = ({ location: { pathname } }) => {
   const { setIsSaving, setIsInitiallySaved, setDraftID } = useContext(NewStoryContext);
   const [titleText, setTitleText] = useState('');
 
-  const SaveDraft = ({ title, post, commandToRun = () => {} }) => {
+  const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
-    let data = {
+    const data = {
       user_id: '1',
       draft_id: puid,
+      post_data: post,
     };
-    if (title) {
-      data = { ...data, title_data: title, target: 'title' };
-    } else {
-      data = { ...data, post_data: post, target: 'post' };
-    }
 
     ajax
       .post('/post/v1/draft/upsert-draft', data)
