@@ -9,6 +9,7 @@ import ProfileImg from 'assets/images/profile.png';
 import NotifyBell from 'common-components/NotifyBell';
 import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import { CommonFlexRow, SmallDots } from '../../common-components/InterestPostTile.style';
+import { PublishPost } from '../../new-story/draft.service';
 import {
   AppHeaderName,
   HeaderWrapper,
@@ -31,8 +32,23 @@ const Header = ({ location: { pathname } }) => {
   const [unreadNotification] = useState(0);
   const { t } = useTranslation();
   const location = useLocation();
-  const { isInitiallySaved, isSaving } = useContext(NewStoryContext);
+  const [, setRedirect] = useState(false);
+  const [, setError] = useState(null);
+  const { isInitiallySaved, isSaving, draftID } = useContext(NewStoryContext);
   const isDraft = location.pathname === '/new-story' || location.pathname === '/edit';
+
+  const onPublishDraft = () => {
+    PublishPost(draftID, '1')
+      .then(({ data }) => {
+        if (data.status === 'success') {
+          setRedirect(true);
+        }
+      })
+      .catch((err) => {
+        setRedirect(false);
+        setError(err?.response?.data?.errorCode);
+      });
+  };
 
   return (
     <HeaderWrapper>
@@ -47,7 +63,10 @@ const Header = ({ location: { pathname } }) => {
         </LeftHeader>
         <RightHeader>
           <If condition={isDraft}>
-            <PublishButton style={{ marginRight: 32, opacity: isInitiallySaved ? 1 : 0.5 }}>
+            <PublishButton
+              style={{ marginRight: 32, opacity: isInitiallySaved ? 1 : 0.5 }}
+              onClick={() => onPublishDraft()}
+            >
               <PublishButtonText>Publish</PublishButtonText>
             </PublishButton>
             <CommonFlexRow style={{ marginRight: 33 }}>

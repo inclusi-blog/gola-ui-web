@@ -19,10 +19,10 @@ const initialValue = [
 
 const NewStory = ({ location: { pathname } }) => {
   const [showSideBar, setShowSideBar] = useState(true);
-  const puid = uuidv4().substring(24);
+  const [puid] = useState(uuidv4().substring(24));
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
-  const { setIsSaving, setIsInitiallySaved } = useContext(NewStoryContext);
+  const { setIsSaving, setIsInitiallySaved, setDraftID } = useContext(NewStoryContext);
   const [titleText, setTitleText] = useState('');
 
   const SaveDraft = ({ title, post, commandToRun = () => {} }) => {
@@ -78,6 +78,7 @@ const NewStory = ({ location: { pathname } }) => {
 
   const changeRouteName = () => {
     setIsInitiallySaved(true);
+    setDraftID(puid);
     window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
   };
 

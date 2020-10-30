@@ -5,9 +5,10 @@ import Context from './NewStoryContext';
 const NewStoryProvider = ({ children }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isInitiallySaved, setIsInitiallySaved] = useState(false);
+  const [draftID, setDraftID] = useState(null);
 
   return (
-    <Context.Provider value={{ setIsInitiallySaved, isInitiallySaved, isSaving, setIsSaving }}>
+    <Context.Provider value={{ setIsInitiallySaved, isInitiallySaved, isSaving, setIsSaving, draftID, setDraftID }}>
       {children}
     </Context.Provider>
   );

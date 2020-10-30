@@ -1,5 +1,11 @@
 import ajax from '../helpers/ajaxHelper';
-import { GET_INTERESTS, SAVE_INTERESTS, SAVE_PREVIEW_IMAGE, SAVE_TAGLINE } from '../Config/api.routes.config';
+import {
+  GET_INTERESTS,
+  PUBLISH_DRAFT,
+  SAVE_INTERESTS,
+  SAVE_PREVIEW_IMAGE,
+  SAVE_TAGLINE,
+} from '../Config/api.routes.config';
 
 export const GetInterests = (searchKeyWord, selectedTags) =>
   ajax.post(GET_INTERESTS, { searchKeyword: searchKeyWord, selectedTags });
@@ -19,4 +25,10 @@ export const UpdatePreviewImage = (draftID, previewImage, userID) =>
     draft_id: draftID,
     user_id: userID,
     preview_image: previewImage,
+  });
+
+export const PublishPost = (draftID, userID) =>
+  ajax.post(PUBLISH_DRAFT, {
+    draft_id: draftID,
+    user_id: userID,
   });
