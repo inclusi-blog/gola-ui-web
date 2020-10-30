@@ -1,5 +1,5 @@
 import { debounce } from 'lodash';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -9,7 +9,6 @@ import ajax from '../helpers/ajaxHelper';
 import { SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
 import PreviewCard from './editor/PreviewCard';
-import TitleEditor from './editor/TitleEditor';
 import './fab-style.css';
 
 const initialValue = [
@@ -24,7 +23,7 @@ const NewStory = ({ location: { pathname } }) => {
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
   const { setIsSaving, setIsInitiallySaved } = useContext(NewStoryContext);
-  const [titleData, setTitleData] = useState(initialValue);
+  const [titleText, setTitleText] = useState('');
 
   const SaveDraft = ({ title, post, commandToRun = () => {} }) => {
     setIsSaving(true);
@@ -82,17 +81,6 @@ const NewStory = ({ location: { pathname } }) => {
     window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
   };
 
-  const onChangeTitle = (titleContent) => {
-    if (pathname === '/new-story') {
-      SaveDraft({
-        title: titleContent,
-        commandToRun: changeRouteName(),
-      });
-      return;
-    }
-    SaveDraft({ title: titleContent });
-  };
-
   const onChangeContent = (postData) => {
     if (pathname === '/new-story') {
       SaveDraft({
@@ -104,11 +92,25 @@ const NewStory = ({ location: { pathname } }) => {
     SaveDraft({ post: postData });
   };
 
-  const delayedHandleChangeTitle = useRef(debounce((eventData) => onChangeTitle(eventData), 5000)).current;
-  const delayedHandleChangeContent = useRef(debounce((eventData) => onChangeContent(eventData), 5000)).current;
+  const delayedHandleChangeContent = useRef(debounce((eventData) => onChangeContent(eventData), 2000)).current;
   const delayedHandleChangeTagline = useRef(
     debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000)
   ).current;
+
+  useEffect(() => {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < contentData.length; i++) {
+      let flag = 0;
+      if (contentData[i].children[0].text !== '') {
+        flag = 1;
+        setTitleText(contentData[i].children[0].text);
+        break;
+      }
+      if (flag) {
+        break;
+      }
+    }
+  }, [contentData.length]);
 
   return (
     <div
@@ -147,9 +149,9 @@ const NewStory = ({ location: { pathname } }) => {
           </div>
         </If>
         <div style={{ marginTop: 51 }}>
-          <If condition={titleData[0].children[0].text.length}>
+          <If condition={titleText.length}>
             <PreviewCard
-              title={titleData[0].children[0].text}
+              title={titleText}
               onChangeTagline={(tagline) => delayedHandleChangeTagline(tagline)}
               postID={puid}
             />
@@ -158,16 +160,9 @@ const NewStory = ({ location: { pathname } }) => {
         <div
           style={{
             width: '62%',
-            marginTop: titleData[0].children[0].text.length ? 83 : 246,
+            marginTop: titleText.length ? 83 : 246,
           }}
         >
-          <TitleEditor
-            value={titleData}
-            onChangeTitle={(changedTitle) => {
-              setTitleData(changedTitle);
-              delayedHandleChangeTitle(changedTitle);
-            }}
-          />
           <ContentEditor
             setShowSideBar={setShowSideBar}
             setClientRects={(rect) => {

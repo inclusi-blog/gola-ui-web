@@ -64,8 +64,8 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
     [selectedTags]
   );
 
-  useEffect(() => {
-    UpdatePreviewImage(postID, previewImage, '1')
+  const updateImage = (previewImageUrl) => {
+    UpdatePreviewImage(postID, previewImageUrl, '1')
       .then(({ data }) => {
         if (data.status === 'succes') {
           setErrorStatus(null);
@@ -74,14 +74,13 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
       .catch(() => {
         setErrorStatus(true);
       });
-  }, [previewImage]);
+  };
 
   useEffect(() => {
-    // eslint-disable-next-line no-console
     UpdateInterests(postID, selectedTags, '1')
       .then(() => setErrorStatus(false))
       .catch(() => setErrorStatus(true));
-  }, [selectedTags]);
+  }, [selectedTags.length]);
 
   useEffect(() => {
     if (ref && ref.current) {
@@ -121,6 +120,7 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
             'https://d14r87p68zn22t.cloudfront.net'
           );
           setPreviewImage(imageUrl);
+          updateImage(imageUrl);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
