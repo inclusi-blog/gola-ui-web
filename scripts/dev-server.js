@@ -26,7 +26,7 @@ app.use(webpackHotMiddleware(compiler, {
 }));
 
 const routerProxyConfig = {
-  '/post/v1': 'http://localhost:8080',
+  '/post/v1': 'https://api.gola.xyz/',
   '/idp/v1': 'http://localhost:9000',
   'api/v1': 'http://localhost:3001'
 };

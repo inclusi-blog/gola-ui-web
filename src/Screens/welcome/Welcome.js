@@ -3,7 +3,7 @@ import Pill from 'common-components/Pill';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router';
-import LoggedInContext from '../../context-providers/loggedin-provider/LoggedInContext';
+import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 

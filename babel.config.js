@@ -3,7 +3,7 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        useBuiltIns: 'usage',
+        useBuiltIns: 'entry',
         corejs: {
           version: 3,
           proposals: true,
@@ -19,6 +19,7 @@ module.exports = {
     "@babel/plugin-proposal-optional-chaining",
     'jsx-control-statements',
     'react-hot-loader/babel',
+    ['@babel/plugin-transform-runtime', { regenerator: true }],
     ['babel-plugin-styled-components', { ssr: false, displayName: true }],
     [
       'babel-plugin-module-resolver',
@@ -43,7 +44,7 @@ module.exports = {
       ],
     },
     production: {
-      plugins: ["transform-remove-console"],
+      plugins: ["transform-remove-console", "transform-react-remove-prop-types"],
     },
   },
 };

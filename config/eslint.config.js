@@ -1,3 +1,7 @@
+const OFF = 0;
+const ERROR = 2;
+const WARN = 1;
+
 module.exports = {
   env: {
     es6: true,
@@ -7,29 +11,30 @@ module.exports = {
   extends: ['airbnb', 'prettier', 'prettier/react', 'plugin:jest/all', 'plugin:jsx-control-statements/recommended', 'plugin:jsx-a11y/recommended'],
   plugins: ['import', 'compat', 'react-hooks', 'jest', 'module-resolver', 'jsx-control-statements'],
   rules: {
-    semi: [2, 'always'],
-    'comma-dangle': 0,
+    semi: [ERROR, 'always'],
+    'comma-dangle': OFF,
 
-    'compat/compat': 'warn',
-    'module-resolver/use-alias': 1,
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'react/jsx-wrap-multilines': 0,
-    'react/jsx-closing-tag-location': 0,
-    'react/jsx-no-undef': [2, { allowGlobals: true }],
-    'react/jsx-props-no-spreading': 0,
-    'react/no-multi-comp': 1,
+    'compat/compat': WARN,
+    'module-resolver/use-alias': [ERROR, { ignoreDepth: WARN }],
+    'react-hooks/rules-of-hooks': ERROR,
+    'react-hooks/exhaustive-deps': WARN,
+    'react/jsx-filename-extension': [WARN, { extensions: ['.js', '.jsx'] }],
+    'react/jsx-wrap-multilines': OFF,
+    'react/jsx-closing-tag-location': OFF,
+    'react/jsx-no-undef': [ERROR, { allowGlobals: true }],
+    'react/jsx-props-no-spreading': OFF,
+    'react/no-multi-comp': WARN,
+    'react/forbid-prop-types': WARN,
 
-    'jest/prefer-expect-assertions': 0,
-    'jest/lowercase-name': 0,
-    'jest/prefer-inline-snapshots': 0,
-    'jest/no-hooks': 0,
-    'jest/no-truthy-falsy': 0,
-    'jest/no-disabled-tests': 0,
+    'jest/prefer-expect-assertions': OFF,
+    'jest/lowercase-name': OFF,
+    'jest/prefer-inline-snapshots': OFF,
+    'jest/no-hooks': OFF,
+    'jest/no-truthy-falsy': OFF,
+    'jest/no-disabled-tests': OFF,
 
     'no-restricted-imports': [
-      'error',
+      ERROR,
       {
         paths: [
           {
@@ -48,11 +53,11 @@ module.exports = {
         ],
       },
     ],
-    'import/no-unresolved': [2, { ignore: ['appConfig'] }],
+    'import/no-unresolved': [ERROR, { ignore: ['appConfig'] }],
 
     'no-console': 'error'
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   settings: {
     'import/resolver': {
       'babel-module': {},
@@ -64,7 +69,8 @@ module.exports = {
     {
       files: ['*.test.js'],
       rules: {
-        'react/no-multi-comp': 0,
+        'react/no-multi-comp': OFF,
+        'react/prop-types': OFF
       },
     },
   ],
