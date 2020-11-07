@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+
+  build-env:
+    image: node:10-alpine
+    volumes:
+      - type: volume
+        source: ui_dep
+        target: /gola
+      - type: bind
+        source: ../
+        target: /gola/gola-ui-web
+    working_dir: /gola/gola-ui-web
+volumes:
+  ui_dep:
