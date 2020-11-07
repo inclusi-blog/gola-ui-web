@@ -5,11 +5,7 @@ echo "Installing dependencies"
 
 source $SOURCE_DIR/docker-artifactory-login.sh
 
-docker run \
-    -u `id -u`:`id -g` \
-    -v "$SOURCE_DIR"/..:/gola-ui-web \
-    node:10-alpine \
-    sh -c "cd /gola-ui-web && yarn install --frozen-lockfile"
+docker run -u `id -u`:`id -g` -v "$SOURCE_DIR"/..:/gola-ui-web node:10-alpine sh -c "sleep 10000"
 
 retVal=$?
 if [ $retVal -ne 0 ]; then
