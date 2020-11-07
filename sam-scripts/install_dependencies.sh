@@ -5,7 +5,7 @@ echo "Installing dependencies"
 
 source $SOURCE_DIR/docker-artifactory-login.sh
 
-docker run --rm \
+docker run \
     -u `id -u`:`id -g` \
     -v "$SOURCE_DIR"/..:/gola-ui-web \
     node:10-alpine \
