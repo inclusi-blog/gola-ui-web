@@ -4,8 +4,8 @@ services:
   build-env:
     image: node:10-alpine
     volumes:
-      - jenkins_home:/gola/gola-ui-web
-    working_dir: /gola/gola-ui-web
+      - jenkins_home:/gola
+    working_dir: /gola/gola-web-ui
 volumes:
   jenkins_home:
     external: true
