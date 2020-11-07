@@ -5,6 +5,7 @@ echo "Installing dependencies"
 
 source $SOURCE_DIR/docker-artifactory-login.sh
 
+echo "This is source directory $SOURCE_DIR"
 docker run -u `id -u`:`id -g` -v "$SOURCE_DIR"/..:/gola-ui-web node:10-alpine sh -c "sleep 10000"
 
 retVal=$?
