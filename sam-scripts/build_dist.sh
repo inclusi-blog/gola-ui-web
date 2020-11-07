@@ -12,9 +12,9 @@ source $SOURCE_DIR/docker-artifactory-login.sh
 
 docker run --rm \
     -u `id -u`:`id -g` \
-    -v $SOURCE_DIR/..:/gola-ui-web \
+    -v jenkins_home:/gola \
     node:10-alpine \
-    sh -c "cd /gola-ui-web && yarn build"
+    sh -c "cd /gola/gola-web-ui && yarn build"
 
 retVal=$?
 if [ $retVal -ne 0 ]; then
