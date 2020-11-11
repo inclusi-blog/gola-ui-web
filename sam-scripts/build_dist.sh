@@ -12,7 +12,7 @@ source $SOURCE_DIR/docker-artifactory-login.sh
 
 docker run --rm \
     -u `id -u`:`id -g` \
-    -v jenkins_home:/gola \
+    -v jenkins-home:/gola \
     node:10-alpine \
     sh -c "cd /gola/gola-web-ui && yarn build"
 
