@@ -1,12 +1,13 @@
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import ajax from '../helpers/ajaxHelper';
-import { SaveTagline } from './draft.service';
+import { GetDraft, SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
@@ -19,11 +20,16 @@ const initialValue = [
 
 const NewStory = ({ location: { pathname } }) => {
   const [showSideBar, setShowSideBar] = useState(true);
-  const [puid] = useState(uuidv4().substring(24));
+  const [puid, setPUID] = useState('');
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
   const { setIsSaving, setIsInitiallySaved, setDraftID } = useContext(NewStoryContext);
   const [titleText, setTitleText] = useState('');
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [previewImage, setPreviewImage] = useState('');
+  const [tagline, setTagline] = useState('');
+  const params = useParams();
 
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
@@ -46,10 +52,10 @@ const NewStory = ({ location: { pathname } }) => {
       });
   };
 
-  const SaveTaglineAndChangeRouteName = (tagline, commandToRun = {}) => {
+  const SaveTaglineAndChangeRouteName = (changedTagline, commandToRun = {}) => {
     setIsSaving(true);
     if (pathname === '/new-story') {
-      SaveTagline(puid, tagline, '1')
+      SaveTagline(puid, changedTagline, '1')
         .then(() => {
           commandToRun();
         })
@@ -59,7 +65,7 @@ const NewStory = ({ location: { pathname } }) => {
         });
       return;
     }
-    SaveTagline(puid, tagline, '1')
+    SaveTagline(puid, changedTagline, '1')
       .then(() => {
         setIsSaving(false);
         // eslint-disable-next-line no-console
@@ -89,10 +95,14 @@ const NewStory = ({ location: { pathname } }) => {
     SaveDraft({ post: postData });
   };
 
-  const delayedHandleChangeContent = useRef(debounce((eventData) => onChangeContent(eventData), 2000)).current;
-  const delayedHandleChangeTagline = useRef(
-    debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000)
-  ).current;
+  const delayedHandleChangeContent = useCallback(
+    debounce((eventData) => onChangeContent(eventData), 2000),
+    [puid]
+  );
+  const delayedHandleChangeTagline = useCallback(
+    debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000),
+    [puid]
+  );
 
   useEffect(() => {
     // eslint-disable-next-line no-plusplus
@@ -108,6 +118,24 @@ const NewStory = ({ location: { pathname } }) => {
       }
     }
   }, [contentData.length]);
+
+  useEffect(() => {
+    if (params?.draftId) {
+      GetDraft(params.draftId)
+        .then(({ data }) => {
+          setPUID(params.draftId);
+          setContentData(data.post_data);
+          setSelectedTags(data.interest);
+          setTagline(data.tagline);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('unable to get draft', err);
+        });
+    } else {
+      setPUID(uuidv4().substring(24));
+    }
+  }, []);
 
   return (
     <div
@@ -149,8 +177,18 @@ const NewStory = ({ location: { pathname } }) => {
           <If condition={titleText.length}>
             <PreviewCard
               title={titleText}
-              onChangeTagline={(tagline) => delayedHandleChangeTagline(tagline)}
+              onChangeTagline={(changedTagline) => {
+                setTagline(changedTagline);
+                delayedHandleChangeTagline(changedTagline);
+              }}
+              tagline={tagline}
               postID={puid}
+              previewImage={previewImage}
+              setPreviewImage={setPreviewImage}
+              selectedFile={selectedFile}
+              selectedTags={selectedTags}
+              setSelectedFile={setSelectedFile}
+              setSelectedTags={setSelectedTags}
             />
           </If>
         </div>

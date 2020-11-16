@@ -1,5 +1,5 @@
-import { debounce } from 'lodash';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
 import { GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
@@ -24,18 +24,25 @@ import {
 } from './PreviewCard.style';
 import ajax from '../../helpers/ajaxHelper';
 
-const PreviewCard = ({ title, onChangeTagline, postID }) => {
-  const [tagline, setTagline] = useState('');
+const PreviewCard = ({
+  title,
+  onChangeTagline,
+  postID,
+  previewImage,
+  setPreviewImage,
+  selectedFile,
+  setSelectedFile,
+  selectedTags,
+  setSelectedTags,
+  tagline,
+}) => {
   const [showInterestTagPills, setShowInterestTagPills] = useState(false);
   const [interestInputValue, setInterestInputValue] = useState('');
   const [suggestionBoxPosition, setSuggestionBoxPosition] = useState({ top: 0, left: 0 });
   const pickerRef = useRef(null);
   const [interestStore, setInterestStore] = useState([]);
   const [interestsList, setInterestsList] = useState([]);
-  const [selectedTags, setSelectedTags] = useState([]);
   const ref = useRef(null);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [previewImage, setPreviewImage] = useState('');
   const [, setErrorStatus] = useState(false);
 
   const GetSearchedInterests = (searchedValue) => {
@@ -160,8 +167,8 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
         <TaglineInput
           placeholder="Add tagline"
           showPen={tagline.length}
+          value={tagline}
           onChange={({ target }) => {
-            setTagline(target.value);
             onChangeTagline(target.value);
           }}
         />
@@ -234,10 +241,23 @@ const PreviewCard = ({ title, onChangeTagline, postID }) => {
   );
 };
 
+PreviewCard.defaultProps = {
+  selectedFile: null,
+};
+
 PreviewCard.propTypes = {
   title: PropTypes.string.isRequired,
   onChangeTagline: PropTypes.func.isRequired,
   postID: PropTypes.string.isRequired,
+  previewImage: PropTypes.string.isRequired,
+  setPreviewImage: PropTypes.func.isRequired,
+  selectedFile: PropTypes.shape({
+    fileName: PropTypes.string,
+  }),
+  setSelectedFile: PropTypes.func.isRequired,
+  selectedTags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  setSelectedTags: PropTypes.func.isRequired,
+  tagline: PropTypes.string.isRequired,
 };
 
 export default PreviewCard;

@@ -35,8 +35,9 @@ const Header = ({ location: { pathname } }) => {
   const [, setRedirect] = useState(false);
   const [, setError] = useState(null);
   const { isInitiallySaved, isSaving, draftID } = useContext(NewStoryContext);
-  const isDraft = location.pathname === '/new-story' || location.pathname === '/edit';
-
+  const isDraft =
+    location.pathname === '/new-story' ||
+    (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
   const onPublishDraft = () => {
     PublishPost(draftID, '1')
       .then(({ data }) => {

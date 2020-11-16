@@ -1,5 +1,6 @@
 import ajax from '../helpers/ajaxHelper';
 import {
+  GET_DRAFT,
   GET_INTERESTS,
   PUBLISH_DRAFT,
   SAVE_INTERESTS,
@@ -32,3 +33,5 @@ export const PublishPost = (draftID, userID) =>
     draft_id: draftID,
     user_id: userID,
   });
+
+export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}/${draftID}`);

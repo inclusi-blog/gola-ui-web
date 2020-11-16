@@ -12,6 +12,7 @@ const Main = () => {
   return (
     <Provider>
       <Switch>
+        <Route path="/p/:draftId/edit" component={NewStory} />
         <Route path="/me/stories" component={Stories} />
         <Route path="/userpublication" component={UserPublication} />
         <Route path="/interestpage" component={InterestPage} />
