@@ -8,7 +8,7 @@ export const PillWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) => (props.isSelected ? '#2C363F' : 'transparent')};
+  background: ${(props) => (props.isSelected ? '#03527C' : 'transparent')};
   margin-top: 27px;
   margin-left: 46px;
   padding-left: 30px;

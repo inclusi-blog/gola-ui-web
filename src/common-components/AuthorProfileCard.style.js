@@ -85,7 +85,7 @@ export const AuthorBio = styled.p`
 export const FollowersCount = styled.p`
   font-family: Poppins;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 600;
   font-size: 14px;
   line-height: 129%;
   color: #388697;
@@ -103,7 +103,7 @@ export const FollowButton = styled.div`
 `;
 
 export const FollowLabel = styled.p`
-  font-family: MuktaMalar;
+  font-family: Poppins;
   font-style: normal;
   font-weight: 300;
   font-size: 18px;

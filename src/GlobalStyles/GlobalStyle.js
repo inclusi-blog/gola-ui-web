@@ -49,6 +49,19 @@ const GlobalStyle = createGlobalStyle`
          
   }
   @font-face {
+    font-family: 'MuktaMalar';
+    font-style: normal;
+    font-weight: 400;
+    src: local('MuktaMalar'), local('MuktaMalar'),
+         url(${MuktaMalarEot})format('eot'), /* IE9 Compat Modes */
+         url(${MuktaMalarEot}?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(${MuktaMalarWoff2}) format('woff2'), /* Super Modern Browsers */
+         url(${MuktaMalarWoff}) format('woff'), /* Modern Browsers */
+         url(${MuktaMalarTtf}) format('truetype'), /* Safari, Android, iOS */
+       /*   url('../fonts/baloo-thambi-2-v1-latin-regular.svg#BalooThambi2') format('svg'), /* Legacy iOS */ */
+         
+  }
+  @font-face {
     font-family: 'Poppins';
     font-style: normal;
     font-weight: 400;
