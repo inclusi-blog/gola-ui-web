@@ -1,6 +1,6 @@
 import React from 'react';
 import AuthorProfile from 'assets/images/profile.png';
-import PostSharePalate from 'common-components/PostSharePalate';
+import PostSharePalatte from 'common-components/PostSharePalatte';
 import {
   AuthorProfilePic,
   AuthorName,
@@ -33,7 +33,7 @@ const ProfilePalatte = () => {
       </div>
 
       <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <PostSharePalate/>
+        <PostSharePalatte/>
       </div>
     </ApplyRow>
   );
