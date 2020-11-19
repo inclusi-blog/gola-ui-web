@@ -7,15 +7,17 @@ import HomePage from './Screens/HomePage';
 import Stories from './Screens/stories/Stories';
 import UserPublication from './Screens/user/UserPublication';
 import InterestPage from './Screens/Interestpage/InterestPage';
+import PostView from './Screens/postView/PostView';
 
 const Main = () => {
   return (
     <Provider>
       <Switch>
         <Route path="/p/:draftId/edit" component={NewStory} />
+        <Route path="/@:username/:post_url" component={PostView} /> 
         <Route path="/me/stories" component={Stories} />
-        <Route path="/userpublication" component={UserPublication} />
-        <Route path="/interestpage" component={InterestPage} />
+        <Route path="/user-publication" component={UserPublication} />
+        <Route path="/interest-page" component={InterestPage} />
         <Route path="/new-story" component={NewStory} />
         <Route path="/" component={HomePage} />
         <>
