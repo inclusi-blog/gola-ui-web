@@ -27,7 +27,7 @@ const isImageUrl = (url) => {
   return imageExtensions.includes(ext);
 };
 
-const withImages = (editor) => {
+export const withImages = (editor) => {
   const { insertData, isVoid } = editor;
 
   // eslint-disable-next-line no-param-reassign
@@ -77,7 +77,7 @@ const withImages = (editor) => {
   return editor;
 };
 
-const withLinks = (editor) => {
+export const withLinks = (editor) => {
   const { insertData, insertText, isInline } = editor;
 
   // eslint-disable-next-line no-param-reassign
