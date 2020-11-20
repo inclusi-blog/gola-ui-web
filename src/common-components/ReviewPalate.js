@@ -1,13 +1,11 @@
 import React from 'react';
-import {
+import { SuperHandSymbolOuterLine } from './ReviewPalate.style';
 
-} from './ReviewPalate.style';
-
-const ReviewPalate = () =>{
-return(
+const ReviewPalate = () => {
+  return (
     <div>
-        <SuperHandSymbolOuterLine />
+      <SuperHandSymbolOuterLine />
     </div>
-)
-} 
+  );
+};
 export default ReviewPalate;

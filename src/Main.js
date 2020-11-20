@@ -14,7 +14,7 @@ const Main = () => {
     <Provider>
       <Switch>
         <Route path="/p/:draftId/edit" component={NewStory} />
-        <Route path="/@:username/:post_url" component={PostView} /> 
+        <Route path="/@:username/:post_url" component={PostView} />
         <Route path="/me/stories" component={Stories} />
         <Route path="/user-publication" component={UserPublication} />
         <Route path="/interest-page" component={InterestPage} />

@@ -9,19 +9,18 @@ import {
   FollowButton,
   FollowLabel,
   ApplyRow,
-  ApplyColumn
+  ApplyColumn,
 } from './ProfilePalatte.style';
 
 const ProfilePalatte = () => {
-
   return (
-    <ApplyRow style={{ justifyContent: 'space-between'}}>
-      <div style={{display: 'flex'}}>
-        <ApplyRow style={{ alignItems: 'center'}}>
-          <AuthorProfilePic src={AuthorProfile}/>
-          <ApplyColumn style={{ marginLeft: 19, marginRight: 34}}>
+    <ApplyRow style={{ justifyContent: 'space-between' }}>
+      <div style={{ display: 'flex' }}>
+        <ApplyRow style={{ alignItems: 'center' }}>
+          <AuthorProfilePic src={AuthorProfile} />
+          <ApplyColumn style={{ marginLeft: 19, marginRight: 34 }}>
             <AuthorName>Swetha suresh</AuthorName>
-            <ApplyRow style={{ marginTop: 8, width: 133, justifyContent: 'space-between'}}>
+            <ApplyRow style={{ marginTop: 8, width: 133, justifyContent: 'space-between' }}>
               <PostedDate>8 July</PostedDate>
               <PostReadTime>5 min read</PostReadTime>
             </ApplyRow>
@@ -32,8 +31,8 @@ const ProfilePalatte = () => {
         </ApplyRow>
       </div>
 
-      <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-        <PostSharePalatte/>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <PostSharePalatte />
       </div>
     </ApplyRow>
   );
