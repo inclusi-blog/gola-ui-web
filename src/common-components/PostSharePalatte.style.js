@@ -1,27 +1,19 @@
 import styled from 'styled-components';
 
 export const TwitterIcon = styled.img`
-  width: 18px;
-  height: 16px;
-  margin-right: 31.98px;
+  margin-right: 24px;
 `;
 
 export const FacebookIcon = styled.img`
-  width: 11px;
-  height: 18.01px;
-  margin-right: 32px;
+  margin-right: 24px;
 `;
 
 export const WhatsAppIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-right: 25px;
+  margin-right: 24px;
 `;
 
 export const LinkedInIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 30px;
+  margin-right: 24px;
 `;
 
 export const SmallDots = styled.div`

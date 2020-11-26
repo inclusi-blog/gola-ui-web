@@ -1,8 +1,8 @@
 import React from 'react';
-import TwitterImg from 'assets/images/Twitter.png';
-import FacebookImg from 'assets/images/Facebook.svg';
-import WhatsAppImg from 'assets/images/whatsApp.svg';
-import LinkedInImg from 'assets/images/LinkedIn.svg';
+import TwitterImg from 'assets/images/eva_twitter.png';
+import FacebookImg from 'assets/images/eva_facebook.png';
+import WhatsAppImg from 'assets/images/eva_whatsapp.png';
+import LinkedInImg from 'assets/images/eva_linkedin.png';
 import { TwitterIcon, FacebookIcon, WhatsAppIcon, LinkedInIcon, SmallDots, ApplyRow } from './PostSharePalatte.style';
 
 const PostSharePalatte = () => {
