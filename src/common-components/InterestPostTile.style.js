@@ -14,6 +14,7 @@ export const InterestHeadLine = styled.p`
 
 export const InterestContent = styled.p`
   width: 450px;
+  height: 55px;
   font-family: Quando;
   font-style: normal;
   font-weight: normal;

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
-import SuperClickImg from 'assets/images/superclick.png';
+import SuperClickImg from 'assets/images/superClick.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
 import {
@@ -26,32 +26,39 @@ import {
 } from './InterestPostTile.style';
 
 const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnReadLaterChange }) => {
+  const {
+    interestHeadLine,
+    interestContent,
+    postDate,
+    postTag,
+    postName,
+    authorName,
+    isBookmarked,
+    isLiked,
+    isAddedToReadLater,
+    likeCount,
+    interestPostImage,
+  } = details;
   return (
     <InterestMainContainer style={{ marginTop: 32 }}>
       <CommonFlexColumn style={{ marginRight: 24 }}>
-        <InterestHeadLine>{details.interestHeadLine}</InterestHeadLine>
-        <InterestContent>{details.interestContent}</InterestContent>
+        <InterestHeadLine>{interestHeadLine}</InterestHeadLine>
+        <InterestContent>{interestContent}</InterestContent>
 
-        <CommonFlexRow style={{ marginTop: 7 }}>
-          <PostDate>{details.postDate}</PostDate>
-          <PostTag>{details.postTag}</PostTag>
-          <PostName>{details.postName}</PostName>
+        <CommonFlexRow style={{ marginTop: 7, marginBottom: 4 }}>
+          <PostDate>{postDate}</PostDate>
+          <PostTag>{postTag}</PostTag>
+          <PostName>{postName}</PostName>
         </CommonFlexRow>
 
         <CommonFlexRow style={{ justifyContent: 'space-between' }}>
-          <AuthorName> {details.authorName} </AuthorName>
+          <AuthorName> {authorName} </AuthorName>
           <CommonFlexRow>
             <CommonFlexEnd>
-              <Bookmark
-                src={details.isBookmarked ? BookmarkedImg : BookMarkImg}
-                onClick={() => onBookmarkChange(index)}
-              />
-              <ReadLater
-                src={details.isAddedToReadLater ? ReadLaterImg : LaterImg}
-                onClick={() => OnReadLaterChange(index)}
-              />
-              <HandSymbol src={details.isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
-              <LikeCount>{details.LikeCount}</LikeCount>
+              <Bookmark src={isBookmarked ? BookmarkedImg : BookMarkImg} onClick={() => onBookmarkChange(index)} />
+              <ReadLater src={isAddedToReadLater ? ReadLaterImg : LaterImg} onClick={() => OnReadLaterChange(index)} />
+              <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
+              <LikeCount>{likeCount}</LikeCount>
               <CommonFlexRow>
                 <SmallDots />
                 <SmallDots />
@@ -62,7 +69,7 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
         </CommonFlexRow>
         <div style={{ borderBottom: '1px solid black ', marginTop: 20 }} />
       </CommonFlexColumn>
-      <InterestPostImage src={details.interestPostImage} />
+      <InterestPostImage src={interestPostImage} />
     </InterestMainContainer>
   );
 };
@@ -74,7 +81,7 @@ InterestPostTile.propTypes = {
     postTag: PropTypes.string.isRequired,
     postName: PropTypes.string.isRequired,
     authorName: PropTypes.string.isRequired,
-    LikeCount: PropTypes.string.isRequired,
+    likeCount: PropTypes.number.isRequired,
     interestPostImage: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,
     isAddedToReadLater: PropTypes.bool.isRequired,
