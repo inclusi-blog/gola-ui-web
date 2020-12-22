@@ -3,22 +3,17 @@ import PropTypes from 'prop-types';
 import { useLocation, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from 'assets/images/logo.png';
-import SearchImg from 'assets/images/search.svg';
-import BookmarkImg from 'assets/images/bookmark.svg';
 import ProfileImg from 'assets/images/profile.png';
-import NotifyBell from 'common-components/NotifyBell';
 import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import { CommonFlexRow, SmallDots } from '../../common-components/InterestPostTile.style';
 import { PublishPost } from '../../new-story/draft.service';
+import RightHeaderContainer from './RightHeaderContainer';
 import {
   AppHeaderName,
   HeaderWrapper,
   LeftHeader,
   LogoIcon,
   RightHeader,
-  Explore,
-  SearchIcon,
-  Bookmark,
   ProfileIcon,
   PublishButton,
   PublishButtonText,
@@ -29,7 +24,6 @@ import LanguageChangeButton from '../LanugageChangeButton';
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({ location: { pathname } }) => {
-  const [unreadNotification] = useState(0);
   const { t } = useTranslation();
   const location = useLocation();
   const [, setRedirect] = useState(false);
@@ -75,11 +69,9 @@ const Header = ({ location: { pathname } }) => {
               <SmallDots />
               <SmallDots />
             </CommonFlexRow>
-            <NotifyBell unreadNotification={unreadNotification} />
+            <RightHeaderContainer />
             <Else />
-            <Explore>Explore</Explore>
-            <SearchIcon src={SearchImg} />
-            <Bookmark src={BookmarkImg} />
+            <RightHeaderContainer />
           </If>
           <ProfileIcon src={ProfileImg} />
           <LanguageChangeButton />
