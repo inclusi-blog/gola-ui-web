@@ -12,12 +12,13 @@ import {
   PublishLabel,
 } from './DraftList.style';
 
-const DraftList = ({ draftContent }) => {
-  const gettingTagList = () => {
+const DraftTile = ({ draftContent }) => {
+  const getTagList = () => {
     return draftContent.interestTag.map((tag) => {
       return <TagList>{tag}</TagList>;
     });
   };
+
   return (
     <div>
       <ApplyColumn>
@@ -25,7 +26,7 @@ const DraftList = ({ draftContent }) => {
         <Tagline>{draftContent.tagline}</Tagline>
         <ApplyRow style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 11 }}>
           <Date>{draftContent.createdDate}</Date>
-          {gettingTagList()}
+          {getTagList()}
           <ApplyRow>
             <SmallDots />
             <SmallDots />
@@ -42,12 +43,14 @@ const DraftList = ({ draftContent }) => {
     </div>
   );
 };
-DraftList.propTypes = {
+
+DraftTile.propTypes = {
   draftContent: PropTypes.shape({
-    interestTag: PropTypes.shape.isRequired,
+    interestTag: PropTypes.arrayOf(PropTypes.string).isRequired,
     title: PropTypes.string.isRequired,
     tagline: PropTypes.string.isRequired,
     createdDate: PropTypes.string.isRequired,
-  }),
+  }).isRequired,
 };
-export default DraftList;
+
+export default DraftTile;

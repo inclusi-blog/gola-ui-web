@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
-import SuperClickImg from 'assets/images/superClick.png';
+import SuperClickImg from 'assets/images/superclick.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
 import {

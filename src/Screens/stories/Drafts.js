@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import DraftList from 'common-components/DraftList';
+import DraftTile from 'common-components/DraftTile';
 
 const Drafts = () => {
   const [drafts] = useState([
@@ -18,8 +18,9 @@ const Drafts = () => {
   ]);
 
   const getDraftList = () => {
-    return drafts.map((draft) => <DraftList draftContent={draft} />);
+    return drafts.map((draft) => <DraftTile draftContent={draft} />);
   };
+
   return <div>{getDraftList()}</div>;
 };
 
