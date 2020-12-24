@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import { useIdleTimer } from 'react-idle-timer';
 import ProfilePalatte from 'common-components/ProfilePalatte';
 import ReviewPalatte from 'common-components/ReviewPalatte';
 import HeroPostPhoto from 'assets/images/HeroPostPhoto.png';
@@ -36,7 +37,24 @@ import {
 } from './PostView.style';
 import { InterestTag, InterestTagText } from '../../new-story/editor/PreviewCard.style';
 
+let hidden = null;
+let visibilityChange = null;
+if (typeof document.hidden !== 'undefined') {
+  // Opera 12.10 and Firefox 18 and later support
+  hidden = 'hidden';
+  visibilityChange = 'visibilitychange';
+} else if (typeof document.msHidden !== 'undefined') {
+  hidden = 'msHidden';
+  visibilityChange = 'msvisibilitychange';
+} else if (typeof document.webkitHidden !== 'undefined') {
+  hidden = 'webkitHidden';
+  visibilityChange = 'webkitvisibilitychange';
+}
+
 const PostView = () => {
+  const [timerStatus, setTimerStatus] = useState('start');
+  const [time, setTime] = useState(0);
+  const [timer, setTimer] = useState(0);
   // eslint-disable-next-line camelcase,no-unused-vars
   const { post_url, username } = useParams();
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
@@ -81,6 +99,64 @@ const PostView = () => {
     likeCount: 5000,
     commentCount: 12,
   });
+
+  const pauseTimer = () => {
+    clearInterval(timer);
+    setTimerStatus('pause');
+  };
+
+  const startTimer = () => {
+    if (timerStatus === 'pause' || timerStatus === 'start') {
+      setTimer(setInterval(() => setTime((oldTime) => oldTime + 1), 1000));
+      setTimerStatus('resume');
+    }
+  };
+
+  const compensateTimer = (seconds) => {
+    setTime((oldTime) => oldTime - seconds);
+  };
+
+  const handleVisibilityChange = useCallback(() => {
+    if (document[hidden]) {
+      pauseTimer();
+    } else {
+      startTimer();
+    }
+  }, [timerStatus, time, timer]);
+
+  const handleOnIdle = () => {
+    if (timerStatus === 'pause') {
+      return;
+    }
+    pauseTimer();
+    compensateTimer(6);
+  };
+  const handleOnActive = () => {
+    startTimer();
+  };
+
+  useIdleTimer({
+    timeout: 1000 * 6,
+    onIdle: handleOnIdle,
+    onActive: handleOnActive,
+    debounce: 0,
+  });
+
+  useEffect(() => {
+    startTimer();
+  }, []);
+
+  useEffect(() => {
+    if (time !== 0 && time % 60 === 0) {
+      // eslint-disable-next-line no-console
+      console.log('---call api---(feature yet to develop)');
+    }
+  }, [time]);
+
+  useEffect(() => {
+    document.addEventListener(visibilityChange, handleVisibilityChange, false);
+    return () => document.removeEventListener(visibilityChange, handleVisibilityChange);
+  }, [handleVisibilityChange]);
 
   const getInterestPills = () => {
     return post.interests.map((item) => (
