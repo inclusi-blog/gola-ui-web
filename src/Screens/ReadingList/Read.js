@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Read = () =>{
-return(
+const Read = () => {
+  return (
     <div>
-        <p>This is Read</p>
+      <p>This is Read</p>
     </div>
-)
-}
+  );
+};
 export default Read;

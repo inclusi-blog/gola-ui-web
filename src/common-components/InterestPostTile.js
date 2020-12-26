@@ -67,7 +67,7 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
             </CommonFlexEnd>
           </CommonFlexRow>
         </CommonFlexRow>
-        <div style={{ borderBottom: '1px solid black ', marginTop: 20 }} />
+        <div style={{ borderBottom: '1px solid #DEE3ED ', marginTop: 20 }} />
       </CommonFlexColumn>
       <InterestPostImage src={interestPostImage} />
     </InterestMainContainer>

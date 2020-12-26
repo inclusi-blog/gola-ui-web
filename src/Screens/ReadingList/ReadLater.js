@@ -1,12 +1,5 @@
 import React, { useState } from 'react';
-import InterestPostTile from 'common-components/InterestPostTile';
-import RemoveImg from 'assets/images/close.svg';
-import {
-  RemoveCircleContainer,
-  RemoveIcon,
-  ApplyRow,
-  HoverComponent
-} from './ReadingList.style';
+import ReadLaterTile from './ReadLaterTile';
 
 const ReadLater = () => {
   const [postDetails, setPostDetails] = useState([
@@ -20,6 +13,7 @@ const ReadLater = () => {
       likeCount: 1500,
       interestPostImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
       isBookmarked: false,
+      isAddedToReadLater: false,
       isLiked: false,
     },
     {
@@ -32,6 +26,7 @@ const ReadLater = () => {
       likeCount: 1500,
       interestPostImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
       isBookmarked: false,
+      isAddedToReadLater: false,
       isLiked: false,
     },
   ]);
@@ -58,28 +53,28 @@ const ReadLater = () => {
     );
   };
 
+  const OnReadLaterStatusChange = (selectedIndex) => {
+    setPostDetails(
+      postDetails.map((post, index) => {
+        if (index === selectedIndex) {
+          return { ...post, isAddedToReadLater: !post.isAddedToReadLater };
+        }
+        return post;
+      })
+    );
+  };
+
   const getPostDetails = () => {
     return postDetails.map((post, index) => (
-      <ApplyRow>
-        <InterestPostTile
-          details={post}
-          index={index}
-          OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
-          onBookmarkChange={(selectedIndex) => OnBookmarkStatusChange(selectedIndex)}
-        />
-        <div style={{ marginTop: 98 }}>
-          <RemoveCircleContainer>
-          <HoverComponent>Remove</HoverComponent>
-            <RemoveIcon src={RemoveImg} />
-          </RemoveCircleContainer>
-        </div>
-      </ApplyRow>
+      <ReadLaterTile
+        OnLikeChange={OnLikeStatusChange}
+        OnBookmarkChange={OnBookmarkStatusChange}
+        post={post}
+        index={index}
+        OnReadLaterChange={OnReadLaterStatusChange}
+      />
     ));
   };
-  return (
-    <div>
-      {getPostDetails()}
-    </div>
-  )
-}
+  return <div>{getPostDetails()}</div>;
+};
 export default ReadLater;

@@ -17,7 +17,7 @@ const Main = () => {
         <Route path="/p/:draftId/edit" component={NewStory} />
         <Route path="/@:username/:post_url" component={PostView} />
         <Route path="/me/stories" component={Stories} />
-        <Route path="/reading-list" component={ReadingList}/>
+        <Route path="/reading-list" component={ReadingList} />
         <Route path="/user-publication" component={UserPublication} />
         <Route path="/interest-page" component={InterestPage} />
         <Route path="/new-story" component={NewStory} />
