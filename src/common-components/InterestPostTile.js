@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
-import SuperClickImg from 'assets/images/superclick.png';
+import SuperClickImg from 'assets/images/superClick.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
 import {
@@ -26,6 +27,10 @@ import {
 } from './InterestPostTile.style';
 
 const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnReadLaterChange }) => {
+  const location = useLocation();
+  const isSavedPage = location.pathname === '/reading-list/saved';
+  const isReadLaterPage = location.pathname === '/reading-list/read-later';
+
   const {
     interestHeadLine,
     interestContent,
@@ -55,8 +60,15 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
           <AuthorName> {authorName} </AuthorName>
           <CommonFlexRow>
             <CommonFlexEnd>
-              <Bookmark src={isBookmarked ? BookmarkedImg : BookMarkImg} onClick={() => onBookmarkChange(index)} />
-              <ReadLater src={isAddedToReadLater ? ReadLaterImg : LaterImg} onClick={() => OnReadLaterChange(index)} />
+              <If condition={!isSavedPage}>
+                <Bookmark src={isBookmarked ? BookmarkedImg : BookMarkImg} onClick={() => onBookmarkChange(index)} />
+              </If>
+              <If condition={!isReadLaterPage}>
+                <ReadLater
+                  src={isAddedToReadLater ? ReadLaterImg : LaterImg}
+                  onClick={() => OnReadLaterChange(index)}
+                />
+              </If>
               <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
               <LikeCount>{likeCount}</LikeCount>
               <CommonFlexRow>
