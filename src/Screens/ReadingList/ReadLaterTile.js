@@ -36,23 +36,22 @@ const ReadLaterTile = ({ OnLikeChange, OnBookmarkChange, post, index, OnReadLate
 };
 
 ReadLaterTile.propTypes = {
-  OnLikeChange: PropTypes.func.isRequired,
-  OnBookmarkChange: PropTypes.func.isRequired,
-  OnReadLaterChange: PropTypes.func.isRequired,
   post: PropTypes.shape({
-    interestHeadLine: PropTypes.string.isRequired,
-    interestContent: PropTypes.string.isRequired,
-    postDate: PropTypes.string.isRequired,
-    postTag: PropTypes.string.isRequired,
-    postName: PropTypes.string.isRequired,
+    headLine: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    publishDate: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     authorName: PropTypes.string.isRequired,
     likeCount: PropTypes.number.isRequired,
-    interestPostImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,
     isAddedToReadLater: PropTypes.bool.isRequired,
     isLiked: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
+  OnLikeChange: PropTypes.func.isRequired,
+  onBookmarkChange: PropTypes.func.isRequired,
+  OnReadLaterChange: PropTypes.func.isRequired,
 };
 
 export default ReadLaterTile;

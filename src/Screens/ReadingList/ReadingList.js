@@ -18,7 +18,7 @@ const ReadingList = ({ match }) => {
       </RoutedTabs>
 
       <Switch>
-        <Route exact path={`${match.path}`} render={() => <Redirect replace to={`${match.path}/readLater`} />} />
+        <Route exact path={`${match.path}`} render={() => <Redirect replace to={`${match.path}/read-later`} />} />
         <Route path={`${match.path}/read-later`} component={ReadLater} />
         <Route path={`${match.path}/saved`} component={Saved} />
         <Route path={`${match.path}/read`} component={Read} />
