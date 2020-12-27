@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const InterestHeadLine = styled.p`
+export const PostHeadLine = styled.p`
   width: 450px;
   font-family: MuktaMalar;
   font-style: normal;
@@ -12,7 +12,7 @@ export const InterestHeadLine = styled.p`
   margin-bottom: 10px;
 `;
 
-export const InterestContent = styled.p`
+export const PostContent = styled.p`
   width: 450px;
   height: 55px;
   font-family: Quando;
@@ -24,7 +24,7 @@ export const InterestContent = styled.p`
   margin: 0;
 `;
 
-export const PostDate = styled.p`
+export const PublishDate = styled.p`
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
@@ -44,16 +44,6 @@ export const PostTag = styled.p`
   color: #3b3b58;
   margin: 0;
   margin-right: 6px;
-`;
-
-export const PostName = styled.p`
-  font-family: Poppins;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 21px;
-  color: #3b3b58;
-  margin: 0;
 `;
 
 export const AuthorName = styled.p`
@@ -105,7 +95,7 @@ export const SmallDots = styled.div`
   margin-left: 1.82px;
 `;
 
-export const InterestPostImage = styled.img`
+export const PostImage = styled.img`
   width: 168px;
   height: 168px;
 `;

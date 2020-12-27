@@ -9,11 +9,10 @@ import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
 import {
   InterestMainContainer,
-  InterestHeadLine,
-  InterestContent,
-  PostDate,
+  PostHeadLine,
+  PostContent,
+  PublishDate,
   PostTag,
-  PostName,
   AuthorName,
   Bookmark,
   ReadLater,
@@ -23,7 +22,7 @@ import {
   CommonFlexRow,
   CommonFlexColumn,
   CommonFlexEnd,
-  InterestPostImage,
+  PostImage,
 } from './InterestPostTile.style';
 
 const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnReadLaterChange }) => {
@@ -32,32 +31,36 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
   const isReadLaterPage = location.pathname === '/reading-list/read-later';
 
   const {
-    interestHeadLine,
-    interestContent,
-    postDate,
-    postTag,
-    postName,
+    headLine,
+    content,
+    publishDate,
+    tags,
     authorName,
     isBookmarked,
     isLiked,
     isAddedToReadLater,
     likeCount,
-    interestPostImage,
+    previewImage,
   } = details;
+
+  const renderPostTags = () => {
+    return tags.map((tag) => {
+      return <PostTag>{tag}</PostTag>;
+    });
+  };
   return (
     <InterestMainContainer style={{ marginTop: 32 }}>
       <CommonFlexColumn style={{ marginRight: 24 }}>
-        <InterestHeadLine>{interestHeadLine}</InterestHeadLine>
-        <InterestContent>{interestContent}</InterestContent>
+        <PostHeadLine>{headLine}</PostHeadLine>
+        <PostContent>{content}</PostContent>
 
         <CommonFlexRow style={{ marginTop: 7, marginBottom: 4 }}>
-          <PostDate>{postDate}</PostDate>
-          <PostTag>{postTag}</PostTag>
-          <PostName>{postName}</PostName>
+          <PublishDate>{publishDate}</PublishDate>
+          {renderPostTags()}
         </CommonFlexRow>
 
         <CommonFlexRow style={{ justifyContent: 'space-between' }}>
-          <AuthorName> {authorName} </AuthorName>
+          <AuthorName> {authorName}</AuthorName>
           <CommonFlexRow>
             <CommonFlexEnd>
               <If condition={!isSavedPage}>
@@ -81,20 +84,19 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
         </CommonFlexRow>
         <div style={{ borderBottom: '1px solid #DEE3ED ', marginTop: 20 }} />
       </CommonFlexColumn>
-      <InterestPostImage src={interestPostImage} />
+      <PostImage src={previewImage} />
     </InterestMainContainer>
   );
 };
 InterestPostTile.propTypes = {
   details: PropTypes.shape({
-    interestHeadLine: PropTypes.string.isRequired,
-    interestContent: PropTypes.string.isRequired,
-    postDate: PropTypes.string.isRequired,
-    postTag: PropTypes.string.isRequired,
-    postName: PropTypes.string.isRequired,
+    headLine: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    publishDate: PropTypes.string.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
     authorName: PropTypes.string.isRequired,
     likeCount: PropTypes.number.isRequired,
-    interestPostImage: PropTypes.string.isRequired,
+    previewImage: PropTypes.string.isRequired,
     isBookmarked: PropTypes.bool.isRequired,
     isAddedToReadLater: PropTypes.bool.isRequired,
     isLiked: PropTypes.bool.isRequired,
