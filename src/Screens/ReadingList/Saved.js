@@ -1,10 +1,7 @@
 import React from 'react';
+import ReadLater from './ReadLater';
 
 const Saved = () => {
-  return (
-    <div>
-      <p>This is saved</p>
-    </div>
-  );
+  return <ReadLater />;
 };
 export default Saved;
