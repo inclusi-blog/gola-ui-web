@@ -50,7 +50,7 @@ ReadLaterTile.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   OnLikeChange: PropTypes.func.isRequired,
-  onBookmarkChange: PropTypes.func.isRequired,
+  OnBookmarkChange: PropTypes.func.isRequired,
   OnReadLaterChange: PropTypes.func.isRequired,
 };
 

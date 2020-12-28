@@ -4,9 +4,10 @@ import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
-import SuperClickImg from 'assets/images/superClick.png';
+import SuperClickImg from 'assets/images/superclick.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
+import convertPostLikesCount from 'utils/commonUtils';
 import {
   InterestMainContainer,
   PostHeadLine,
@@ -73,7 +74,7 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
                 />
               </If>
               <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
-              <LikeCount>{likeCount}</LikeCount>
+              <LikeCount>{convertPostLikesCount(likeCount)}</LikeCount>
               <CommonFlexRow>
                 <SmallDots />
                 <SmallDots />
