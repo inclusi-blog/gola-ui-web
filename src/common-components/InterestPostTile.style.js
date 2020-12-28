@@ -121,3 +121,9 @@ export const InterestMainContainer = styled.div`
   flex-direction: row;
   width: fit-content;
 `;
+
+export const EditIcon = styled.img`
+  width: 15px;
+  height: 15px;
+  margin-right: 2px;
+`;

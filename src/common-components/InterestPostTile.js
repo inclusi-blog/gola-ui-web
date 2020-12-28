@@ -4,14 +4,16 @@ import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
-import SuperClickImg from 'assets/images/superclick.png';
+import SuperClickImg from 'assets/images/SuperClick.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
+import EditImg from 'assets/images/Edit.svg';
 import convertPostLikesCount from 'utils/commonUtils';
 import {
   InterestMainContainer,
   PostHeadLine,
   PostContent,
+  EditIcon,
   PublishDate,
   PostTag,
   AuthorName,
@@ -42,6 +44,7 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
     isAddedToReadLater,
     likeCount,
     previewImage,
+    isRecentEdit,
   } = details;
 
   const renderPostTags = () => {
@@ -55,7 +58,10 @@ const InterestPostTile = ({ details, index, OnLikeChange, onBookmarkChange, OnRe
         <PostHeadLine>{headLine}</PostHeadLine>
         <PostContent>{content}</PostContent>
 
-        <CommonFlexRow style={{ marginTop: 7, marginBottom: 4 }}>
+        <CommonFlexRow style={{ marginTop: 7, marginBottom: 4, alignItems: 'center' }}>
+          <If condition={isRecentEdit}>
+            <EditIcon src={EditImg} />
+          </If>
           <PublishDate>{publishDate}</PublishDate>
           {renderPostTags()}
         </CommonFlexRow>
@@ -101,6 +107,7 @@ InterestPostTile.propTypes = {
     isBookmarked: PropTypes.bool.isRequired,
     isAddedToReadLater: PropTypes.bool.isRequired,
     isLiked: PropTypes.bool.isRequired,
+    isRecentEdit: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   OnLikeChange: PropTypes.func.isRequired,
