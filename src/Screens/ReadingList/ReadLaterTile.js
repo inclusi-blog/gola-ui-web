@@ -47,6 +47,7 @@ ReadLaterTile.propTypes = {
     isBookmarked: PropTypes.bool.isRequired,
     isAddedToReadLater: PropTypes.bool.isRequired,
     isLiked: PropTypes.bool.isRequired,
+    isRecentEdit: PropTypes.bool.isRequired,
   }).isRequired,
   index: PropTypes.number.isRequired,
   OnLikeChange: PropTypes.func.isRequired,

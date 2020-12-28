@@ -14,6 +14,7 @@ const ReadLater = () => {
       isBookmarked: false,
       isAddedToReadLater: false,
       isLiked: false,
+      isRecentEdit: true,
     },
     {
       headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
@@ -26,6 +27,7 @@ const ReadLater = () => {
       isBookmarked: false,
       isAddedToReadLater: false,
       isLiked: false,
+      isRecentEdit: false,
     },
   ]);
 

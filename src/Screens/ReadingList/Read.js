@@ -1,10 +1,7 @@
 import React from 'react';
+import Published from '../stories/Published';
 
 const Read = () => {
-  return (
-    <div>
-      <p>This is Read</p>
-    </div>
-  );
+  return <Published />;
 };
 export default Read;
