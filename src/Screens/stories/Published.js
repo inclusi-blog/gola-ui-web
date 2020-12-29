@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import InterestPostTile from 'common-components/InterestPostTile';
+import PostTile from 'common-components/PostTile';
 
 const Published = () => {
   const [postDetails, setPostDetails] = useState([
@@ -92,7 +92,7 @@ const Published = () => {
 
   const getPostDetails = () => {
     return postDetails.map((post, index) => (
-      <InterestPostTile
+      <PostTile
         details={post}
         index={index}
         OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RemoveImg from 'assets/images/close.svg';
-import InterestPostTile from 'common-components/InterestPostTile';
+import PostTile from 'common-components/PostTile';
 import { RemoveCircleContainer, RemoveIcon, ApplyRow, HoverComponent, RemoveLabel } from './ReadingList.style';
 
 const ReadLaterTile = ({ OnLikeChange, OnBookmarkChange, post, index, OnReadLaterChange }) => {
   const [removeTipPosition, setRemoveTipPosition] = useState(0);
   return (
     <ApplyRow>
-      <InterestPostTile
+      <PostTile
         details={post}
         index={index}
         OnLikeChange={(selectedIndex) => OnLikeChange(selectedIndex)}
