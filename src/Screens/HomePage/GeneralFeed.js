@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HeroPostPic from 'assets/images/HeroPostPhoto.png';
 import Super from 'assets/images/Super.png';
 import SidePostPic from 'assets/images/SidePostPhoto.png';
 import BookMark from 'assets/images/Bookmark.png';
 import ReadLater from 'assets/images/Later.png';
 import ThreeDots from 'assets/images/Dot.png';
+import PinImg from 'assets/images/Pin.svg';
 import {
   GeneralPostsContainer,
   SidePostContainer,
@@ -24,9 +25,11 @@ import {
   PostBookMark,
   PostReadLater,
   PostDots,
+  PinIcon,
 } from './GeneralFeed.style';
 
 const GeneralFeed = () => {
+  const isAdminPost = useState('true');
   return (
     <div>
       <GeneralPostsContainer style={{ display: 'flex', flexDirection: 'row' }}>
@@ -309,8 +312,11 @@ const GeneralFeed = () => {
                 </div>
               </div>
             </div>
-            <div style={{ display: 'flex', width: 168, height: 168, marginLeft: 24 }}>
+            <div style={{ display: 'flex', width: 168, height: 168, marginLeft: 24, flexDirection: 'row' }}>
               <PostPicture src={SidePostPic} width={168} height={168} />
+              <If condition={isAdminPost}>
+                <PinIcon src={PinImg} />
+              </If>
             </div>
           </div>
           <HorizontalLine style={{ width: 438, height: 0, right: 260, top: 349, marginTop: 20, marginBottom: 20 }} />

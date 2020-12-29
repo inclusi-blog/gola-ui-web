@@ -130,3 +130,11 @@ export const PostDots = styled.img`
   background: #3b3b58;
   color: ${(props) => (props.isSelected ? '#FA163F' : '#2C363F')};
 `;
+
+export const PinIcon = styled.img`
+  width: 17px;
+  height: 17px;
+  position: absolute;
+  margin-left: 148px;
+  margin-top: 147px;
+`;
