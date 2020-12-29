@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import FollowerPic from 'assets/images/followerPic.svg';
-import InterestPostTile from 'common-components/InterestPostTile';
+import PostTile from 'common-components/PostTile';
 import {
   MainContainer,
   PageTitle,
@@ -102,7 +102,7 @@ const InterestPage = () => {
 
   const getPostDetails = () => {
     return postDetails.map((post, index) => (
-      <InterestPostTile
+      <PostTile
         details={post}
         index={index}
         OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
