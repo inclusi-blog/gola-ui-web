@@ -34,7 +34,7 @@ const NewStory = ({ location: { pathname } }) => {
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
     const data = {
-      user_id: '1',
+      user_id: 'some-user',
       draft_id: puid,
       post_data: post,
     };
@@ -125,7 +125,9 @@ const NewStory = ({ location: { pathname } }) => {
         .then(({ data }) => {
           setPUID(params.draftId);
           setContentData(data.post_data);
-          setSelectedTags(data.interest);
+          if (data.interest) {
+            setSelectedTags(data.interest);
+          }
           setTagline(data.tagline);
         })
         .catch((err) => {

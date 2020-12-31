@@ -39,7 +39,7 @@ const Header = ({ location: { pathname } }) => {
     location.pathname === '/new-story' ||
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
   const onPublishDraft = () => {
-    PublishPost(draftID, '1')
+    PublishPost(draftID)
       .then(({ data }) => {
         if (data.status === 'success') {
           setRedirect(true);

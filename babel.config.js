@@ -31,7 +31,8 @@ module.exports = {
           "common-components": "./src/common-components",
           "context-providers": "./src/context-providers",
           "global-styles": "./src/GlobalStyles",
-          "assets" : "./src/assets"
+          "assets" : "./src/assets",
+          "helpers": './src/helpers'
         },
       },
     ],
