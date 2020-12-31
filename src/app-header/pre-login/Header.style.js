@@ -1,6 +1,6 @@
 import styled from 'styled-components';
+import { mediaquery } from 'helpers/styleHelper';
 import Z_INDEX from '../../constants/zIndex';
-import { mediaquery } from '../../helpers/styleHelper';
 
 export const HeaderWrapper = styled.header`
   z-index: ${Z_INDEX.HEADER};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import ajax from '../../helpers/ajaxHelper';
+import ajax from 'helpers/ajaxHelper';
 
 const useQuery = () => {
   // eslint-disable-next-line compat/compat

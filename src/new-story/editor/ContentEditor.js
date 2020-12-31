@@ -7,7 +7,7 @@ import { Slate, Editable, withReact, ReactEditor } from 'slate-react';
 import { withHistory } from 'slate-history';
 import LinkTooltip from 'common-components/LinkTooltip';
 import Context from 'context-providers/HoverProvider/Context';
-import ajax from '../../helpers/ajaxHelper';
+import ajax from 'helpers/ajaxHelper';
 import Element from './components/Element';
 import HoveringToolbar from './HoveringToolbar';
 import Leaf from './Leaf';
