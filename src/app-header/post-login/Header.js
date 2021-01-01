@@ -34,7 +34,7 @@ const Header = ({ location: { pathname } }) => {
   const location = useLocation();
   const [, setRedirect] = useState(false);
   const [, setError] = useState(null);
-  const { isInitiallySaved, isSaving, draftID } = useContext(NewStoryContext);
+  const { isInitiallySaved, isSaving, draftID, isPublished } = useContext(NewStoryContext);
   const isDraft =
     location.pathname === '/new-story' ||
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
@@ -66,9 +66,13 @@ const Header = ({ location: { pathname } }) => {
           <If condition={isDraft}>
             <PublishButton
               style={{ marginRight: 32, opacity: isInitiallySaved ? 1 : 0.5 }}
-              onClick={() => onPublishDraft()}
+              onClick={() => {
+                if (!isPublished) {
+                  onPublishDraft();
+                }
+              }}
             >
-              <PublishButtonText>Publish</PublishButtonText>
+              <PublishButtonText>{isPublished ? 'Save' : 'Publish'}</PublishButtonText>
             </PublishButton>
             <CommonFlexRow style={{ marginRight: 33 }}>
               <SmallDots />

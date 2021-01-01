@@ -23,7 +23,7 @@ const NewStory = ({ location: { pathname } }) => {
   const [puid, setPUID] = useState('');
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
-  const { setIsSaving, setIsInitiallySaved, setDraftID } = useContext(NewStoryContext);
+  const { setIsSaving, setIsInitiallySaved, setDraftID, setIsPublished } = useContext(NewStoryContext);
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -134,6 +134,7 @@ const NewStory = ({ location: { pathname } }) => {
           setTagline(data.tagline);
           setIsInitiallySaved(true);
           setDraftID(params.draftId);
+          setIsPublished(data.is_published);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
