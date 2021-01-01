@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
 import ajax from 'helpers/ajaxHelper';
-import { GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
+import { DeleteInterest, GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -104,6 +104,15 @@ const PreviewCard = ({
 
   const removeSelectedTag = (selectedIndex) => {
     setSelectedTags(selectedTags.filter((item, index) => selectedIndex !== index));
+    DeleteInterest(postID, selectedTags[selectedIndex])
+      .then(() => {
+        // eslint-disable-next-line no-console
+        console.log('deleted interest connection');
+      })
+      .catch((err) =>
+        // eslint-disable-next-line no-console
+        console.log(err)
+      );
   };
 
   useEffect(() => {

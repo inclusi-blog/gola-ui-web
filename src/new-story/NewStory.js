@@ -128,7 +128,12 @@ const NewStory = ({ location: { pathname } }) => {
           if (data.interest) {
             setSelectedTags(data.interest);
           }
+          if (data.preview_image) {
+            setPreviewImage(data.preview_image);
+          }
           setTagline(data.tagline);
+          setIsInitiallySaved(true);
+          setDraftID(params.draftId);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
