@@ -81,7 +81,7 @@ const Header = ({ location: { pathname } }) => {
             </CommonFlexRow>
             <NotifyBell unreadNotification={unreadNotification} />
             <Else />
-            <Explore>Explore</Explore>
+            <Explore onClick={() => setModalShow(true)}>Explore</Explore>
             <SearchIcon src={SearchImg} />
             <Bookmark src={BookmarkImg} />
             <NotifyBell unreadNotification={unreadNotification} />

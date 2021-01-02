@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --curve: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 code {
@@ -43,4 +44,23 @@ body.ReactModal__Body--before-close > #root {
 .ReactModal__Overlay--before-close {
   opacity: 0;
   transform: translateX(-100px);
+}
+
+.slideIn{
+  animation: slideIn 0.5s var(--curve) 0s 1 normal backwards;
+}
+.slideOut{
+  animation: slideOut 0.5s var(--curve) 0s 1 normal forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-2rem);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

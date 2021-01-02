@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Pill from 'common-components/Pill';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
@@ -96,6 +96,17 @@ const Welcome = () => {
     ));
   };
 
+  const escFunction = (event) => {
+    if (event.keyCode === 27) {
+      setShowModal(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', escFunction, false);
+    return () => document.removeEventListener('keydown', escFunction, false);
+  });
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <If condition={isLoggedIn}>
@@ -108,6 +119,7 @@ const Welcome = () => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          filter: showModal ? 'blur(5px)' : 'none',
         }}
       >
         <div
@@ -132,12 +144,10 @@ const Welcome = () => {
         >
           <SignupText>Signup</SignupText>
         </SignupBorder>
-        <SignupOrSignInModal
-          showModal={showModal}
-          closeModal={() => setShowModal(false)}
-          isSignup={!!(modalName && modalName === 'signup')}
-        />
       </div>
+      <If condition={showModal}>
+        <SignupOrSignInModal onClose={() => setShowModal(false)} isSignup={!!(modalName && modalName === 'signup')} />
+      </If>
     </div>
   );
 };
