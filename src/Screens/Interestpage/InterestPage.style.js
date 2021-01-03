@@ -47,10 +47,11 @@ export const FollowButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const FollowLabel = styled.div`
-  font-family: Mukta Malar;
+  font-family: MuktaMalar;
   font-style: normal;
   font-weight: 300;
   font-size: 18px;

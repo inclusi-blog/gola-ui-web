@@ -1,16 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
-import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import ajax from '../helpers/ajaxHelper';
+import useDraft from '../hooks/useDraft';
+import useEscapeHandler from '../hooks/useEscapeHandler';
 import { GetDraft, SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
+import DraftPreviewModal from './preview-modal/DraftPreviewModal';
 
 const initialValue = [
   {
@@ -23,12 +25,22 @@ const NewStory = ({ location: { pathname } }) => {
   const [puid, setPUID] = useState('');
   const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
   const [contentData, setContentData] = useState(initialValue);
-  const { setIsSaving, setIsInitiallySaved, setDraftID, setIsPublished } = useContext(NewStoryContext);
+  const {
+    setIsSaving,
+    setIsInitiallySaved,
+    setDraftID,
+    setIsPublished,
+    errorMessage,
+    setErrorMessage,
+    previewDraft,
+    setPreviewDraft,
+  } = useDraft();
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
   const [tagline, setTagline] = useState('');
+  const [showPreviewModal, setShowPreviewModal] = useState(false);
   const params = useParams();
 
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
@@ -145,6 +157,35 @@ const NewStory = ({ location: { pathname } }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (previewDraft) {
+      setShowPreviewModal(true);
+    } else {
+      setShowPreviewModal(false);
+    }
+  }, [previewDraft]);
+
+  useEffect(() => {
+    if (errorMessage) {
+      setShowPreviewModal(true);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (!showPreviewModal) {
+      setErrorMessage(null);
+      setPreviewDraft(null);
+    }
+  }, [showPreviewModal]);
+
+  useEscapeHandler({
+    onEscape: () => {
+      if (showPreviewModal) {
+        setShowPreviewModal(false);
+      }
+    },
+  });
+
   return (
     <div
       style={{
@@ -159,6 +200,7 @@ const NewStory = ({ location: { pathname } }) => {
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
+          filter: showPreviewModal ? 'blur(5px)' : 'none',
         }}
       >
         <If condition={showSideBar}>
@@ -218,6 +260,7 @@ const NewStory = ({ location: { pathname } }) => {
             value={contentData}
           />
         </div>
+        <DraftPreviewModal onClose={() => setShowPreviewModal(false)} showPreviewModal={showPreviewModal} />
       </div>
     </div>
   );

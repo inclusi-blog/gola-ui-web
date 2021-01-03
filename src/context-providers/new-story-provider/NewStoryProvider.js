@@ -7,6 +7,8 @@ const NewStoryProvider = ({ children }) => {
   const [isInitiallySaved, setIsInitiallySaved] = useState(false);
   const [draftID, setDraftID] = useState(null);
   const [isPublished, setIsPublished] = useState(false);
+  const [previewDraft, setPreviewDraft] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   return (
     <Context.Provider
@@ -19,6 +21,10 @@ const NewStoryProvider = ({ children }) => {
         setDraftID,
         isPublished,
         setIsPublished,
+        previewDraft,
+        setPreviewDraft,
+        errorMessage,
+        setErrorMessage,
       }}
     >
       {children}

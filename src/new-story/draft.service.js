@@ -3,6 +3,7 @@ import {
   DELETE_INTEREST,
   GET_DRAFT,
   GET_INTERESTS,
+  PREVIEW_DRAFT,
   PUBLISH_DRAFT,
   SAVE_INTERESTS,
   SAVE_PREVIEW_IMAGE,
@@ -43,3 +44,5 @@ export const DeleteInterest = (draftId, interest) =>
   });
 
 export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}/${draftID}`);
+
+export const GetPreviewDraft = (draftId) => ajax.get(`${PREVIEW_DRAFT}/${draftId}`);

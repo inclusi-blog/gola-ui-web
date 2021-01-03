@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,9 +7,8 @@ import ProfileImg from 'assets/images/profile.png';
 import SearchImg from 'assets/images/search.svg';
 import BookmarkImg from 'assets/images/bookmark.svg';
 import NotifyBell from 'common-components/NotifyBell';
-import NewStoryContext from 'context-providers/new-story-provider/NewStoryContext';
 import { CommonFlexRow, SmallDots } from 'common-components/PostTile.style';
-import { PublishPost } from '../../new-story/draft.service';
+import useDraft from 'hooks/useDraft';
 import {
   AppHeaderName,
   HeaderWrapper,
@@ -32,27 +31,13 @@ const Header = ({ location: { pathname } }) => {
   const [unreadNotification] = useState(0);
   const { t } = useTranslation();
   const location = useLocation();
-  const [, setRedirect] = useState(false);
-  const [, setError] = useState(null);
-  const { isInitiallySaved, isSaving, draftID, isPublished } = useContext(NewStoryContext);
+  const { FetchPreviewDraft, errorMessage, previewDraft, isInitiallySaved, isSaving, isPublished } = useDraft();
   const isDraft =
     location.pathname === '/new-story' ||
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
-  const onPublishDraft = () => {
-    PublishPost(draftID)
-      .then(({ data }) => {
-        if (data.status === 'success') {
-          setRedirect(true);
-        }
-      })
-      .catch((err) => {
-        setRedirect(false);
-        setError(err?.response?.data?.errorCode);
-      });
-  };
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper style={{ filter: errorMessage || previewDraft ? 'blur(5px)' : 'none' }}>
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
           <LogoIcon alt="logo" src={Logo} />
@@ -68,7 +53,7 @@ const Header = ({ location: { pathname } }) => {
               style={{ marginRight: 32, opacity: isInitiallySaved ? 1 : 0.5 }}
               onClick={() => {
                 if (!isPublished) {
-                  onPublishDraft();
+                  FetchPreviewDraft();
                 }
               }}
             >

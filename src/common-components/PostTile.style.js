@@ -125,6 +125,7 @@ export const InterestMainContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: fit-content;
+  height: 168px;
 `;
 
 export const EditIcon = styled.img`

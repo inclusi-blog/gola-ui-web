@@ -1,9 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Pill from 'common-components/Pill';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
+import useEscapeHandler from '../../hooks/useEscapeHandler';
 import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
@@ -79,6 +80,8 @@ const Welcome = () => {
   ]);
   const { t, i18n } = useTranslation();
 
+  useEscapeHandler({ onEscape: () => setShowModal(false) });
+
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
       <Pill
@@ -95,17 +98,6 @@ const Welcome = () => {
       />
     ));
   };
-
-  const escFunction = (event) => {
-    if (event.keyCode === 27) {
-      setShowModal(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('keydown', escFunction, false);
-    return () => document.removeEventListener('keydown', escFunction, false);
-  });
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

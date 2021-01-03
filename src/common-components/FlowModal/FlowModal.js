@@ -13,7 +13,7 @@ const FlowModal = ({ children, onClose }) => {
           right: 0,
           bottom: 0,
           left: 0,
-          zIndex: 96,
+          zIndex: 101,
           display: 'flex',
           flexDirection: 'column',
           alignContent: 'center',
