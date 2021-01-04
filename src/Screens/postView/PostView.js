@@ -7,7 +7,9 @@ import DownArrowImg from 'assets/images/Arrow.svg';
 import ProfileImg from 'assets/images/profile.png';
 import CommentImg from 'assets/images/commentProfile.svg';
 import superClick from 'assets/images/OkHand.svg';
-import { useLocation, useParams } from 'react-router-dom';
+import RedTick from 'assets/images/Redtick.svg';
+import Close from 'assets/images/close.svg';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import { Editable, Slate, withReact } from 'slate-react';
@@ -66,6 +68,7 @@ const PostView = () => {
   // eslint-disable-next-line camelcase,no-unused-vars
   const { post_url, username } = useParams();
   const location = useLocation();
+  const history = useHistory();
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
 
   const urlPaths = post_url.split('-');
@@ -184,6 +187,12 @@ const PostView = () => {
     ));
   };
 
+  const onPopupClose = () => {
+    setShowSharePopup(false);
+    delete location.state.shouldOpenSharePopup;
+    history.replace({ ...history.location, state: {} });
+  };
+
   useEscapeHandler({ onEscape: () => setShowSharePopup(false) });
   useScrollBlock({ isModalOpen: showSharePopup });
   useBlur({ nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup });
@@ -245,9 +254,18 @@ const PostView = () => {
         </ViewCommentListContainer>
       </MainContainer>
       <If condition={showSharePopup}>
-        <FlowModal onClose={() => setShowSharePopup(false)}>
-          <PublishPreviewCard>
-            <PublishPreviewTitle>Publish post</PublishPreviewTitle>
+        <FlowModal onClose={() => onPopupClose()}>
+          <PublishPreviewCard
+            style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px' }}
+          >
+            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+              <div onClick={() => onPopupClose()}>
+                <img src={Close} alt="success-tick" width={32} height={32} />
+              </div>
+            </div>
+            <img src={RedTick} alt="success-tick" width={56} height={56} />
+            <PublishPreviewTitle style={{ marginTop: 16 }}>Publish post</PublishPreviewTitle>
           </PublishPreviewCard>
         </FlowModal>
       </If>
