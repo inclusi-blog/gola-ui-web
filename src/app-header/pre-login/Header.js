@@ -20,10 +20,10 @@ import {
 
 // eslint-disable-next-line no-unused-vars
 const Header = ({ location: { pathname } }) => {
-  const { setModalName, setShowModal, showModal } = useContext(Context);
+  const { setModalName, setShowModal } = useContext(Context);
   const { t } = useTranslation();
   return (
-    <HeaderWrapper style={{ filter: showModal ? 'blur(5px)' : 'none' }}>
+    <HeaderWrapper id="pre-login-header">
       <HeaderWidthWrapper>
         <If condition={pathname === '/m/callback/email'}>
           <LeftHeader margin={0} style={{ justifyContent: 'center' }}>

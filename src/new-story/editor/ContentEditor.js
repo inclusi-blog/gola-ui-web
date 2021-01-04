@@ -130,6 +130,12 @@ const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute, value })
     }
   }, [editor.children, setShowSideBar]);
 
+  useEffect(() => {
+    if (!ReactEditor.isFocused(editor)) {
+      setShowSideBar(false);
+    }
+  }, [editor]);
+
   return (
     <Slate
       editor={editor}

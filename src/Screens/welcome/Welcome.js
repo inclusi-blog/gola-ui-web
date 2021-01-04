@@ -4,7 +4,8 @@ import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
-import useEscapeHandler from '../../hooks/useEscapeHandler';
+import useBlur from 'hooks/useBlur';
+import useEscapeHandler from 'hooks/useEscapeHandler';
 import SignupOrSignInModal from './signup/SignupModal';
 import { TitleText, TitleContent, PillContainer, SignupBorder, SignupText } from './Welcome.Style';
 
@@ -99,19 +100,21 @@ const Welcome = () => {
     ));
   };
 
+  useBlur({ nodes: ['pre-login-header', 'welcome'], isVisible: showModal });
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <If condition={isLoggedIn}>
         <Redirect to="/" />
       </If>
       <div
+        id="welcome"
         style={{
           width: 1260,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          filter: showModal ? 'blur(5px)' : 'none',
         }}
       >
         <div

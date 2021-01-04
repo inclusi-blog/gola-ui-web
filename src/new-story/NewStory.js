@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
+import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { v4 as uuidv4 } from 'uuid';
 import ajax from '../helpers/ajaxHelper';
+import useBlur from '../hooks/useBlur';
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
 import { GetDraft, SaveTagline } from './draft.service';
@@ -34,6 +36,8 @@ const NewStory = ({ location: { pathname } }) => {
     setErrorMessage,
     previewDraft,
     setPreviewDraft,
+    postRedirect,
+    redirectUrl,
   } = useDraft();
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
@@ -42,6 +46,7 @@ const NewStory = ({ location: { pathname } }) => {
   const [tagline, setTagline] = useState('');
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const params = useParams();
+  const history = useHistory();
 
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
@@ -186,6 +191,14 @@ const NewStory = ({ location: { pathname } }) => {
     },
   });
 
+  useEffect(() => {
+    if (postRedirect && redirectUrl) {
+      history.push(redirectUrl, { shouldOpenSharePopup: true });
+    }
+  }, [postRedirect]);
+
+  useBlur({ nodes: ['post-login-header', 'new-story'], isVisible: showPreviewModal });
+
   return (
     <div
       style={{
@@ -194,13 +207,13 @@ const NewStory = ({ location: { pathname } }) => {
       }}
     >
       <div
+        id="new-story"
         style={{
           width: '1260px',
           display: 'flex',
           justifyContent: 'center',
           flexDirection: 'column',
           alignItems: 'center',
-          filter: showPreviewModal ? 'blur(5px)' : 'none',
         }}
       >
         <If condition={showSideBar}>

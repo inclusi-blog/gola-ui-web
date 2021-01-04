@@ -31,20 +31,22 @@ const Header = ({ location: { pathname } }) => {
   const [unreadNotification] = useState(0);
   const { t } = useTranslation();
   const location = useLocation();
-  const { FetchPreviewDraft, errorMessage, previewDraft, isInitiallySaved, isSaving, isPublished } = useDraft();
+  const { FetchPreviewDraft, isInitiallySaved, isSaving, isPublished } = useDraft();
   const isDraft =
     location.pathname === '/new-story' ||
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
 
   return (
-    <HeaderWrapper style={{ filter: errorMessage || previewDraft ? 'blur(5px)' : 'none' }}>
+    <HeaderWrapper id="post-login-header">
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
           <LogoIcon alt="logo" src={Logo} />
           <AppHeaderName>{t('welcome.title')}</AppHeaderName>
           <If condition={isDraft}>
             <StoryTypeText>Draft</StoryTypeText>
-            <SaveStatusText>{isSaving ? 'Saving...' : 'Saved'}</SaveStatusText>
+            <If condition={isInitiallySaved}>
+              <SaveStatusText>{isSaving ? 'Saving...' : 'Saved'}</SaveStatusText>
+            </If>
           </If>
         </LeftHeader>
         <RightHeader>

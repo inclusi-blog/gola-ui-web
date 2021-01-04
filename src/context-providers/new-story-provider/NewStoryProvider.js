@@ -9,6 +9,8 @@ const NewStoryProvider = ({ children }) => {
   const [isPublished, setIsPublished] = useState(false);
   const [previewDraft, setPreviewDraft] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [postRedirect, setPostRedirect] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState(null);
 
   return (
     <Context.Provider
@@ -25,6 +27,10 @@ const NewStoryProvider = ({ children }) => {
         setPreviewDraft,
         errorMessage,
         setErrorMessage,
+        postRedirect,
+        setPostRedirect,
+        redirectUrl,
+        setRedirectUrl,
       }}
     >
       {children}

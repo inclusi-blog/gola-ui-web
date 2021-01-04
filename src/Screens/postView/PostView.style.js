@@ -57,12 +57,13 @@ export const CommentBox = styled.textarea`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Poppins;
   &::placeholder {
     font-family: Poppins;
     font-style: normal;
     font-weight: normal;
     font-size: 14px;
-    line-height: 16px;
+    line-height: 30px;
     color: #888888;
     text-align: center;
   }

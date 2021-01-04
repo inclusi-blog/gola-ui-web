@@ -7,13 +7,19 @@ import DownArrowImg from 'assets/images/Arrow.svg';
 import ProfileImg from 'assets/images/profile.png';
 import CommentImg from 'assets/images/commentProfile.svg';
 import superClick from 'assets/images/OkHand.svg';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
 import { Editable, Slate, withReact } from 'slate-react';
+import useDraft from 'hooks/useDraft';
+import FlowModal from 'common-components/FlowModal/FlowModal';
+import useEscapeHandler from 'hooks/useEscapeHandler';
+import useScrollBlock from 'hooks/useScrollBlock';
+import useBlur from 'hooks/useBlur';
 import Element from '../../new-story/editor/components/Element';
 import { withImages, withLinks } from '../../new-story/editor/ContentEditor';
 import Leaf from '../../new-story/editor/Leaf';
+import { PublishPreviewCard, PublishPreviewTitle } from '../../new-story/NewStory.style';
 import {
   MainContainer,
   PostMainImage,
@@ -55,8 +61,11 @@ const PostView = () => {
   const [timerStatus, setTimerStatus] = useState('start');
   const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(0);
+  const { setRedirectUrl, setPostRedirect, setPreviewDraft } = useDraft();
+  const [showSharePopup, setShowSharePopup] = useState(false);
   // eslint-disable-next-line camelcase,no-unused-vars
   const { post_url, username } = useParams();
+  const location = useLocation();
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
 
   const urlPaths = post_url.split('-');
@@ -158,6 +167,15 @@ const PostView = () => {
     return () => document.removeEventListener(visibilityChange, handleVisibilityChange);
   }, [handleVisibilityChange]);
 
+  useEffect(() => {
+    if (location?.state?.shouldOpenSharePopup) {
+      setShowSharePopup(true);
+      setPostRedirect(false);
+      setRedirectUrl(null);
+      setPreviewDraft(null);
+    }
+  }, [location]);
+
   const getInterestPills = () => {
     return post.interests.map((item) => (
       <InterestTag key={item}>
@@ -166,8 +184,11 @@ const PostView = () => {
     ));
   };
 
+  useEscapeHandler({ onEscape: () => setShowSharePopup(false) });
+  useScrollBlock({ isModalOpen: showSharePopup });
+  useBlur({ nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup });
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} id="post-view">
       <MainContainer>
         <PreviewPostOuterContainer
           style={{ marginBottom: 16, backgroundImage: `url(${HeroPostPhoto})`, backgroundSize: 'cover' }}
@@ -223,6 +244,13 @@ const PostView = () => {
           </ApplyColumn>
         </ViewCommentListContainer>
       </MainContainer>
+      <If condition={showSharePopup}>
+        <FlowModal onClose={() => setShowSharePopup(false)}>
+          <PublishPreviewCard>
+            <PublishPreviewTitle>Publish post</PublishPreviewTitle>
+          </PublishPreviewCard>
+        </FlowModal>
+      </If>
     </div>
   );
 };

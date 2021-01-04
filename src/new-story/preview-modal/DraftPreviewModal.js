@@ -1,9 +1,10 @@
 import moment from 'moment';
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import FlowModal from 'common-components/FlowModal/FlowModal';
 import useDraft from 'hooks/useDraft';
 import PostTile from 'common-components/PostTile';
+import useScrollBlock from '../../hooks/useScrollBlock';
 import { FollowButton, FollowLabel } from '../../Screens/Interestpage/InterestPage.style';
 import {
   CancelAction,
@@ -17,16 +18,9 @@ import {
 } from '../NewStory.style';
 
 const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
-  const { errorMessage, previewDraft } = useDraft();
-  useEffect(() => {
-    if (showPreviewModal) {
-      document.documentElement.style.overflow = 'hidden';
-      document.body.scroll = 'no';
-    } else {
-      document.documentElement.style.overflow = 'scroll';
-      document.body.scroll = 'yes';
-    }
-  }, [showPreviewModal]);
+  const { errorMessage, previewDraft, setRedirectUrl, setPostRedirect } = useDraft();
+
+  useScrollBlock({ isModalOpen: showPreviewModal });
 
   return (
     <If condition={showPreviewModal}>
@@ -63,7 +57,13 @@ const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
               <CancelAction onClick={() => onClose()}>
                 <CancelText>Cancel</CancelText>
               </CancelAction>
-              <FollowButton>
+              <FollowButton
+                onClick={() => {
+                  onClose();
+                  setPostRedirect(true);
+                  setRedirectUrl('/@hariharan/this-is-my-new-post-1q2w3e4r5t6y');
+                }}
+              >
                 <FollowLabel>Yes</FollowLabel>
               </FollowButton>
             </PreviewActionItems>

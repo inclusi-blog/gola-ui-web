@@ -16,14 +16,18 @@ const useDraft = () => {
     setPreviewDraft,
     errorMessage,
     setErrorMessage,
+    setRedirectUrl,
+    setPostRedirect,
+    postRedirect,
+    redirectUrl,
   } = useContext(NewStoryContext);
 
   const PublishDraft = () => {
     PublishPost(draftID)
       .then(({ data }) => {
         if (data.status === 'success') {
-          // eslint-disable-next-line no-console
-          console.log('published');
+          setRedirectUrl(data.url);
+          setPostRedirect(true);
         }
       })
       .catch((err) => {
@@ -59,6 +63,10 @@ const useDraft = () => {
     setPreviewDraft,
     errorMessage,
     setErrorMessage,
+    postRedirect,
+    redirectUrl,
+    setRedirectUrl,
+    setPostRedirect,
     FetchPreviewDraft,
     PublishDraft,
   };
