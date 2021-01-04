@@ -4,12 +4,18 @@ const useBlur = ({ nodes, isVisible }) => {
   useEffect(() => {
     if (isVisible) {
       nodes.forEach((node) => {
-        document.getElementById(node).style.filter = 'blur(5px)';
+        const requestedNode = document.getElementById(node);
+        if (requestedNode && requestedNode?.style) {
+          requestedNode.style.filter = 'blur(5px)';
+        }
       });
       return;
     }
     nodes.forEach((node) => {
-      document.getElementById(node).style.filter = 'none';
+      const requestedNode = document.getElementById(node);
+      if (requestedNode && requestedNode?.style) {
+        requestedNode.style.filter = 'none';
+      }
     });
   }, [isVisible]);
 };
