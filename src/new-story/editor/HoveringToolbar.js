@@ -86,6 +86,7 @@ const HoveringToolbar = () => {
             />
           </When>
           <Otherwise>
+            <FormatButton format="title" icon="title" />
             <FormatButton format="bold" icon="format_bold" />
             <FormatButton format="italic" icon="format_italic" />
             <FormatButton format="underlined" icon="format_underlined" />

@@ -13,6 +13,11 @@ export const toggleFormat = (editor, format) => {
   Transforms.setNodes(editor, { [format]: isActive ? null : true }, { match: Text.isText, split: true });
 };
 
+export const toggleTitle = (editor, format) => {
+  const isActive = isFormatActive(editor, format);
+  Transforms.setNodes(editor, { [format]: isActive ? null : true }, { match: Text.isText, split: true });
+};
+
 const isLinkActive = (editor) => {
   const [link] = Editor.nodes(editor, { match: (n) => n.type === 'link' });
   return !!link;

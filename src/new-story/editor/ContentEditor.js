@@ -158,6 +158,8 @@ const ContentEditor = ({ setShowSideBar, setClientRects, onChangeRoute, value })
           switch (event.inputType) {
             case 'formatBold':
               return toggleFormat(editor, 'bold');
+            case 'formatTitle':
+              return toggleFormat(editor, 'title');
             case 'formatItalic':
               return toggleFormat(editor, 'italic');
             case 'formatUnderline':

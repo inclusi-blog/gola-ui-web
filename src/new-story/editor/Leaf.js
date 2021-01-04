@@ -20,6 +20,23 @@ const Leaf = ({ attributes, children, leaf }) => {
     children = <u>{children}</u>;
   }
 
+  // eslint-disable-next-line react/prop-types
+  if (leaf.title) {
+    // eslint-disable-next-line no-param-reassign
+    children = (
+      <span
+        style={{
+          fontWeight: 600,
+          fontSize: 36,
+          lineHeight: '52px',
+          fontStyle: 'normal',
+        }}
+      >
+        {children}
+      </span>
+    );
+  }
+
   return <span {...attributes}>{children}</span>;
 };
 
