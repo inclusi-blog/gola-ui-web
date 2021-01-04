@@ -7,7 +7,7 @@ import DownArrowImg from 'assets/images/Arrow.svg';
 import ProfileImg from 'assets/images/profile.png';
 import CommentImg from 'assets/images/commentProfile.svg';
 import superClick from 'assets/images/OkHand.svg';
-import RedTick from 'assets/images/Redtick.svg';
+import RedTick from 'assets/images/red_tick.svg';
 import Close from 'assets/images/close.svg';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { createEditor } from 'slate';

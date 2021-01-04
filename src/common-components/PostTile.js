@@ -5,7 +5,7 @@ import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 import LaterImg from 'assets/images/Later.png';
 // eslint-disable-next-line import/no-unresolved
-import SuperClickImg from 'assets/images/SuperClick.png';
+import SuperClickImg from 'assets/images/super_click.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import ReadLaterImg from 'assets/images/ReadLater.svg';
 import EditImg from 'assets/images/Edit.svg';
