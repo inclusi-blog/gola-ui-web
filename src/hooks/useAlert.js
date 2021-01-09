@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { TOAST_EVENTS } from 'common-components/NetworkHandler/NetworkReducer';
+import { TOAST_EVENTS } from 'constants/events';
 import useNetwork from './useNetwork';
 
 const useAlert = () => {

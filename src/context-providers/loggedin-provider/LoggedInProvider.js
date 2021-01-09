@@ -2,15 +2,24 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import CONFIGS from 'appConfig';
 import Cookies from 'js-cookie';
+import setCookieWithExpiry from 'helpers/setCookieWithExpiry';
+import STORAGE_KEYS from 'helpers/localstorage';
+import { useHistory } from 'react-router';
+import { LOGOUT_PATH } from 'helpers/routes';
 import Context from './LoggedInContext';
 
 const LoggedInProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [accessToken, setAccessToken] = useState('');
+  const [encryptedIdToken, setEncryptedIdToken] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
-    const accessToken = Cookies.get('accessToken');
-    const encryptedIdToken = Cookies.get('encryptedIdToken');
-    if (accessToken && encryptedIdToken) {
+    const acxsToken = Cookies.get('accessToken');
+    const encIdToken = Cookies.get('encryptedIdToken');
+    if (acxsToken && encIdToken) {
+      setAccessToken(acxsToken);
+      setEncryptedIdToken(encIdToken);
       setIsLoggedIn(true);
     }
   }, []);
@@ -27,6 +36,20 @@ const LoggedInProvider = ({ children }) => {
     });
   };
 
+  const resetFirstTimeUserCookie = () => {
+    setCookieWithExpiry(STORAGE_KEYS.IS_FIRST_TIME_USER_KEY, false);
+  };
+
+  const goToLogout = () => {
+    resetFirstTimeUserCookie();
+    history.push(LOGOUT_PATH);
+  };
+
+  const clearStorageAndContextOnLogout = () => {
+    localStorage.clear();
+    sessionStorage.clear();
+  };
+
   const login = (tokenData) => {
     saveToken(tokenData);
     setIsLoggedIn(true);
@@ -36,7 +59,16 @@ const LoggedInProvider = ({ children }) => {
     setIsLoggedIn(false);
   };
 
-  return <Context.Provider value={{ isLoggedIn, login, logout }}>{children}</Context.Provider>;
+  const logoutOnTokenExpiry = () => {
+    goToLogout();
+    clearStorageAndContextOnLogout();
+  };
+
+  return (
+    <Context.Provider value={{ isLoggedIn, login, logout, accessToken, encryptedIdToken, logoutOnTokenExpiry }}>
+      {children}
+    </Context.Provider>
+  );
 };
 
 LoggedInProvider.propTypes = {

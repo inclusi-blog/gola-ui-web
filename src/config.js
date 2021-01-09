@@ -10,9 +10,10 @@ var environmentConfiguration = {
   DEV_MODE: true,
   TRACING: {
     URL: 'http://localhost:3000/api/tracing/span',
-    SERVICE_NAME: 'gola-ui-web',
+    SERVICE_NAME: 'local-ui-web',
     HTTP_INTERVAL_MS: 3000,
     API_KEY: 'secret',
+    SAMPLED: true,
   },
   PASSWORD_ENC_PUBLIC_KEY:
     '-----BEGIN PUBLIC KEY-----\n' +

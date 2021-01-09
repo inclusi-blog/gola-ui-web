@@ -1,10 +1,17 @@
-export const initialNetworkState = {
-  toasts: [],
+import isEmpty from 'lodash.isempty';
+import { uuid } from 'uuidv4';
+import { TOAST_EVENTS } from 'constants/events';
+
+const getSessionTraceId = () => {
+  if (isEmpty(sessionStorage.getItem('Session-Tracing-ID'))) {
+    sessionStorage.setItem('Session-Tracing-ID', uuid().replace(/-/g, ''));
+  }
+  return sessionStorage.getItem('Session-Tracing-ID');
 };
 
-export const TOAST_EVENTS = {
-  showMessageToast: 'showMessageToast',
-  hideMessageToast: 'hideMessageToast',
+export const initialNetworkState = {
+  toasts: [],
+  sessionTokenId: getSessionTraceId(),
 };
 
 export const NetworkReducer = (state, action) => {

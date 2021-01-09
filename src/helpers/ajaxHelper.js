@@ -11,6 +11,10 @@ const ajax = axios.create({
 
 export default ajax;
 
+export const CancelToken = () => axios.CancelToken.source();
+
+export const { isCancel } = axios;
+
 ajax.interceptors.request.use((config) => {
   const updatedHeaders = { ...config.headers };
   return { ...config, headers: updatedHeaders };

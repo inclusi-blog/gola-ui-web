@@ -6,7 +6,7 @@
 2. Update proxy config in dev-server like below
 
 const proxyOptions = {
-  target: 'https://app.dev-opt.idfcbank.com',
+  target: 'https://app.gola.xyz',
   changeOrigin: true,
   secure: false,
   router: {
@@ -27,6 +27,7 @@ app.use(createProxyMiddleware('/platform', proxyOptions2));
  */
 
 const express = require('express');
+const chalk = require('chalk');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 const modifyResponse = require('node-http-proxy-json');
 
@@ -35,18 +36,17 @@ const TARGET_ENV_REGEX = new RegExp(`http://localhost:4444`,'g');
 
 // eslint-disable-next-line no-unused-vars
 function handleRedirect(proxyRes, req, res) {
-  console.log('im from mysterio');
+  // eslint-disable-next-line no-console
   let tempLocation = proxyRes.headers.location;
   tempLocation = tempLocation.replace(TARGET_ENV_REGEX, "http://localhost:3000");
-  // eslint-disable-next-line no-param-reassign
-  console.log('changed location', tempLocation);
+  // eslint-disable-next-line no-param-reassign,no-console
   proxyRes.headers.location = tempLocation;
 }
 
 function modifyResponseBody(proxyRes, req, res) {
   // eslint-disable-next-line func-names
   modifyResponse(res, proxyRes, function (body) {
-    console.log('im from mysterio', body);
+    // eslint-disable-next-line no-console
     if (body) {
       let temp = JSON.stringify(body);
       temp = temp.replace(TARGET_ENV_REGEX, "http://localhost:3000");
@@ -62,7 +62,6 @@ function modifyResponseBody(proxyRes, req, res) {
 const onResponse = function (proxyRes, req, res) {
   // eslint-disable-next-line no-console
   console.log('[',res.statusCode,']',' ',req.originalUrl);
-  console.log('came inside response', res);
 
   if(['/api/idp/v1/token/validate', '/api/idp/v1/customer-profile'].includes(req.originalUrl)) {
 
@@ -91,12 +90,41 @@ app.use(createProxyMiddleware(proxyOptions));
 
 
 // eslint-disable-next-line func-names
-module.exports = function (PORT) {
+module.exports = function (PORT, HOST) {
   // eslint-disable-next-line no-param-reassign
   PORT = PORT || 9000;
   // eslint-disable-next-line func-names
-  app.listen(PORT, function () {
+  const authProxyServer = app.listen(PORT, HOST, function (err) {
+    const formattedName = chalk.bold('Auth proxy');
+
+    if (err) {
+      throw err;
+    }
+
+    const addr = authProxyServer.address();
+
     // eslint-disable-next-line no-console
-    console.log('Starting auth proxy in: ',PORT);
+    console.log(
+      chalk.yellowBright(
+        `🚧  Running %s at ${chalk.cyan.bold('http://%s:%d/')}`
+      ),
+      formattedName, addr.address, addr.port
+    );
   });
+
+  authProxyServer.on('error', (e) => {
+    if (e.code === 'EADDRINUSE') {
+      // eslint-disable-next-line no-console
+      console.log(
+        chalk.red('❌  A server is already running at %s'),
+        chalk.bold(PORT),
+      );
+      // eslint-disable-next-line no-console
+      console.log();
+      process.exit(1);
+    }
+  });
+
+  return authProxyServer;
 };
+
