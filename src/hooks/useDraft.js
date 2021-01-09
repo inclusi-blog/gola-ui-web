@@ -25,8 +25,8 @@ const useDraft = () => {
   const PublishDraft = () => {
     PublishPost(draftID)
       .then(({ data }) => {
-        if (data.status === 'success') {
-          setRedirectUrl(data.url);
+        if (data.status === 'published' && data.url) {
+          setRedirectUrl(`/@hariharan/${data.url}`);
           setPostRedirect(true);
         }
       })

@@ -22,6 +22,7 @@ import Element from '../../new-story/editor/components/Element';
 import { withImages, withLinks } from '../../new-story/editor/ContentEditor';
 import Leaf from '../../new-story/editor/Leaf';
 import { PublishPreviewCard, PublishPreviewTitle } from '../../new-story/NewStory.style';
+import { GetPost } from './post.service';
 import {
   MainContainer,
   PostMainImage,
@@ -76,7 +77,6 @@ const PostView = () => {
   const postID = urlPaths[urlPaths.length - 1];
   // eslint-disable-next-line no-unused-vars
   const [post, setPost] = useState({
-    title: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
     data: [
       {
         children: [
@@ -110,7 +110,11 @@ const PostView = () => {
     interests: ['அரசியல்', 'விளையாட்டு'],
     likeCount: 5000,
     commentCount: 12,
+    previewImage: HeroPostPhoto,
+    authorName: '',
   });
+  const [publishedDate, setPublishedDate] = useState(0);
+  const [isViewIsAuthor, setIsViewerIsAuthor] = useState(false);
 
   const pauseTimer = () => {
     clearInterval(timer);
@@ -155,6 +159,26 @@ const PostView = () => {
   });
 
   useEffect(() => {
+    if (postID) {
+      GetPost(postID)
+        .then(({ data }) => {
+          setPost({
+            ...post,
+            data: data.post_data,
+            interests: data.interests,
+            likeCount: data.like_count,
+            commentCount: data.comment_count,
+            previewImage: data.preview_image,
+            authorName: data.author_name,
+          });
+          setIsViewerIsAuthor(data.is_viewer_is_author);
+          setPublishedDate(data.published_at);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('error occurred ', err);
+        });
+    }
     startTimer();
   }, []);
 
@@ -200,11 +224,15 @@ const PostView = () => {
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} id="post-view">
       <MainContainer>
         <PreviewPostOuterContainer
-          style={{ marginBottom: 16, backgroundImage: `url(${HeroPostPhoto})`, backgroundSize: 'cover' }}
+          style={{ marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover' }}
         >
-          <PostMainImage src={HeroPostPhoto} />
+          <PostMainImage src={post.previewImage} />
         </PreviewPostOuterContainer>
-        <ProfilePalatte />
+        <ProfilePalatte
+          publishedDate={publishedDate}
+          authorName={post.authorName}
+          isAuthorViewingPost={isViewIsAuthor}
+        />
         <div style={{ borderBottom: '1px solid #DFDFDF ', marginTop: 60 }}>
           <Slate editor={editor} value={post.data}>
             <Editable

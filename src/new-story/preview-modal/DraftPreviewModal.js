@@ -18,7 +18,7 @@ import {
 } from '../NewStory.style';
 
 const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
-  const { errorMessage, previewDraft, setRedirectUrl, setPostRedirect } = useDraft();
+  const { errorMessage, previewDraft, PublishDraft } = useDraft();
 
   useScrollBlock({ isModalOpen: showPreviewModal });
 
@@ -60,8 +60,7 @@ const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
               <FollowButton
                 onClick={() => {
                   onClose();
-                  setPostRedirect(true);
-                  setRedirectUrl('/@hariharan/this-is-my-new-post-1q2w3e4r5t6y');
+                  PublishDraft();
                 }}
               >
                 <FollowLabel>Yes</FollowLabel>

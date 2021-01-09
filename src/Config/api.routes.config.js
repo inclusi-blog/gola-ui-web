@@ -6,3 +6,4 @@ export const SAVE_PREVIEW_IMAGE = 'post/v1/draft/upsert-preview-image';
 export const PUBLISH_DRAFT = 'post/v1/post/publish';
 export const GET_DRAFT = 'post/v1/draft/get-draft';
 export const PREVIEW_DRAFT = 'post/v1/draft/preview-draft';
+export const GET_POST = 'post/v1/post/';
