@@ -1,0 +1,13 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import NetworkProvider from 'common-components/NetworkHandler/NetworkProvider';
+
+const NetworkLayer = ({ children }) => {
+  return <NetworkProvider>{children}</NetworkProvider>;
+};
+
+NetworkLayer.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.node, PropTypes.arrayOf(PropTypes.node)]).isRequired,
+};
+
+export default NetworkLayer;
