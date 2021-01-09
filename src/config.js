@@ -1,9 +1,10 @@
 // eslint-disable-next-line no-var, no-unused-vars
 var environmentConfiguration = {
   API_BASE_URL: 'http://localhost:3000',
+  ENVIRONMENT: 'LOCAL',
   OAUTH: {
     URL: 'http://localhost:3000/',
-    CLIENT_ID: 'edfd7af5-9fe7-4241-8bd4-12eccd27e372',
+    CLIENT_ID: '6b985744-43e7-4a65-a8b1-6656ac4e231b',
     REDIRECT_URI: 'http://localhost:3000/callback',
   },
   DEV_MODE: true,

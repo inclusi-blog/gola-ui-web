@@ -1,23 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import CONFIGS from 'appConfig';
+import Cookies from 'js-cookie';
 import Context from './LoggedInContext';
 
 const LoggedInProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    const idToken = localStorage.getItem('encryptedIdToken');
-    if (accessToken && idToken) {
+    const accessToken = Cookies.get('accessToken');
+    const encryptedIdToken = Cookies.get('encryptedIdToken');
+    if (accessToken && encryptedIdToken) {
       setIsLoggedIn(true);
     }
   }, []);
 
   const saveToken = (tokenData) => {
-    localStorage.setItem('accessToken', tokenData.accessToken);
-    localStorage.setItem('encryptedIdToken', tokenData.encryptedIdToken);
-    localStorage.setItem('expiresIn', tokenData.expiresIn);
-    localStorage.setItem('expiresAt', tokenData.expiresAt);
+    let isSecure = true;
+    if (CONFIGS.ENVIRONMENT.toLowerCase() === 'local') {
+      isSecure = false;
+    }
+    Cookies.set('accessToken', tokenData.accessToken, { secure: isSecure, expires: new Date(tokenData.expiresAt) });
+    Cookies.set('encryptedIdToken', tokenData.encryptedIdToken, {
+      secure: isSecure,
+      expires: new Date(tokenData.expiresAt),
+    });
   };
 
   const login = (tokenData) => {
