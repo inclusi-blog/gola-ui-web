@@ -10,17 +10,25 @@ import Context from './LoggedInContext';
 
 const LoggedInProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isTokenValid, setIsTokenValid] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [encryptedIdToken, setEncryptedIdToken] = useState('');
   const history = useHistory();
 
   useEffect(() => {
-    const acxsToken = Cookies.get('accessToken');
-    const encIdToken = Cookies.get('encryptedIdToken');
+    const acxsToken = Cookies.get('access_token');
+    const encIdToken = Cookies.get('enc_id_token');
     if (acxsToken && encIdToken) {
       setAccessToken(acxsToken);
       setEncryptedIdToken(encIdToken);
       setIsLoggedIn(true);
+      setIsTokenValid(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isTokenValid) {
+      setIsLoggedIn(false);
     }
   }, []);
 
@@ -29,8 +37,8 @@ const LoggedInProvider = ({ children }) => {
     if (CONFIGS.ENVIRONMENT.toLowerCase() === 'local') {
       isSecure = false;
     }
-    Cookies.set('accessToken', tokenData.accessToken, { secure: isSecure, expires: new Date(tokenData.expiresAt) });
-    Cookies.set('encryptedIdToken', tokenData.encryptedIdToken, {
+    Cookies.set('access_token', tokenData.accessToken, { secure: isSecure, expires: new Date(tokenData.expiresAt) });
+    Cookies.set('enc_id_token', tokenData.encryptedIdToken, {
       secure: isSecure,
       expires: new Date(tokenData.expiresAt),
     });

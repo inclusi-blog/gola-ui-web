@@ -1,6 +1,7 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import Provider from './context-providers/providers';
+import { Switch } from 'react-router-dom';
+import Provider from 'context-providers/providers';
+import PrivateRoute from './common-components/PrivateRoute';
 import MainWrapper from './GlobalStyles/App.style';
 import NewStory from './new-story/NewStory';
 import HomePage from './Screens/HomePage';
@@ -14,14 +15,14 @@ const Main = () => {
   return (
     <Provider>
       <Switch>
-        <Route path="/p/:draftId/edit" component={NewStory} />
-        <Route path="/@:username/:post_url" component={PostView} />
-        <Route path="/me/stories" component={Stories} />
-        <Route path="/reading-list" component={ReadingList} />
-        <Route path="/user-publication" component={UserPublication} />
-        <Route path="/interest-page" component={InterestPage} />
-        <Route path="/new-story" component={NewStory} />
-        <Route path="/" component={HomePage} />
+        <PrivateRoute path="/p/:draftId/edit" component={NewStory} />
+        <PrivateRoute path="/@:username/:post_url" component={PostView} />
+        <PrivateRoute path="/me/stories" component={Stories} />
+        <PrivateRoute path="/reading-list" component={ReadingList} />
+        <PrivateRoute path="/user-publication" component={UserPublication} />
+        <PrivateRoute path="/interest-page" component={InterestPage} />
+        <PrivateRoute path="/new-story" component={NewStory} />
+        <PrivateRoute path="/" component={HomePage} />
         <>
           <MainWrapper>
             <p>Hello</p>

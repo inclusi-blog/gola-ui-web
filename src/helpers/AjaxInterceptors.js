@@ -73,7 +73,6 @@ const AjaxInterceptors = () => {
     };
 
     const onResponseError = (error) => {
-      // TODO: Test for showing network failure
       if (isCancel(error)) {
         // TODO: unsatisfied dispatch as we need request information in this area to avoid dispatch for the configs with skipLoader
         dispatch({ type: NETWORK_EVENTS.networkCallEnd, visible: false });
