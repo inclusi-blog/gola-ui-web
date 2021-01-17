@@ -4,6 +4,7 @@ import { I18nextProvider } from 'react-i18next';
 import LoggedInProvider from 'context-providers/loggedin-provider/LoggedInProvider';
 import AuthModalProvider from 'context-providers/auth-modal-provider';
 import NewStoryProvider from 'context-providers/new-story-provider/NewStoryProvider';
+import UserProfileProvider from 'context-providers/UserProfileProvider/UserProfileProvider';
 import BaseLayers from './layers/BaseLayer';
 import AppContent from '../base-app/AppContent';
 import LazyLoader from '../LazyLoader';
@@ -14,13 +15,15 @@ const AppRoot = () => {
     <BaseLayers>
       <AuthModalProvider>
         <LoggedInProvider>
-          <NewStoryProvider>
-            <I18nextProvider i18n={i18n}>
-              <Suspense fallback={<LazyLoader />}>
-                <AppContent />
-              </Suspense>
-            </I18nextProvider>
-          </NewStoryProvider>
+          <UserProfileProvider>
+            <NewStoryProvider>
+              <I18nextProvider i18n={i18n}>
+                <Suspense fallback={<LazyLoader />}>
+                  <AppContent />
+                </Suspense>
+              </I18nextProvider>
+            </NewStoryProvider>
+          </UserProfileProvider>
         </LoggedInProvider>
       </AuthModalProvider>
     </BaseLayers>

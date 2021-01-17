@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation, withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from 'assets/images/logo.png';
-import ProfileImg from 'assets/images/profile.png';
 import SearchImg from 'assets/images/search.svg';
 import BookmarkImg from 'assets/images/bookmark.svg';
 import NotifyBell from 'common-components/NotifyBell';
 import { CommonFlexRow, SmallDots } from 'common-components/PostTile.style';
 import useDraft from 'hooks/useDraft';
+import CommonToolTip from 'common-components/CommonToolTip/CommonToolTip';
+import UserProfileContext from 'context-providers/UserProfileProvider/UserProfileContext';
+import useOutsideAlerter from 'hooks/useOutsideAlerter';
 import {
   AppHeaderName,
   HeaderWrapper,
@@ -18,11 +20,11 @@ import {
   Explore,
   SearchIcon,
   Bookmark,
-  ProfileIcon,
   PublishButton,
   PublishButtonText,
   StoryTypeText,
   SaveStatusText,
+  ProfileContainer,
 } from './Header.style';
 import LanguageChangeButton from '../LanugageChangeButton';
 
@@ -35,6 +37,11 @@ const Header = ({ location: { pathname } }) => {
   const isDraft =
     location.pathname === '/new-story' ||
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
+  const profileOptionsRef = useRef(null);
+  const profileContainerRef = useRef(null);
+  const { showProfileTooltip, setShowProfileTooltip } = useContext(UserProfileContext);
+
+  useOutsideAlerter(profileOptionsRef);
 
   return (
     <HeaderWrapper id="post-login-header">
@@ -73,7 +80,32 @@ const Header = ({ location: { pathname } }) => {
             <Bookmark src={BookmarkImg} />
             <NotifyBell unreadNotification={unreadNotification} />
           </If>
-          <ProfileIcon src={ProfileImg} />
+          <ProfileContainer onClick={() => setShowProfileTooltip(true)} ref={profileContainerRef}>
+            <CommonToolTip
+              showToolTip={showProfileTooltip}
+              parentRef={profileContainerRef}
+              ref={profileOptionsRef}
+              childWidth={208}
+              render={() => {
+                return (
+                  <div style={{ width: 208, height: 497 }}>
+                    <p
+                      style={{
+                        fontFamily: 'Quando',
+                        fontStyle: 'normal',
+                        fontWeight: 'normal',
+                        fontSize: 18,
+                        lineHeight: 22,
+                        color: '#000000',
+                      }}
+                    >
+                      Gokul bruce
+                    </p>
+                  </div>
+                );
+              }}
+            />
+          </ProfileContainer>
           <LanguageChangeButton />
         </RightHeader>
       </div>

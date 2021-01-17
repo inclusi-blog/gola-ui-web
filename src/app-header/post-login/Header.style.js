@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ProfileImg from 'assets/images/profile.png';
 import Z_INDEX from '../../constants/zIndex';
 import { FollowStatus, FollowStatusButton } from '../../Screens/user/UserPublication.style';
 
@@ -71,7 +72,15 @@ export const Bookmark = styled.img`
 export const ProfileIcon = styled.img`
   width: 40px;
   height: 40px;
+`;
+
+export const ProfileContainer = styled.button`
+  border-radius: 200px;
+  width: 40px;
+  height: 40px;
   margin-right: 40px;
+  background: url(${ProfileImg});
+  border: none;
 `;
 
 export const PublishButton = styled(FollowStatusButton)`
