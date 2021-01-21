@@ -10,7 +10,6 @@ export const PillWrapper = styled.div`
   justify-content: center;
   background: ${(props) => (props.isSelected ? '#03527C' : 'transparent')};
   margin-top: 27px;
-  margin-left: 46px;
   padding-left: 30px;
   padding-right: 30px;
   cursor: default;

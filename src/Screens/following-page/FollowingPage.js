@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import kabadi from 'assets/images/kabadi.svg';
 import swimmingpool from 'assets/images/swimmingpool.png';
 import cricket from 'assets/images/cricket.svg';
@@ -15,7 +15,6 @@ import {
   PageTitle,
   ExploreInterests,
   InterestTitle,
-  InterestBorder,
   CategoryBlock,
   Category,
   CategoryImg,
@@ -25,6 +24,9 @@ import {
 } from './FollowingPage.style';
 
 const FollowingPage = () => {
+  const values = [];
+  const [margins, setMargins] = useState([]);
+  const [overAllMargins, setOverAllMargins] = useState([]);
   const [interests, setInterests] = useState([
     {
       name: 'Sports',
@@ -48,7 +50,7 @@ const FollowingPage = () => {
           isClicked: false,
         },
         {
-          categoryName: 'Swimming',
+          categoryName: 'Tennis',
           imagePath: swimmingpool,
           isHovered: false,
           isClicked: false,
@@ -145,12 +147,82 @@ const FollowingPage = () => {
       isSelected: true,
       id: 14,
     },
+    {
+      value: 'ஆன்மீகம்',
+      isSelected: true,
+      id: 15,
+    },
+    {
+      value: ' விளையாட்டு ',
+      isSelected: true,
+      id: 16,
+    },
+    {
+      value: 'விளையாட்டு',
+      isSelected: true,
+      id: 17,
+    },
+    {
+      value: 'அரசியல்',
+      isSelected: true,
+      id: 18,
+    },
+    {
+      value: 'ஆன்மீகம்',
+      isSelected: true,
+      id: 19,
+    },
+    {
+      value: 'விளையாட்டு',
+      isSelected: true,
+      id: 20,
+    },
+    {
+      value: 'ஆன்மீகம்',
+      isSelected: true,
+      id: 21,
+    },
+    {
+      value: ' விளையாட்டு ',
+      isSelected: true,
+      id: 22,
+    },
+    {
+      value: 'விளையாட்டு',
+      isSelected: true,
+      id: 23,
+    },
+    {
+      value: 'அரசியல்',
+      isSelected: true,
+      id: 24,
+    },
+    {
+      value: 'ஆன்மீகம்',
+      isSelected: true,
+      id: 25,
+    },
+    {
+      value: 'விளையாட்டு',
+      isSelected: true,
+      id: 26,
+    },
   ]);
 
+  const generateMargins = (position) => {
+    values.push(position);
+    if (values.length === pills.length) {
+      setOverAllMargins(values);
+    }
+  };
+
   const getInterestPills = () => {
-    return pills.map(({ value, isSelected, id }) => (
+    return pills.map(({ value, isSelected, id }, index) => (
       <Pill
+        position={index}
         key={id}
+        calculateMargins={generateMargins}
+        margins={margins}
         interest={value}
         isSelected={isSelected}
         onSelectInterest={(selectedId) => {
@@ -180,8 +252,41 @@ const FollowingPage = () => {
     setInterests(updatedCategory);
   };
 
+  useEffect(() => {
+    if (overAllMargins.length === pills.length) {
+      let lastPosition = 0;
+      const defaultMargin = 46;
+      const marginLeftsWithoutOddOrEven = overAllMargins.map((singlePillPosition) => {
+        if (singlePillPosition > lastPosition) {
+          lastPosition = singlePillPosition;
+          return defaultMargin;
+        }
+        lastPosition = singlePillPosition;
+        return 100;
+      });
+      let count = 1;
+      const updatedMargins = marginLeftsWithoutOddOrEven.map((singlePosition, index) => {
+        if (index === 0) {
+          return 100;
+        }
+        if (singlePosition === defaultMargin) {
+          return defaultMargin;
+        }
+        if (singlePosition > defaultMargin) {
+          count += 1;
+          if (count % 2 !== 0) {
+            return 100;
+          }
+          return defaultMargin;
+        }
+        return defaultMargin;
+      });
+      setMargins(updatedMargins);
+    }
+  }, [overAllMargins, pills]);
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
+    <div style={{ width: 1260 }}>
       <MainBlock>
         <GlobalInterest>
           <p>This block has Global interest</p>
@@ -195,31 +300,23 @@ const FollowingPage = () => {
         </MyInterests>
         <ExploreInterests>
           <PageTitle>Explore Interests</PageTitle>
-
-          {interests.map((interest) => {
-            return (
-              <>
-                <InterestTitle>{interest.name}</InterestTitle>
-                <InterestBorder></InterestBorder>
-                <CategoryBlock>
-                  {interest.categoryList.map((category) => {
-                    return (
-                      <Category>
-                        <CategoryImg src={category.imagePath} />
-                        <CategoryNameBlock id="categoryNameBlock">
-                          <CategoryName>{category.categoryName}</CategoryName>
-                          <FollowButton
-                            onClick={() => OnSelectInterest(category.categoryName, interest.name)}
-                            isClicked={category.isClicked}
-                          ></FollowButton>
-                        </CategoryNameBlock>
-                      </Category>
-                    );
-                  })}
-                </CategoryBlock>
-              </>
-            );
-          })}
+          <For each="interest" of={interests}>
+            <InterestTitle key={interest.name}>{interest.name}</InterestTitle>
+            <CategoryBlock>
+              <For each="category" of={interest.categoryList}>
+                <Category key={category.categoryName}>
+                  <CategoryImg src={category.imagePath} />
+                  <CategoryNameBlock id="categoryNameBlock">
+                    <CategoryName>{category.categoryName}</CategoryName>
+                    <FollowButton
+                      onClick={() => OnSelectInterest(category.categoryName, interest.name)}
+                      isClicked={category.isClicked}
+                    />
+                  </CategoryNameBlock>
+                </Category>
+              </For>
+            </CategoryBlock>
+          </For>
         </ExploreInterests>
       </MainBlock>
     </div>

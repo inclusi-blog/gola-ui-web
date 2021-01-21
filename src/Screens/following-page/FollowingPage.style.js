@@ -4,8 +4,9 @@ import PlusWhite from 'assets/images/plus_white.png';
 import Tick from 'assets/images/tick.png';
 
 export const MainBlock = styled.div`
-  height: 3455px;
-  width: 1260px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 108px;
 `;
 
 export const GlobalInterest = styled.div`
@@ -37,14 +38,12 @@ export const PageTitle = styled.div`
 `;
 
 export const MyInterests = styled.div`
-  height: 362px;
+  margin-bottom: 100px;
 `;
 
-export const ExploreInterests = styled.div`
-  height: 1806px;
-`;
+export const ExploreInterests = styled.div``;
 
-export const InterestTitle = styled.div`
+export const InterestTitle = styled.p`
   margin-top: 64px;
   margin-left: 36px;
   font-family: Poppins;
@@ -53,14 +52,10 @@ export const InterestTitle = styled.div`
   font-size: 20px;
   line-height: 30px;
   color: #3b3b58;
+  border-bottom: 1px solid #9a9a9a;
+  padding-bottom: 8px;
 `;
 
-export const InterestBorder = styled.div`
-  margin-top: 8px;
-  margin-left: 36px;
-  width: 1148px;
-  border: 1px solid #9a9a9a;
-`;
 export const CategoryBlock = styled.div`
   margin-left: 36px;
   width: 1148px;
