@@ -32,6 +32,12 @@ export const PillContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+export const PillBlock = styled.div`
+  width: 1200px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 export const SignupBorder = styled.div`
   width: 164px;
   height: 68px;
