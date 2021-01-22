@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useLocation, withRouter } from 'react-router-dom';
+import { useLocation, withRouter, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Logo from 'assets/images/logo.png';
 import SearchImg from 'assets/images/search.svg';
@@ -75,7 +75,9 @@ const Header = ({ location: { pathname } }) => {
             </CommonFlexRow>
             <NotifyBell unreadNotification={unreadNotification} />
             <Else />
-            <Explore>Explore</Explore>
+            <Link to="/me/following" style={{ textDecoration: 'none' }}>
+              <Explore>Explore</Explore>
+            </Link>
             <SearchIcon src={SearchImg} />
             <Bookmark src={BookmarkImg} />
             <NotifyBell unreadNotification={unreadNotification} />

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import Plus from 'assets/images/plus.png';
+import Plus from 'assets/images/plus.svg';
 import PlusWhite from 'assets/images/plus_white.png';
-import Tick from 'assets/images/tick.png';
+import Tick from 'assets/images/tick.svg';
 
 export const MainBlock = styled.div`
   display: flex;
@@ -13,7 +13,6 @@ export const GlobalInterest = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #e6b3ff;
   height: 866px;
   overflow: auto;
 `;
@@ -22,7 +21,6 @@ export const LeadingWriters = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #b3ffff;
   height: 420px;
   overflow: auto;
 `;
@@ -35,6 +33,7 @@ export const PageTitle = styled.div`
   line-height: 48px;
   color: #000000;
   margin: 0 auto;
+  margin-left: 16px;
 `;
 
 export const MyInterests = styled.div`
@@ -120,7 +119,7 @@ export const FollowButton = styled.div`
     display: flex;
     align-items: center;
     margin-left: ${(props) => (props.isClicked ? '12px' : '9px')};
-    margin-top: ${(props) => (props.isClicked ? '-9px' : '-2px')};
+    margin-top: ${(props) => (props.isClicked ? '-10px' : '-2px')};
   }
 
   &:hover {
@@ -132,7 +131,7 @@ export const FollowButton = styled.div`
       display: flex;
       align-items: center;
       margin-left: ${(props) => (props.isClicked ? '12px' : '8px')};
-      margin-top: ${(props) => (props.isClicked ? '-9px' : '-2px')};
+      margin-top: ${(props) => (props.isClicked ? '-10px' : '-2px')};
     }
   }
 `;
