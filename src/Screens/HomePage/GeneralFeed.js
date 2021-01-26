@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeroPostPic from 'assets/images/HeroPostPhoto.png';
 import Super from 'assets/images/Super.png';
 import SidePostPic from 'assets/images/SidePostPhoto.png';
@@ -6,6 +6,8 @@ import BookMark from 'assets/images/Bookmark.png';
 import ReadLater from 'assets/images/Later.png';
 import ThreeDots from 'assets/images/Dot.png';
 import PinImg from 'assets/images/Pin.svg';
+import withFeedSorter from 'common-components/CategorySorter/withFeedSorter';
+import useGeneralFeedSorter from 'hooks/useGeneralFeedSorter';
 import {
   GeneralPostsContainer,
   SidePostContainer,
@@ -29,7 +31,37 @@ import {
 } from './GeneralFeed.style';
 
 const GeneralFeed = () => {
-  const isAdminPost = useState('true');
+  // eslint-disable-next-line no-unused-vars
+  const [isAdminPost, setIsAdminPost] = useState('true');
+  const { selectedSort } = useGeneralFeedSorter();
+
+  const sidebarOptionsConfig = {
+    Top: () => {
+      // eslint-disable-next-line no-console
+      console.log('called top');
+    },
+    Best: () => {
+      // eslint-disable-next-line no-console
+      console.log('called best');
+    },
+    Hot: () => {
+      // eslint-disable-next-line no-console
+      console.log('called hot');
+    },
+    Recent: () => {
+      // eslint-disable-next-line no-console
+      console.log('called recent');
+    },
+    Personalized: () => {
+      // eslint-disable-next-line no-console
+      console.log('called personalized');
+    },
+  };
+
+  useEffect(() => {
+    sidebarOptionsConfig[selectedSort]();
+  }, [selectedSort]);
+
   return (
     <div>
       <GeneralPostsContainer style={{ display: 'flex', flexDirection: 'row' }}>
@@ -385,4 +417,5 @@ const GeneralFeed = () => {
     </div>
   );
 };
-export default GeneralFeed;
+
+export default withFeedSorter(GeneralFeed, useGeneralFeedSorter);
