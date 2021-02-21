@@ -25,30 +25,30 @@ import {
 } from './FollowingPage.style';
 
 const FollowingPage = () => {
-  const [interests, setInterests] = useState([
+  const [categories, setCategories] = useState([
     {
       name: 'Sports',
-      categoryList: [
+      interestList: [
         {
-          categoryName: 'Kabadi',
+          interestName: 'Kabadi',
           imagePath: kabadi,
           isHovered: false,
           isClicked: false,
         },
         {
-          categoryName: 'Swimming',
+          interestName: 'Swimming',
           imagePath: swimmingpool,
           isHovered: false,
           isClicked: false,
         },
         {
-          categoryName: 'Cricket',
+          interestName: 'Cricket',
           imagePath: cricket,
           isHovered: false,
           isClicked: false,
         },
         {
-          categoryName: 'Swimming',
+          interestName: 'Swimming',
           imagePath: swimmingpool,
           isHovered: false,
           isClicked: false,
@@ -57,21 +57,21 @@ const FollowingPage = () => {
     },
     {
       name: 'Programming',
-      categoryList: [
+      interestList: [
         {
-          categoryName: 'Python',
+          interestName: 'Python',
           imagePath: python,
           isHovered: false,
           isClicked: false,
         },
         {
-          categoryName: 'Java',
+          interestName: 'Java',
           imagePath: java,
           isHovered: false,
           isClicked: false,
         },
         {
-          categoryName: 'ReactJs',
+          interestName: 'ReactJs',
           imagePath: react,
           isHovered: false,
           isClicked: false,
@@ -173,20 +173,20 @@ const FollowingPage = () => {
     ));
   };
 
-  const OnSelectInterest = (categoryName, interestName) => {
-    const updatedCategory = interests.map((interest) => {
-      if (interest.name === interestName) {
-        const updatedInterest = interest.categoryList.map((category) => {
-          if (category.categoryName === categoryName) {
-            return { ...category, isClicked: !category.isClicked };
+  const OnSelectInterest = (interestName, categoryName) => {
+    const updatedCategory = categories.map((category) => {
+      if (category.name === categoryName) {
+        const updatedInterest = category.interestList.map((interest) => {
+          if (interest.interestName === interestName) {
+            return { ...interest, isClicked: !interest.isClicked };
           }
-          return category;
+          return interest;
         });
-        return { ...interest, categoryList: updatedInterest };
+        return { ...category, interestList: updatedInterest };
       }
-      return interest;
+      return category;
     });
-    setInterests(updatedCategory);
+    setCategories(updatedCategory);
   };
 
   return (
@@ -204,22 +204,21 @@ const FollowingPage = () => {
         </MyInterests>
         <ExploreInterests>
           <PageTitle>Explore Interests</PageTitle>
-
-          {interests.map((interest) => {
+          {categories.map((category) => {
             return (
               <>
-                <InterestTitle>{interest.name}</InterestTitle>
+                <InterestTitle>{category.name}</InterestTitle>
                 <InterestBorder />
                 <CategoryBlock>
-                  {interest.categoryList.map((category) => {
+                  {category.interestList.map((interest) => {
                     return (
                       <Category>
-                        <CategoryImg src={category.imagePath} />
-                        <CategoryNameBlock id="categoryNameBlock">
-                          <CategoryName>{category.categoryName}</CategoryName>
+                        <CategoryImg src={interest.imagePath} />
+                        <CategoryNameBlock id="interestNameBlock">
+                          <CategoryName>{interest.interestName}</CategoryName>
                           <FollowButton
-                            onClick={() => OnSelectInterest(category.categoryName, interest.name)}
-                            isClicked={category.isClicked}
+                            onClick={() => OnSelectInterest(interest.interestName, category.name)}
+                            isClicked={interest.isClicked}
                           />
                         </CategoryNameBlock>
                       </Category>
