@@ -22,6 +22,7 @@ const DEV_HOST = process.env.DEV_HOST ?? 'localhost';
 
 const routerProxyConfig = {
   '/post/v1': 'http://localhost:8080',
+  '/user-profile/v1': 'http://localhost:8084',
   '/idp/v1': 'http://localhost:9000',
   'api/v1': 'http://localhost:3001',
   '/tracing/span': 'http://localhost:9411'

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ExplorePill from 'common-components/ExplorePill';
+import { RESPONSE_STATUSES } from '../../constants/CommonConstants';
 import { PillBlock } from '../welcome/Welcome.Style';
-import { GetCategoriesAndInterests } from './follow.service';
+import { FollowInterest, GetCategoriesAndInterests } from './follow.service';
 import {
   MainBlock,
   GlobalInterest,
@@ -141,19 +142,28 @@ const FollowingPage = () => {
   };
 
   const OnSelectInterest = (interestName, categoryName) => {
-    const updatedCategory = categories.map((category) => {
-      if (category.name === categoryName) {
-        const updatedInterest = category.interestList.map((interest) => {
-          if (interest.interestName === interestName) {
-            return { ...interest, isClicked: !interest.isClicked };
-          }
-          return interest;
-        });
-        return { ...category, interestList: updatedInterest };
-      }
-      return category;
-    });
-    setCategories(updatedCategory);
+    FollowInterest(interestName)
+      .then(({ data }) => {
+        if (data.status === RESPONSE_STATUSES.SUCCESS) {
+          const updatedCategory = categories.map((category) => {
+            if (category.name === categoryName) {
+              const updatedInterest = category.interestList.map((interest) => {
+                if (interest.interestName === interestName) {
+                  return { ...interest, isClicked: !interest.isClicked };
+                }
+                return interest;
+              });
+              return { ...category, interestList: updatedInterest };
+            }
+            return category;
+          });
+          setCategories(updatedCategory);
+        }
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong', err);
+      });
   };
 
   return (
