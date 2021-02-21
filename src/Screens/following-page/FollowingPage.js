@@ -5,7 +5,7 @@ import cricket from 'assets/images/cricket.svg';
 import python from 'assets/images/python.png';
 import java from 'assets/images/javaa.png';
 import react from 'assets/images/react.png';
-import Pill from 'common-components/Pill';
+import ExplorePill from 'common-components/ExplorePill';
 import { PillBlock } from '../welcome/Welcome.Style';
 import {
   MainBlock,
@@ -128,29 +128,38 @@ const FollowingPage = () => {
     {
       value: 'விளையாட்டு',
       isSelected: true,
-      id: 11,
+      id: 10,
     },
     {
       value: 'அரசியல்',
       isSelected: true,
-      id: 12,
+      id: 11,
     },
     {
       value: 'ஆன்மீகம்',
       isSelected: true,
-      id: 13,
+      id: 12,
     },
     {
       value: 'விளையாட்டு',
       isSelected: true,
+      id: 13,
+    },
+    {
+      value: 'அரசியல்',
+      isSelected: true,
       id: 14,
+    },
+    {
+      value: 'ஆன்மீகம்',
+      isSelected: true,
+      id: 15,
     },
   ]);
 
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
-      <Pill
-        key={id}
+      <ExplorePill
         interest={value}
         isSelected={isSelected}
         onSelectInterest={(selectedId) => {
@@ -200,7 +209,7 @@ const FollowingPage = () => {
             return (
               <>
                 <InterestTitle>{interest.name}</InterestTitle>
-                <InterestBorder></InterestBorder>
+                <InterestBorder />
                 <CategoryBlock>
                   {interest.categoryList.map((category) => {
                     return (
@@ -211,7 +220,7 @@ const FollowingPage = () => {
                           <FollowButton
                             onClick={() => OnSelectInterest(category.categoryName, interest.name)}
                             isClicked={category.isClicked}
-                          ></FollowButton>
+                          />
                         </CategoryNameBlock>
                       </Category>
                     );
