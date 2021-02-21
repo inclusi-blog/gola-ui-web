@@ -1,12 +1,7 @@
-import React, { useState } from 'react';
-import kabadi from 'assets/images/kabadi.svg';
-import swimmingpool from 'assets/images/swimmingpool.png';
-import cricket from 'assets/images/cricket.svg';
-import python from 'assets/images/python.png';
-import java from 'assets/images/javaa.png';
-import react from 'assets/images/react.png';
+import React, { useEffect, useState } from 'react';
 import ExplorePill from 'common-components/ExplorePill';
 import { PillBlock } from '../welcome/Welcome.Style';
+import { GetCategoriesAndInterests } from './follow.service';
 import {
   MainBlock,
   GlobalInterest,
@@ -25,60 +20,7 @@ import {
 } from './FollowingPage.style';
 
 const FollowingPage = () => {
-  const [categories, setCategories] = useState([
-    {
-      name: 'Sports',
-      interestList: [
-        {
-          interestName: 'Kabadi',
-          imagePath: kabadi,
-          isHovered: false,
-          isClicked: false,
-        },
-        {
-          interestName: 'Swimming',
-          imagePath: swimmingpool,
-          isHovered: false,
-          isClicked: false,
-        },
-        {
-          interestName: 'Cricket',
-          imagePath: cricket,
-          isHovered: false,
-          isClicked: false,
-        },
-        {
-          interestName: 'Swimming',
-          imagePath: swimmingpool,
-          isHovered: false,
-          isClicked: false,
-        },
-      ],
-    },
-    {
-      name: 'Programming',
-      interestList: [
-        {
-          interestName: 'Python',
-          imagePath: python,
-          isHovered: false,
-          isClicked: false,
-        },
-        {
-          interestName: 'Java',
-          imagePath: java,
-          isHovered: false,
-          isClicked: false,
-        },
-        {
-          interestName: 'ReactJs',
-          imagePath: react,
-          isHovered: false,
-          isClicked: false,
-        },
-      ],
-    },
-  ]);
+  const [categories, setCategories] = useState([]);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -156,6 +98,31 @@ const FollowingPage = () => {
       id: 15,
     },
   ]);
+
+  useEffect(() => {
+    GetCategoriesAndInterests()
+      .then(({ data }) => {
+        setCategories(
+          data.map(({ category, interests }) => {
+            return {
+              name: category,
+              interestList: interests.map((interest) => {
+                return {
+                  interestName: interest.name,
+                  imagePath: interest.image,
+                  isHovered: false,
+                  isClicked: interest.isFollowedByUser,
+                };
+              }),
+            };
+          })
+        );
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong', err);
+      });
+  }, []);
 
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
