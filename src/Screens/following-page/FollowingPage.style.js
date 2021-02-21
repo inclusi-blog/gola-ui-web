@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Plus from 'assets/images/plus.svg';
-import PlusWhite from 'assets/images/plus_white.png';
+import WhiteClose from 'assets/images/WhiteClose.svg';
 import Tick from 'assets/images/tick.svg';
 
 export const MainBlock = styled.div`
@@ -130,7 +130,7 @@ export const FollowButton = styled.div`
   &:hover {
     background: ${(props) => (props.isClicked ? 'inherit' : 'red')};
     &:after {
-      content: url(${(props) => (props.isClicked ? Tick : PlusWhite)});
+      content: url(${(props) => (props.isClicked ? Tick : WhiteClose)});
       font-size: 34px;
       color: white;
       display: flex;
