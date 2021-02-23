@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ExplorePill from 'common-components/ExplorePill';
 import { RESPONSE_STATUSES } from '../../constants/CommonConstants';
 import { PillBlock } from '../welcome/Welcome.Style';
-import { FollowInterest, GetCategoriesAndInterests } from './follow.service';
+import { FollowInterest, GetCategoriesAndInterests, GetUserFollowingInterest } from './follow.service';
 import {
   MainBlock,
   GlobalInterest,
@@ -22,83 +22,7 @@ import {
 
 const FollowingPage = () => {
   const [categories, setCategories] = useState([]);
-  const [pills, setPills] = useState([
-    {
-      value: 'அரசியல்',
-      isSelected: true,
-      id: 1,
-    },
-    {
-      value: 'ஆன்மீகம்',
-      isSelected: true,
-      id: 2,
-    },
-    {
-      value: 'விளையாட்டு',
-      isSelected: true,
-      id: 3,
-    },
-    {
-      value: 'அரசியல்',
-      isSelected: true,
-      id: 4,
-    },
-    {
-      value: 'ஆன்மீகம்',
-      isSelected: true,
-      id: 5,
-    },
-    {
-      value: 'விளையாட்டு',
-      isSelected: true,
-      id: 6,
-    },
-    {
-      value: 'அரசியல்',
-      isSelected: true,
-      id: 7,
-    },
-    {
-      value: 'ஆன்மீகம்',
-      isSelected: true,
-      id: 8,
-    },
-    {
-      value: ' விளையாட்டு ',
-      isSelected: true,
-      id: 9,
-    },
-    {
-      value: 'விளையாட்டு',
-      isSelected: true,
-      id: 10,
-    },
-    {
-      value: 'அரசியல்',
-      isSelected: true,
-      id: 11,
-    },
-    {
-      value: 'ஆன்மீகம்',
-      isSelected: true,
-      id: 12,
-    },
-    {
-      value: 'விளையாட்டு',
-      isSelected: true,
-      id: 13,
-    },
-    {
-      value: 'அரசியல்',
-      isSelected: true,
-      id: 14,
-    },
-    {
-      value: 'ஆன்மீகம்',
-      isSelected: true,
-      id: 15,
-    },
-  ]);
+  const [pills, setPills] = useState([]);
 
   useEffect(() => {
     GetCategoriesAndInterests()
@@ -122,6 +46,21 @@ const FollowingPage = () => {
       .catch((err) => {
         // eslint-disable-next-line no-console
         console.log('something went wrong', err);
+      });
+    GetUserFollowingInterest()
+      .then(({ data }) => {
+        const fetchedPills = data.map((interestName, index) => {
+          return {
+            value: interestName,
+            isSelected: true,
+            id: index + 1,
+          };
+        });
+        setPills(fetchedPills);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('something went wrong while fetching user following interest !! ', err);
       });
   }, []);
 

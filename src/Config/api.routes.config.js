@@ -9,3 +9,4 @@ export const PREVIEW_DRAFT = 'post/v1/draft/preview-draft';
 export const GET_POST = 'post/v1/post/';
 export const GET_CATEGORIES_AND_INTERESTS = 'post/v1/interest/topics-and-interests';
 export const FOLLOW_INTEREST = 'user-profile/v1/interest/follow';
+export const GET_USER_FOLLOWING_INTERESTS = 'user-profile/v1/interest';
