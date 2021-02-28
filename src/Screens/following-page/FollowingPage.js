@@ -67,6 +67,7 @@ const FollowingPage = () => {
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
       <ExplorePill
+        key={value}
         interest={value}
         isSelected={isSelected}
         onSelectInterest={(selectedId) => {
@@ -122,13 +123,13 @@ const FollowingPage = () => {
           <PageTitle>Explore Interests</PageTitle>
           {categories.map((category) => {
             return (
-              <>
+              <div key={category.name}>
                 <InterestTitle>{category.name}</InterestTitle>
                 <InterestBorder />
                 <CategoryBlock>
                   {category.interestList.map((interest) => {
                     return (
-                      <Category>
+                      <Category key={interest.interestName}>
                         <CategoryImg src={interest.imagePath} />
                         <CategoryNameBlock id="interestNameBlock">
                           <CategoryName>{interest.interestName}</CategoryName>
@@ -141,7 +142,7 @@ const FollowingPage = () => {
                     );
                   })}
                 </CategoryBlock>
-              </>
+              </div>
             );
           })}
         </ExploreInterests>
