@@ -13,10 +13,10 @@ import i18n from '../i18n/i18n';
 
 const AppRoot = () => {
   return (
-    <BaseLayers>
-      <AuthModalProvider>
-        <FeedSortProvider>
-          <LoggedInProvider>
+    <LoggedInProvider>
+      <BaseLayers>
+        <AuthModalProvider>
+          <FeedSortProvider>
             <UserProfileProvider>
               <NewStoryProvider>
                 <I18nextProvider i18n={i18n}>
@@ -26,10 +26,10 @@ const AppRoot = () => {
                 </I18nextProvider>
               </NewStoryProvider>
             </UserProfileProvider>
-          </LoggedInProvider>
-        </FeedSortProvider>
-      </AuthModalProvider>
-    </BaseLayers>
+          </FeedSortProvider>
+        </AuthModalProvider>
+      </BaseLayers>
+    </LoggedInProvider>
   );
 };
 

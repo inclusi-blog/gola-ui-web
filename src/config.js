@@ -4,7 +4,7 @@ var environmentConfiguration = {
   ENVIRONMENT: 'LOCAL',
   OAUTH: {
     URL: 'http://localhost:3000/',
-    CLIENT_ID: '6b985744-43e7-4a65-a8b1-6656ac4e231b',
+    CLIENT_ID: 'ui-web-client',
     REDIRECT_URI: 'http://localhost:3000/callback',
   },
   DEV_MODE: true,

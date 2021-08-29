@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { v4 as uuidv4 } from 'uuid';
 import ajax from '../helpers/ajaxHelper';
 import useBlur from '../hooks/useBlur';
 import useDraft from '../hooks/useDraft';
@@ -50,14 +49,25 @@ const NewStory = ({ location: { pathname } }) => {
 
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
-    const data = {
-      user_id: 'some-user',
-      draft_id: puid,
-      post_data: post,
-    };
 
+    if (pathname === '/new-story') {
+      ajax
+        .post('/post/v1/draft', {
+          data: post,
+        })
+        .then(({ data }) => {
+          setPUID(data.draft_id);
+          setIsSaving(false);
+        })
+        .catch(() => {
+          setIsSaving(false);
+        });
+      return;
+    }
     ajax
-      .post('/post/v1/draft/upsert-draft', data)
+      .put(`/post/v1/draft?draft=${puid}`, {
+        data: post,
+      })
       .then(() => {
         setIsSaving(false);
         commandToRun();
@@ -141,9 +151,9 @@ const NewStory = ({ location: { pathname } }) => {
       GetDraft(params.draftId)
         .then(({ data }) => {
           setPUID(params.draftId);
-          setContentData(data.post_data);
-          if (data.interest) {
-            setSelectedTags(data.interest);
+          setContentData(data.data);
+          if (data.interests) {
+            setSelectedTags(data.interests);
           }
           if (data.preview_image) {
             setPreviewImage(data.preview_image);
@@ -157,8 +167,6 @@ const NewStory = ({ location: { pathname } }) => {
           // eslint-disable-next-line no-console
           console.log('unable to get draft', err);
         });
-    } else {
-      setPUID(uuidv4().substring(24));
     }
   }, []);
 

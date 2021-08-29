@@ -74,7 +74,7 @@ const onResponse = function (proxyRes, req, res) {
 
 const routerProxyConfig = {
   '/oauth2': 'http://localhost:4444',
-  '/idp/v1': 'http://localhost:8081',
+  '/idp/v1': 'http://localhost:8080',
 };
 
 const proxyOptions = {

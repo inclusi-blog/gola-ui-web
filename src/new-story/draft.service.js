@@ -43,6 +43,6 @@ export const DeleteInterest = (draftId, interest) =>
     interest,
   });
 
-export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}/${draftID}`);
+export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}?draft=${draftID}`);
 
 export const GetPreviewDraft = (draftId) => ajax.get(`${PREVIEW_DRAFT}/${draftId}`);

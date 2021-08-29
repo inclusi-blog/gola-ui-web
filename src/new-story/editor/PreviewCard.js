@@ -174,7 +174,7 @@ const PreviewCard = ({
         <PreviewTitleText wordsCount={title.length}>{title}</PreviewTitleText>
         <TaglineInput
           placeholder="Add tagline"
-          showPen={tagline.length}
+          showPen={tagline?.length}
           value={tagline}
           onChange={({ target }) => {
             onChangeTagline(target.value);

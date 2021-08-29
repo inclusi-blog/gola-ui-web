@@ -163,7 +163,6 @@ const PostView = () => {
       GetPost(postID)
         .then(({ data }) => {
           setPost({
-            ...post,
             data: data.post_data,
             interests: data.interests,
             likeCount: data.like_count,
