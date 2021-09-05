@@ -63,4 +63,5 @@ export const SignupText = styled.p`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
