@@ -1,6 +1,6 @@
-export const GET_INTERESTS = 'post/v1/interest/get-interests';
+export const GET_INTERESTS = 'post/v1/interests';
 export const SAVE_TAGLINE = 'post/v1/draft/tagline';
-export const SAVE_INTERESTS = 'post/v1/draft/upsert-interests';
+export const SAVE_INTERESTS = 'post/v1/draft/interests';
 export const DELETE_INTEREST = 'post/v1/draft/delete-interest';
 export const SAVE_PREVIEW_IMAGE = 'post/v1/draft/upsert-preview-image';
 export const PUBLISH_DRAFT = 'post/v1/post/publish';
