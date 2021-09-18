@@ -31,10 +31,7 @@ export const UpdatePreviewImage = (draftID, previewImage) =>
   });
 
 export const PublishPost = (draftID) =>
-  ajax.post(PUBLISH_DRAFT, {
-    draft_id: draftID,
-    user_id: 'some-user',
-  });
+  ajax.post(`${PUBLISH_DRAFT}?draft=${draftID}`);
 
 export const DeleteInterest = (draftId, interest) =>
   ajax.post(DELETE_INTEREST, {

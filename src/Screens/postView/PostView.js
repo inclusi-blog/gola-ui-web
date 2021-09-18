@@ -64,18 +64,14 @@ const PostView = () => {
   const [timerStatus, setTimerStatus] = useState('start');
   const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(0);
-  const { setRedirectUrl, setPostRedirect, setPreviewDraft } = useDraft();
+  const {setRedirectUrl, setPostRedirect, setPreviewDraft} = useDraft();
   const [showSharePopup, setShowSharePopup] = useState(false);
   // eslint-disable-next-line camelcase,no-unused-vars
-  const { post_url, username } = useParams();
+  const {post_url, username} = useParams();
   const location = useLocation();
   const history = useHistory();
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
-
-  const urlPaths = post_url.split('-');
-  // eslint-disable-next-line no-unused-vars
-  const postID = urlPaths[urlPaths.length - 1];
-  // eslint-disable-next-line no-unused-vars
+  const [postID, setPostID] = useState();
   const [post, setPost] = useState({
     data: [
       {
@@ -86,7 +82,7 @@ const PostView = () => {
           },
         ],
       },
-      { children: [{ text: '' }] },
+      {children: [{text: ''}]},
       {
         children: [
           {
@@ -95,9 +91,9 @@ const PostView = () => {
           },
         ],
       },
-      { children: [{ text: '' }] },
-      { children: [{ text: '' }] },
-      { children: [{ text: 'படபபடயக உயரநத எணணகக' }] },
+      {children: [{text: ''}]},
+      {children: [{text: ''}]},
+      {children: [{text: 'படபபடயக உயரநத எணணகக'}]},
       {
         children: [
           {
@@ -161,12 +157,12 @@ const PostView = () => {
   useEffect(() => {
     if (postID) {
       GetPost(postID)
-        .then(({ data }) => {
+        .then(({data}) => {
           setPost({
             data: data.post_data,
             interests: data.interests,
-            likeCount: data.like_count,
-            commentCount: data.comment_count,
+            likeCount: data.likes_count,
+            commentCount: data.comments_count,
             previewImage: data.preview_image,
             authorName: data.author_name,
           });
@@ -179,7 +175,19 @@ const PostView = () => {
         });
     }
     startTimer();
-  }, []);
+  }, [postID]);
+
+  useEffect(() => {
+    // eslint-disable-next-line camelcase
+    if (post_url) {
+      const id = post_url.substring(post_url.length, post_url.length - 36);
+      const regexp = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$");
+      if (regexp.test(id)) {
+        setPostID(post_url.substring(post_url.length, post_url.length - 36));
+      }
+    }
+    // eslint-disable-next-line camelcase
+  }, [post_url]);
 
   useEffect(() => {
     if (time !== 0 && time % 60 === 0) {
@@ -204,8 +212,8 @@ const PostView = () => {
 
   const getInterestPills = () => {
     return post.interests.map((item) => (
-      <InterestTag key={item}>
-        <InterestTagText>{item}</InterestTagText>
+      <InterestTag key={item.id}>
+        <InterestTagText>{item.name}</InterestTagText>
       </InterestTag>
     ));
   };
@@ -213,26 +221,26 @@ const PostView = () => {
   const onPopupClose = () => {
     setShowSharePopup(false);
     delete location.state.shouldOpenSharePopup;
-    history.replace({ ...history.location, state: {} });
+    history.replace({...history.location, state: {}});
   };
 
-  useEscapeHandler({ onEscape: () => setShowSharePopup(false) });
-  useScrollBlock({ isModalOpen: showSharePopup });
-  useBlur({ nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup });
+  useEscapeHandler({onEscape: () => setShowSharePopup(false)});
+  useScrollBlock({isModalOpen: showSharePopup});
+  useBlur({nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup});
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} id="post-view">
+    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} id="post-view">
       <MainContainer>
         <PreviewPostOuterContainer
-          style={{ marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover' }}
+          style={{marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover'}}
         >
-          <PostMainImage src={post.previewImage} />
+          <PostMainImage src={post.previewImage}/>
         </PreviewPostOuterContainer>
         <ProfilePalatte
           publishedDate={publishedDate}
           authorName={post.authorName}
           isAuthorViewingPost={isViewIsAuthor}
         />
-        <div style={{ borderBottom: '1px solid #DFDFDF ', marginTop: 60 }}>
+        <div style={{borderBottom: '1px solid #DFDFDF ', marginTop: 60}}>
           <Slate editor={editor} value={post.data}>
             <Editable
               renderElement={(props) => <Element {...props} />}
@@ -245,35 +253,35 @@ const PostView = () => {
             />
           </Slate>
         </div>
-        <ReviewPalatte />
-        <div style={{ display: 'flex', alignItems: 'center', marginTop: 32 }}>{getInterestPills()}</div>
+        <ReviewPalatte/>
+        <div style={{display: 'flex', alignItems: 'center', marginTop: 32}}>{getInterestPills()}</div>
         <CommentContainer>
-          <ApplyRow style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ProfilePic src={ProfileImg} />
-            <CommentBox placeholder="Write your thoughts..." />
+          <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
+            <ProfilePic src={ProfileImg}/>
+            <CommentBox placeholder="Write your thoughts..."/>
             <CommentButton>
               <CommentLabel>Comment</CommentLabel>
             </CommentButton>
           </ApplyRow>
         </CommentContainer>
-        <ViewCommentListContainer style={{ marginTop: 40 }}>
-          <ApplyColumn style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <ViewCommentListContainer style={{marginTop: 40}}>
+          <ApplyColumn style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
             <SingleCommentContainer>
               <ApplyRow>
-                <CommentAuthor src={CommentImg} />
-                <ApplyColumn style={{ marginLeft: 12 }}>
+                <CommentAuthor src={CommentImg}/>
+                <ApplyColumn style={{marginLeft: 12}}>
                   <CommentAuthorName>Munniyamma</CommentAuthorName>
                   <CommentDate>July, 2020</CommentDate>
                 </ApplyColumn>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flex: 3 }}>
-                  <CommentHandSymbol src={superClick} />
+                <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flex: 3}}>
+                  <CommentHandSymbol src={superClick}/>
                 </div>
               </ApplyRow>
-              <ApplyRow style={{ marginTop: 17 }}>
+              <ApplyRow style={{marginTop: 17}}>
                 <CommentContent>
                   படிப்படியாக உயர்ந்த எண்ணிக்கை தமிழ்நாட்டில் கொரோனா தொற்று பரவத் தொடங்கியபோது
                 </CommentContent>
-                <ArrowImg src={DownArrowImg} />
+                <ArrowImg src={DownArrowImg}/>
               </ApplyRow>
             </SingleCommentContainer>
             <ViewAllComments>all comments</ViewAllComments>
@@ -283,16 +291,16 @@ const PostView = () => {
       <If condition={showSharePopup}>
         <FlowModal onClose={() => onPopupClose()}>
           <PublishPreviewCard
-            style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px' }}
+            style={{display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px'}}
           >
-            <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+            <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
               <div onClick={() => onPopupClose()}>
-                <img src={Close} alt="success-tick" width={32} height={32} />
+                <img src={Close} alt="success-tick" width={32} height={32}/>
               </div>
             </div>
-            <img src={RedTick} alt="success-tick" width={56} height={56} />
-            <PublishPreviewTitle style={{ marginTop: 16 }}>Publish post</PublishPreviewTitle>
+            <img src={RedTick} alt="success-tick" width={56} height={56}/>
+            <PublishPreviewTitle style={{marginTop: 16}}>Publish post</PublishPreviewTitle>
           </PublishPreviewCard>
         </FlowModal>
       </If>
