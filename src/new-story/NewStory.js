@@ -9,7 +9,7 @@ import ajax from '../helpers/ajaxHelper';
 import useBlur from '../hooks/useBlur';
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
-import { GetDraft, SaveTagline, UpdateInterests } from './draft.service';
+import { GetDraft, SaveTagline } from './draft.service';
 import ContentEditor from './editor/ContentEditor';
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';

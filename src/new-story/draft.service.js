@@ -26,9 +26,7 @@ export const UpdateInterests = (draftID, interests) => {
 };
 
 export const UpdatePreviewImage = (draftID, previewImage) =>
-  ajax.post(SAVE_PREVIEW_IMAGE, {
-    draft_id: draftID,
-    user_id: 'some-user',
+  ajax.put(`${SAVE_PREVIEW_IMAGE}?draft=${draftID}`, {
     preview_image: previewImage,
   });
 
