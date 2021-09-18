@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { debounce } from 'lodash';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
 import ajax from 'helpers/ajaxHelper';
-import { DeleteInterest, GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
+import { GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -27,7 +26,7 @@ import {
 const PreviewCard = ({
   title,
   onChangeTagline,
-  postID,
+  draftID,
   previewImage,
   setPreviewImage,
   selectedFile,
@@ -45,8 +44,8 @@ const PreviewCard = ({
   const ref = useRef(null);
   const [, setErrorStatus] = useState(false);
 
-  const GetSearchedInterests = (searchedValue) => {
-    GetInterests(searchedValue, selectedTags)
+  const GetSearchedInterests = () => {
+    GetInterests()
       .then(({ data }) => {
         if (data && data.length) {
           setInterestStore(data);
@@ -60,18 +59,8 @@ const PreviewCard = ({
       });
   };
 
-  useEffect(() => {
-    setInterestsList(interestStore.filter((item) => item.name.toLowerCase().includes(interestInputValue)).slice(0, 4));
-  }, [interestStore]);
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const delayedGetInterest = useCallback(
-    debounce((eventData) => GetSearchedInterests(eventData), 500),
-    [selectedTags]
-  );
-
   const updateImage = (previewImageUrl) => {
-    UpdatePreviewImage(postID, previewImageUrl)
+    UpdatePreviewImage(draftID, previewImageUrl)
       .then(({ data }) => {
         if (data.status === 'succes') {
           setErrorStatus(null);
@@ -82,8 +71,8 @@ const PreviewCard = ({
       });
   };
 
-  const onClickInterest = (selectedInterest) => {
-    UpdateInterests(postID, selectedInterest)
+  const onClickInterest = (tags) => {
+    UpdateInterests(draftID, tags)
       .then(() => setErrorStatus(false))
       .catch(() => setErrorStatus(true));
   };
@@ -98,22 +87,26 @@ const PreviewCard = ({
 
   useEffect(() => {
     if (interestInputValue.length === 0) {
-      setInterestStore([]);
+      setInterestsList([]);
+      return;
     }
+    const unselected = interestStore.filter((item) => selectedTags.indexOf(item) === -1);
+    setInterestsList(unselected.filter((item) => item.name.toLowerCase().includes(interestInputValue)).slice(0, 4));
   }, [interestInputValue]);
+
+  useEffect(() => {
+    GetSearchedInterests();
+  }, []);
 
   const removeSelectedTag = (selectedIndex) => {
     setSelectedTags(selectedTags.filter((item, index) => selectedIndex !== index));
-    DeleteInterest(postID, selectedTags[selectedIndex])
-      .then(() => {
-        // eslint-disable-next-line no-console
-        console.log('deleted interest connection');
-      })
-      .catch((err) =>
-        // eslint-disable-next-line no-console
-        console.log(err)
-      );
   };
+
+  useEffect(() => {
+    if (selectedTags.length === 5) {
+      onClickInterest(selectedTags);
+    }
+  }, [selectedTags]);
 
   useEffect(() => {
     if (selectedFile) {
@@ -180,11 +173,11 @@ const PreviewCard = ({
             onChangeTagline(target.value);
           }}
         />
-        <If condition={selectedTags.length}>
+        <If condition={selectedTags?.length}>
           <InterestPillsContainer>
             {selectedTags.map((item, index) => (
-              <InterestTag key={item} onClick={() => removeSelectedTag(index)}>
-                <InterestTagText>{item}</InterestTagText>
+              <InterestTag key={item.id} onClick={() => removeSelectedTag(index)}>
+                <InterestTagText>{item.name}</InterestTagText>
               </InterestTag>
             ))}
           </InterestPillsContainer>
@@ -196,7 +189,6 @@ const PreviewCard = ({
             ref={ref}
             onChange={(event) => {
               setInterestInputValue(event.target.value);
-              delayedGetInterest(event.target.value);
             }}
           />
           <If condition={interestInputValue.length}>
@@ -204,12 +196,11 @@ const PreviewCard = ({
               {interestsList.map((item, index) => (
                 <InterestListItem
                   onClick={() => {
-                    setSelectedTags([...selectedTags, item.name]);
-                    onClickInterest(item.name);
+                    setSelectedTags([...selectedTags, item]);
                     setInterestInputValue('');
                     setShowInterestTagPills(false);
                   }}
-                  key={item.name.toString()}
+                  key={item.id.toString()}
                   paddingTop={index === 0 ? 20 : 8}
                   height={index === 0 ? 54 : 42}
                   isLast={false}
@@ -231,7 +222,7 @@ const PreviewCard = ({
             </InterestSuggestionsBox>
           </If>
           <Else />
-          <If condition={selectedTags.length < 5}>
+          <If condition={selectedTags?.length < 5}>
             <InterestTagRow
               onClick={() => {
                 setShowInterestTagPills(true);
@@ -257,7 +248,7 @@ PreviewCard.defaultProps = {
 PreviewCard.propTypes = {
   title: PropTypes.string.isRequired,
   onChangeTagline: PropTypes.func.isRequired,
-  postID: PropTypes.string.isRequired,
+  draftID: PropTypes.string.isRequired,
   previewImage: PropTypes.string.isRequired,
   setPreviewImage: PropTypes.func.isRequired,
   selectedFile: PropTypes.shape({

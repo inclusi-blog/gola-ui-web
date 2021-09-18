@@ -10,18 +10,20 @@ import {
   SAVE_TAGLINE,
 } from '../Config/api.routes.config';
 
-export const GetInterests = (searchKeyWord, selectedTags) =>
-  ajax.post(GET_INTERESTS, { searchKeyword: searchKeyWord, selectedTags });
+export const GetInterests = () =>
+  ajax.get(GET_INTERESTS);
 
 export const SaveTagline = (postID, tagline) =>
-  ajax.post(SAVE_TAGLINE, { draft_id: postID, tagline, user_id: 'some-user' });
-
-export const UpdateInterests = (postID, interest) =>
-  ajax.post(SAVE_INTERESTS, {
-    user_id: 'some-user',
-    draft_id: postID,
-    interest,
+  ajax.put(`${SAVE_TAGLINE}?draft=${postID}`, {
+    tagline
   });
+
+export const UpdateInterests = (draftID, interests) => {
+  const updatedInterests = interests.map((item) => item.name);
+  return ajax.put(`${SAVE_INTERESTS}?draft=${draftID}`, {
+    interests: updatedInterests,
+  });
+};
 
 export const UpdatePreviewImage = (draftID, previewImage) =>
   ajax.post(SAVE_PREVIEW_IMAGE, {

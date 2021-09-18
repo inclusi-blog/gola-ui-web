@@ -50,13 +50,14 @@ const NewStory = ({ location: { pathname } }) => {
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
 
-    if (pathname === '/new-story') {
+    if (!puid) {
       ajax
         .post('/post/v1/draft', {
           data: post,
         })
         .then(({ data }) => {
           setPUID(data.draft_id);
+          commandToRun(data.draft_id);
           setIsSaving(false);
         })
         .catch(() => {
@@ -81,8 +82,8 @@ const NewStory = ({ location: { pathname } }) => {
 
   const SaveTaglineAndChangeRouteName = (changedTagline, commandToRun = {}) => {
     setIsSaving(true);
-    if (pathname === '/new-story') {
-      SaveTagline(puid, changedTagline, '1')
+    if (!puid) {
+      SaveTagline(puid, changedTagline)
         .then(() => {
           commandToRun();
         })
@@ -92,7 +93,7 @@ const NewStory = ({ location: { pathname } }) => {
         });
       return;
     }
-    SaveTagline(puid, changedTagline, '1')
+    SaveTagline(puid, changedTagline)
       .then(() => {
         setIsSaving(false);
         // eslint-disable-next-line no-console
@@ -105,17 +106,18 @@ const NewStory = ({ location: { pathname } }) => {
       });
   };
 
-  const changeRouteName = () => {
+  const changeRouteName = (id) => {
     setIsInitiallySaved(true);
-    setDraftID(puid);
-    window.history.replaceState(null, 'Draft', `/p/${puid}/edit`);
+    setDraftID(id);
+    window.history.replaceState(null, 'Draft', `/p/${id}/edit`);
   };
 
   const onChangeContent = (postData) => {
-    if (pathname === '/new-story') {
+    console.log('this is path name', pathname);
+    if (!puid) {
       SaveDraft({
         post: postData,
-        commandToRun: changeRouteName(),
+        commandToRun: (id) => changeRouteName(id),
       });
       return;
     }
@@ -253,7 +255,7 @@ const NewStory = ({ location: { pathname } }) => {
                 delayedHandleChangeTagline(changedTagline);
               }}
               tagline={tagline}
-              postID={puid}
+              draftID={puid}
               previewImage={previewImage}
               setPreviewImage={setPreviewImage}
               selectedFile={selectedFile}
