@@ -82,14 +82,14 @@ const FollowingPage = () => {
     ));
   };
 
-  const OnSelectInterest = (interestName, categoryName) => {
-    FollowInterest(interestName)
+  const OnSelectInterest = (interestID, categoryName) => {
+    FollowInterest(interestID)
       .then(({ data }) => {
         if (data.status === RESPONSE_STATUSES.SUCCESS) {
           const updatedCategory = categories.map((category) => {
             if (category.name === categoryName) {
               const updatedInterest = category.interestList.map((interest) => {
-                if (interest.interestName === interestName) {
+                if (interest.id === interestID) {
                   return { ...interest, isClicked: !interest.isClicked };
                 }
                 return interest;
@@ -135,7 +135,7 @@ const FollowingPage = () => {
                         <CategoryNameBlock id="interestNameBlock">
                           <CategoryName>{interest.interestName}</CategoryName>
                           <FollowButton
-                            onClick={() => OnSelectInterest(interest.interestName, category.name)}
+                            onClick={() => OnSelectInterest(interest.id, category.name)}
                             isClicked={interest.isClicked}
                           />
                         </CategoryNameBlock>

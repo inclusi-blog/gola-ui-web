@@ -10,9 +10,7 @@ export const GetCategoriesAndInterests = () => {
 };
 
 export const FollowInterest = (interestName) => {
-  return ajax.post(FOLLOW_INTEREST, {
-    name: interestName,
-  });
+  return ajax.post(`${FOLLOW_INTEREST}?interest=${interestName}`);
 };
 
 export const GetUserFollowingInterest = () => {
