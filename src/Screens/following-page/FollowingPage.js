@@ -33,10 +33,11 @@ const FollowingPage = () => {
               name: category,
               interestList: interests.map((interest) => {
                 return {
+                  id: interest.id,
                   interestName: interest.name,
-                  imagePath: interest.image,
+                  imagePath: interest.cover_pic,
                   isHovered: false,
-                  isClicked: interest.isFollowedByUser,
+                  isClicked: interest.is_followed,
                 };
               }),
             };
@@ -49,11 +50,11 @@ const FollowingPage = () => {
       });
     GetUserFollowingInterest()
       .then(({ data }) => {
-        const fetchedPills = data.map((interestName, index) => {
+        const fetchedPills = data.map((interest) => {
           return {
-            value: interestName,
+            value: interest.name,
             isSelected: true,
-            id: index + 1,
+            id: interest.id,
           };
         });
         setPills(fetchedPills);
