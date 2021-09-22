@@ -13,6 +13,10 @@ export const FollowInterest = (interestName) => {
   return ajax.post(`${FOLLOW_INTEREST}?interest=${interestName}`);
 };
 
+export const UnFollowInterest = (interestName) => {
+  return ajax.delete(`${FOLLOW_INTEREST}?interest=${interestName}`);
+};
+
 export const GetUserFollowingInterest = () => {
   return ajax.get(GET_USER_FOLLOWING_INTERESTS);
 };

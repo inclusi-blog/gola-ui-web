@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import ExplorePill from 'common-components/ExplorePill';
 import { RESPONSE_STATUSES } from '../../constants/CommonConstants';
 import { PillBlock } from '../welcome/Welcome.Style';
-import { FollowInterest, GetCategoriesAndInterests, GetUserFollowingInterest } from './follow.service';
+import {
+  FollowInterest,
+  GetCategoriesAndInterests,
+  GetUserFollowingInterest,
+  UnFollowInterest
+} from './follow.service';
 import {
   MainBlock,
   GlobalInterest,
@@ -65,6 +70,35 @@ const FollowingPage = () => {
       });
   }, []);
 
+  const onRemoveInterests = (interestID) => {
+    UnFollowInterest(interestID)
+      .then(({ data }) => {
+        if (data.status === RESPONSE_STATUSES.SUCCESS) {
+          const updatedInterests = [];
+          categories.forEach(category => {
+            updatedInterests.push({
+              name: category.name,
+              interestList: category.interestList.map(interest => {
+                if (interest.id === interestID) {
+                  return {
+                    ...interest,
+                    isClicked: false,
+                  };
+                }
+                return interest;
+              })
+            });
+          });
+          // eslint-disable-next-line no-console
+          console.log('this is updated', updatedInterests);
+          setCategories(updatedInterests);
+        }
+      }).catch((err) => {
+      // eslint-disable-next-line no-console
+        console.log('unable to unfollow interests ', err);
+    });
+  };
+
   const getInterestPills = () => {
     return pills.map(({ value, isSelected, id }) => (
       <ExplorePill
@@ -76,6 +110,7 @@ const FollowingPage = () => {
             singlePill.id === selectedId ? { ...singlePill, isSelected: !singlePill.isSelected } : singlePill
           );
           setPills(updatedPills);
+          onRemoveInterests(selectedId);
         }}
         id={id}
       />
