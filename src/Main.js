@@ -11,6 +11,7 @@ import InterestPage from './Screens/Interestpage/InterestPage';
 import PostView from './Screens/postView/PostView';
 import ReadingList from './Screens/ReadingList/ReadingList';
 import FollowingPage from './Screens/following-page/FollowingPage';
+import {NEW_STORY_PATH, STORIES_PATH} from './helpers/routes';
 
 const Main = () => {
   return (
@@ -18,12 +19,12 @@ const Main = () => {
       <Switch>
         <PrivateRoute path="/p/:draftId/edit" component={NewStory} />
         <PrivateRoute path="/@:username/:post_url" component={PostView} />
-        <PrivateRoute path="/me/stories" component={Stories} />
+        <PrivateRoute path={STORIES_PATH} component={Stories} />
         <PrivateRoute path="/me/following" component={FollowingPage} />
         <PrivateRoute path="/reading-list" component={ReadingList} />
         <PrivateRoute path="/user-publication" component={UserPublication} />
         <PrivateRoute path="/interest-page" component={InterestPage} />
-        <PrivateRoute path="/new-story" component={NewStory} />
+        <PrivateRoute path={NEW_STORY_PATH} component={NewStory} />
         <PrivateRoute path="/" component={HomePage} />
         <>
           <MainWrapper>

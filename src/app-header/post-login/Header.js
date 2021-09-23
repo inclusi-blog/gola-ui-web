@@ -11,20 +11,22 @@ import useDraft from 'hooks/useDraft';
 import CommonToolTip from 'common-components/CommonToolTip/CommonToolTip';
 import UserProfileContext from 'context-providers/UserProfileProvider/UserProfileContext';
 import useOutsideAlerter from 'hooks/useOutsideAlerter';
+import CustomProfileButton from 'common-components/CustomProfileButton';
+import {NEW_STORY_PATH, STORIES_PATH} from 'helpers/routes';
 import {
-  AppHeaderName,
-  HeaderWrapper,
-  LeftHeader,
-  LogoIcon,
-  RightHeader,
-  Explore,
-  SearchIcon,
-  Bookmark,
-  PublishButton,
-  PublishButtonText,
-  StoryTypeText,
-  SaveStatusText,
-  ProfileContainer,
+    AppHeaderName,
+    HeaderWrapper,
+    LeftHeader,
+    LogoIcon,
+    RightHeader,
+    Explore,
+    SearchIcon,
+    Bookmark,
+    PublishButton,
+    PublishButtonText,
+    StoryTypeText,
+    SaveStatusText,
+    ProfileContainer, ProfileNameStyle, ProfileDropDownItems,
 } from './Header.style';
 import LanguageChangeButton from '../LanugageChangeButton';
 
@@ -91,18 +93,11 @@ const Header = ({ location: { pathname } }) => {
               render={() => {
                 return (
                   <div style={{ width: 208, height: 497 }}>
-                    <p
-                      style={{
-                        fontFamily: 'Quando',
-                        fontStyle: 'normal',
-                        fontWeight: 'normal',
-                        fontSize: 18,
-                        lineHeight: 22,
-                        color: '#000000',
-                      }}
-                    >
-                      Gokul bruce
-                    </p>
+                    <ProfileNameStyle>Gokul Bruce</ProfileNameStyle>
+                    <ProfileDropDownItems>
+                        <CustomProfileButton path={NEW_STORY_PATH} buttonName="New Story"/>
+                        <CustomProfileButton path={STORIES_PATH} buttonName="My Stories"/>
+                    </ProfileDropDownItems>
                   </div>
                 );
               }}

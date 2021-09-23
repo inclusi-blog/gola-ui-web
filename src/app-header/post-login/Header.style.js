@@ -113,3 +113,18 @@ export const SaveStatusText = styled(StoryTypeText)`
   color: #808080;
   margin-left: 24px;
 `;
+
+export const ProfileNameStyle = styled.p`
+    font-family: Quando;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    color: #000000;
+`;
+
+export const ProfileDropDownItems = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+`;
