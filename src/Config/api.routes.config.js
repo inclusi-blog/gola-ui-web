@@ -5,6 +5,7 @@ export const DELETE_INTEREST = 'post/v1/draft/delete-interest';
 export const SAVE_PREVIEW_IMAGE = 'post/v1/draft/preview-image';
 export const PUBLISH_DRAFT = 'post/v1/post/publish';
 export const GET_DRAFT = 'post/v1/draft';
+export const GET_DRAFTS = 'post/v1/draft/get-all-draft';
 export const PREVIEW_DRAFT = 'post/v1/draft/preview-draft';
 export const GET_POST = 'post/v1/post/id';
 export const GET_CATEGORIES_AND_INTERESTS = 'user-profile/v1/interests/explore';

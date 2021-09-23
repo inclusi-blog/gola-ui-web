@@ -1,3 +1,4 @@
+import moment from "moment";
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -13,20 +14,15 @@ import {
 } from './DraftList.style';
 
 const DraftTile = ({ draftContent }) => {
-  const getTagList = () => {
-    return draftContent.interestTag.map((tag) => {
-      return <TagList>{tag}</TagList>;
-    });
-  };
-
+  const createdAt = moment(draftContent.created_at);
   return (
     <div>
       <ApplyColumn>
         <DraftContent>{draftContent.title}</DraftContent>
         <Tagline>{draftContent.tagline}</Tagline>
         <ApplyRow style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 11 }}>
-          <Date>{draftContent.createdDate}</Date>
-          {getTagList()}
+          <Date>{createdAt.format("MMM, DD YYYY")}</Date>
+          <TagList>{draftContent.interests.length && draftContent.interests[0]?.name}</TagList>
           <ApplyRow>
             <SmallDots />
             <SmallDots />
@@ -46,10 +42,13 @@ const DraftTile = ({ draftContent }) => {
 
 DraftTile.propTypes = {
   draftContent: PropTypes.shape({
-    interestTag: PropTypes.arrayOf(PropTypes.string).isRequired,
+    interests: PropTypes.arrayOf(PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
+    })).isRequired,
     title: PropTypes.string.isRequired,
     tagline: PropTypes.string.isRequired,
-    createdDate: PropTypes.string.isRequired,
+    created_at: PropTypes.string.isRequired,
   }).isRequired,
 };
 

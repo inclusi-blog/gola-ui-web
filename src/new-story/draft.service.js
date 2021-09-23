@@ -1,7 +1,7 @@
 import ajax from '../helpers/ajaxHelper';
 import {
   DELETE_INTEREST,
-  GET_DRAFT,
+  GET_DRAFT, GET_DRAFTS,
   GET_INTERESTS,
   PREVIEW_DRAFT,
   PUBLISH_DRAFT,
@@ -43,3 +43,8 @@ export const DeleteInterest = (draftId, interest) =>
 export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}?draft=${draftID}`);
 
 export const GetPreviewDraft = (draftId) => ajax.get(`${PREVIEW_DRAFT}/${draftId}`);
+
+export const GetDrafts = (start, limit) => ajax.post(GET_DRAFTS, {
+  start_value: start,
+  limit
+});
