@@ -44,7 +44,7 @@ export const GetDraft = (draftID) => ajax.get(`${GET_DRAFT}?draft=${draftID}`);
 
 export const GetPreviewDraft = (draftId) => ajax.get(`${PREVIEW_DRAFT}/${draftId}`);
 
-export const GetDrafts = (start, limit) => ajax.post(GET_DRAFTS, {
+export const GetDrafts = (cancelToken, start, limit) => ajax.post(GET_DRAFTS,{
   start_value: start,
   limit
-});
+}, { cancelToken: cancelToken.token });
