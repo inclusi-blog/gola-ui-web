@@ -1,105 +1,44 @@
-import React, { useState } from 'react';
-import PostTile from 'common-components/PostTile';
+import React, {useCallback, useEffect, useState} from 'react';
+import {CancelToken} from "helpers/ajaxHelper";
+import PublishedPostTile from "common-components/PublishedPostTile";
+import {GetPublishedPosts} from "../postView/post.service";
 
 const Published = () => {
-  const [postDetails, setPostDetails] = useState([
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: true,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: false,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: true,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: false,
-    },
-  ]);
+  const [postDetails, setPostDetails] = useState([]);
 
-  const OnLikeStatusChange = (selectedIndex) => {
-    setPostDetails(
-      postDetails.map((post, index) => {
-        if (index === selectedIndex) {
-          return { ...post, isLiked: !post.isLiked };
-        }
-        return post;
-      })
-    );
+  const cancelTokens = [];
+  const cleanup = useCallback(() => {
+    if (cancelTokens.length > 0) {
+      const cancelToken = cancelTokens.pop();
+      cancelToken.cancel();
+    }
+  }, []);
+
+  const getPublishedPosts = () => {
+    const cancelToken = CancelToken();
+    GetPublishedPosts(cancelToken, 0, 5).then(({ data }) => {
+      setPostDetails(data);
+    }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.log('unable to fetch drafts', err);
+    });
+    cancelTokens.push(cancelToken);
   };
 
-  const OnBookmarkStatusChange = (selectedIndex) => {
-    setPostDetails(
-      postDetails.map((post, index) => {
-        if (index === selectedIndex) {
-          return { ...post, isBookmarked: !post.isBookmarked };
-        }
-        return post;
-      })
-    );
-  };
+  useEffect(() => {
+    getPublishedPosts();
+    return cleanup;
+  }, [cleanup]);
 
-  const OnReadLaterStatusChange = (selectedIndex) => {
-    setPostDetails(
-      postDetails.map((post, index) => {
-        if (index === selectedIndex) {
-          return { ...post, isAddedToReadLater: !post.isAddedToReadLater };
-        }
-        return post;
-      })
-    );
-  };
 
   const getPostDetails = () => {
-    return postDetails.map((post, index) => (
-      <PostTile
-        details={post}
-        index={index}
-        OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
-        onBookmarkChange={(selectedIndex) => OnBookmarkStatusChange(selectedIndex)}
-        OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
-      />
-    ));
+    return postDetails.map((post, index) => {
+      return(
+          <PublishedPostTile
+              details={post}
+          />
+      )
+    });
   };
 
   return <div>{getPostDetails()}</div>;
