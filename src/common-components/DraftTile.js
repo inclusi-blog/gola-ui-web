@@ -22,7 +22,7 @@ const DraftTile = ({ draftContent }) => {
         <Tagline>{draftContent.tagline}</Tagline>
         <ApplyRow style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 11 }}>
           <Date>{createdAt.format("MMM, DD YYYY")}</Date>
-          <TagList>{draftContent.interests.length && draftContent.interests[0]?.name}</TagList>
+          <TagList>{draftContent.interests?.length && draftContent.interests[0]?.name}</TagList>
           <ApplyRow>
             <SmallDots />
             <SmallDots />
