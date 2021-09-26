@@ -31,8 +31,8 @@ export const PasswordToolTip = styled.div`
     padding-top: 2px;
     position: absolute;
     z-index: 1;
-    top: 372px;
-    left: 42%;
+    top: 472px;
+    left: 43%;
     background-color: #ffffff;
     border: 1px solid #2c363f;
     box-sizing: border-box;
@@ -100,6 +100,7 @@ export const CapslockNotifierText = styled.p`
   font-size: 18px;
   line-height: 21px;
   color: #fa163f;
+  margin-left: 210px;
 `;
 
 export const TermsConditionsLink = styled.a`

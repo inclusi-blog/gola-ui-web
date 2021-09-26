@@ -5,7 +5,7 @@ import EmptyNotify from 'assets/images/EmptyNotify.svg';
 import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
 import ReactIsCapsLockActive from '@matsun/reactiscapslockactive';
-import Tick from 'assets/images/tick.svg';
+import SuccessTick from 'assets/images/SuccessTick.png';
 import ajax from '../helpers/ajaxHelper';
 import encrypt from '../helpers/encrypt';
 import {
@@ -166,7 +166,7 @@ const SignupComponent = ({ renderUsernameField }) => {
         <PassLabel>Password</PassLabel>
         <If condition={showWarning}>
           <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
-          <Else />
+        <Else />
           <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
           <PasswordToolTip isVisible={showCritieria}>
             <ToolTipSpan>
@@ -176,7 +176,7 @@ const SignupComponent = ({ renderUsernameField }) => {
                     key={item.id}
                     style={{ display: 'flex', flexDirection: 'row', height: 21, alignItems: 'center' }}
                   >
-                    <img src={item.isValid ? Tick : ValidatorWarning} width={12} height={12} alt="acceptance factor" />
+                    <img src={item.isValid ? SuccessTick : ValidatorWarning} width={12} height={12} alt="acceptance factor" />
                     <ValidationFactorName>{item.name}</ValidationFactorName>
                   </div>
                 );
