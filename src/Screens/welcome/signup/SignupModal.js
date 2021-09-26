@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import FacebookImg from 'assets/images/Facebook.svg';
 import GoogleImg from 'assets/images/google.svg';
-import LinkedinImg from 'assets/images/LinkedIn.svg';
-import TwitterImg from 'assets/images/Twitter.png';
 import SigninComponent from 'common-components/SigninComponent';
 import SignupComponent from 'common-components/SignupComponent';
 import { Redirect } from 'react-router-dom';
@@ -12,15 +9,12 @@ import ajax from 'helpers/ajaxHelper';
 import Close from 'assets/images/close.svg';
 import FlowModal from 'common-components/FlowModal/FlowModal';
 import {
-  SignupHeader,
-  SignupContainer,
-  TwitterIcon,
-  FacebookIcon,
-  GoogleIcon,
-  LinkedInIcon,
-  SignupLabelContainer,
-  SignupLabel,
-  CenterSignupModalWrapper,
+    SignupHeader,
+    SignupContainer,
+    GoogleIcon,
+    SignupLabelContainer,
+    SignupLabel,
+    CenterSignupModalWrapper, GoogleText,
 } from './Signup.style';
 import UsernameInputScreen from './UsernameInputScreen';
 
@@ -119,9 +113,7 @@ const SignupModal = ({ isSignup, onClose }) => {
           <CenterSignupModalWrapper>
             <SignupContainer>
               <GoogleIcon src={GoogleImg} />
-              <FacebookIcon src={FacebookImg} />
-              <TwitterIcon src={TwitterImg} />
-              <LinkedInIcon src={LinkedinImg} />
+              <GoogleText>Continue with Google</GoogleText>
             </SignupContainer>
             <SignupLabelContainer>
               <SignupLabel>or sign in with</SignupLabel>

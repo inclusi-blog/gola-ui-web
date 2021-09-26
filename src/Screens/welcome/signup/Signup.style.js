@@ -16,36 +16,33 @@ export const SignupHeader = styled.p`
 `;
 
 export const SignupContainer = styled.div`
+  width: 489px;
+  height: 68px;
   margin-top: 40px;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-`;
-
-export const FacebookIcon = styled.img`
-  width: 47px;
-  height: 47px;
-  cursor: pointer;
-`;
-
-export const TwitterIcon = styled.img`
-  width: 46px;
-  height: 47px;
+  border: 1px solid #DEE3ED;
+  box-sizing: border-box;
+  border-radius: 8px;
   cursor: pointer;
 `;
 
 export const GoogleIcon = styled.img`
-  width: 46px;
-  height: 46px;
-  cursor: pointer;
+  width: 36px;
+  height: 36px;
 `;
 
-export const LinkedInIcon = styled.img`
-  width: 46px;
-  height: 47px;
-  cursor: pointer;
+export const GoogleText = styled.p`
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 27px;
+    margin-right: 100px;
 `;
+
 export const SignupWrapper = styled.div`
   margin-top: 24px;
   display: flex;
