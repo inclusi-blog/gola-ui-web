@@ -2,7 +2,6 @@ import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import ProfilePalatte from 'common-components/ProfilePalatte';
 import ReviewPalatte from 'common-components/ReviewPalatte';
-import HeroPostPhoto from 'assets/images/HeroPostPhoto.png';
 import DownArrowImg from 'assets/images/Arrow.svg';
 import ProfileImg from 'assets/images/profile.png';
 import CommentImg from 'assets/images/commentProfile.svg';
@@ -72,43 +71,8 @@ const PostView = () => {
   const history = useHistory();
   const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
   const [postID, setPostID] = useState();
-  const [post, setPost] = useState({
-    data: [
-      {
-        children: [
-          {
-            text: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-            bold: true,
-          },
-        ],
-      },
-      {children: [{text: ''}]},
-      {
-        children: [
-          {
-            text:
-              'இந்தக் கேள்விதான் சென்னைவாசிகள் உட்பட அனைத்து தமிழக மக்களின் மனதிலும் எழுந்துள்ளது. ஒருநாளைக்கு சராசரியாக 2,000 புதிய நோயாளிகள் கண்டறியப்பட்டு வந்த நிலையில், கடந்த சில நாள்களாக நோயாளிகளின் எண்ணிக்கை கடுமையாகக் குறைந்துள்ளது. ஞாயிற்றுக்கிழமை வெளியிட்ட அரசின் செய்திக் குறிப்பில் சென்னையில் 1,168 நோயாளிகளே கண்டறியப்பட்டுள்ளதாகத் தெரிவிக்கபபடடளளத. அதபல இனற சனனயல 1,140 பரகக பதபப உறதபபடததபபடடளளத.',
-          },
-        ],
-      },
-      {children: [{text: ''}]},
-      {children: [{text: ''}]},
-      {children: [{text: 'படபபடயக உயரநத எணணகக'}]},
-      {
-        children: [
-          {
-            text:
-              'தமழநடடல கரன தறற பரவத தடஙகயபத நயளகளன எணணகக படபபடயக அதகரதத வநதத. தமழகம மடடமலல உலகம மழவதம இத மறயல (Pattern) தன நய பரவயத. நயன தககம படபபடயக அதகரததத பலவதன தறறம படபபடயகக கறயம எனற மரததவ நபணரகள தரவதத வநதனர. இநநலயல சனனயல மடடம தடரனற தடலடயக எணணகக கறநதத எபபட எனற சநதகம இயலபகவ எழகறத.',
-          },
-        ],
-      },
-    ],
-    interests: ['அரசியல்', 'விளையாட்டு'],
-    likeCount: 5000,
-    commentCount: 12,
-    previewImage: HeroPostPhoto,
-    authorName: '',
-  });
+  const [isViewerLiked, setIsViewerLiked] = useState(false);
+  const [post, setPost] = useState(null);
   const [publishedDate, setPublishedDate] = useState(0);
   const [isViewIsAuthor, setIsViewerIsAuthor] = useState(false);
 
@@ -161,11 +125,12 @@ const PostView = () => {
           setPost({
             data: data.post_data,
             interests: data.interests,
-            likeCount: data.likes_count,
-            commentCount: data.comments_count,
+            likeCount: data.like_count,
+            commentCount: data.comment_count,
             previewImage: data.preview_image,
             authorName: data.author_name,
           });
+          setIsViewerLiked(data.is_viewer_liked);
           setIsViewerIsAuthor(data.is_viewer_is_author);
           setPublishedDate(data.published_at);
         })
@@ -229,80 +194,82 @@ const PostView = () => {
   useBlur({nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup});
   return (
     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} id="post-view">
-      <MainContainer>
-        <PreviewPostOuterContainer
-          style={{marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover'}}
-        >
-          <PostMainImage src={post.previewImage}/>
-        </PreviewPostOuterContainer>
-        <ProfilePalatte
-          publishedDate={publishedDate}
-          authorName={post.authorName}
-          isAuthorViewingPost={isViewIsAuthor}
-        />
-        <div style={{borderBottom: '1px solid #DFDFDF ', marginTop: 60}}>
-          <Slate editor={editor} value={post.data}>
-            <Editable
-              renderElement={(props) => <Element {...props} />}
-              readOnly
-              style={{
-                fontSize: 24,
-                lineHeight: '177%',
-              }}
-              renderLeaf={(props) => <Leaf {...props} />}
-            />
-          </Slate>
-        </div>
-        <ReviewPalatte/>
-        <div style={{display: 'flex', alignItems: 'center', marginTop: 32}}>{getInterestPills()}</div>
-        <CommentContainer>
-          <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
-            <ProfilePic src={ProfileImg}/>
-            <CommentBox placeholder="Write your thoughts..."/>
-            <CommentButton>
-              <CommentLabel>Comment</CommentLabel>
-            </CommentButton>
-          </ApplyRow>
-        </CommentContainer>
-        <ViewCommentListContainer style={{marginTop: 40}}>
-          <ApplyColumn style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-            <SingleCommentContainer>
-              <ApplyRow>
-                <CommentAuthor src={CommentImg}/>
-                <ApplyColumn style={{marginLeft: 12}}>
-                  <CommentAuthorName>Munniyamma</CommentAuthorName>
-                  <CommentDate>July, 2020</CommentDate>
-                </ApplyColumn>
-                <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flex: 3}}>
-                  <CommentHandSymbol src={superClick}/>
-                </div>
-              </ApplyRow>
-              <ApplyRow style={{marginTop: 17}}>
-                <CommentContent>
-                  படிப்படியாக உயர்ந்த எண்ணிக்கை தமிழ்நாட்டில் கொரோனா தொற்று பரவத் தொடங்கியபோது
-                </CommentContent>
-                <ArrowImg src={DownArrowImg}/>
-              </ApplyRow>
-            </SingleCommentContainer>
-            <ViewAllComments>all comments</ViewAllComments>
-          </ApplyColumn>
-        </ViewCommentListContainer>
-      </MainContainer>
-      <If condition={showSharePopup}>
-        <FlowModal onClose={() => onPopupClose()}>
-          <PublishPreviewCard
-            style={{display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px'}}
+      <If condition={post}>
+        <MainContainer>
+          <PreviewPostOuterContainer
+              style={{marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover'}}
           >
-            <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
-              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
-              <div onClick={() => onPopupClose()}>
-                <img src={Close} alt="success-tick" width={32} height={32}/>
+            <PostMainImage src={post.previewImage}/>
+          </PreviewPostOuterContainer>
+          <ProfilePalatte
+              publishedDate={publishedDate}
+              authorName={post.authorName}
+              isAuthorViewingPost={isViewIsAuthor}
+          />
+          <div style={{borderBottom: '1px solid #DFDFDF ', marginTop: 60, marginBottom: 24}}>
+            <Slate editor={editor} value={post.data}>
+              <Editable
+                  renderElement={(props) => <Element {...props} />}
+                  readOnly
+                  style={{
+                    fontSize: 24,
+                    lineHeight: '177%',
+                  }}
+                  renderLeaf={(props) => <Leaf {...props} />}
+              />
+            </Slate>
+          </div>
+          <ReviewPalatte likesCount={post.likeCount} commentsCount={post.commentCount} isViewerLiked={isViewerLiked} postID={postID}/>
+          <div style={{display: 'flex', alignItems: 'center', marginTop: 32}}>{getInterestPills()}</div>
+          <CommentContainer>
+            <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
+              <ProfilePic src={ProfileImg}/>
+              <CommentBox placeholder="Write your thoughts..."/>
+              <CommentButton>
+                <CommentLabel>Comment</CommentLabel>
+              </CommentButton>
+            </ApplyRow>
+          </CommentContainer>
+          <ViewCommentListContainer style={{marginTop: 40}}>
+            <ApplyColumn style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <SingleCommentContainer>
+                <ApplyRow>
+                  <CommentAuthor src={CommentImg}/>
+                  <ApplyColumn style={{marginLeft: 12}}>
+                    <CommentAuthorName>Munniyamma</CommentAuthorName>
+                    <CommentDate>July, 2020</CommentDate>
+                  </ApplyColumn>
+                  <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flex: 3}}>
+                    <CommentHandSymbol src={superClick}/>
+                  </div>
+                </ApplyRow>
+                <ApplyRow style={{marginTop: 17}}>
+                  <CommentContent>
+                    படிப்படியாக உயர்ந்த எண்ணிக்கை தமிழ்நாட்டில் கொரோனா தொற்று பரவத் தொடங்கியபோது
+                  </CommentContent>
+                  <ArrowImg src={DownArrowImg}/>
+                </ApplyRow>
+              </SingleCommentContainer>
+              <ViewAllComments>all comments</ViewAllComments>
+            </ApplyColumn>
+          </ViewCommentListContainer>
+        </MainContainer>
+        <If condition={showSharePopup}>
+          <FlowModal onClose={() => onPopupClose()}>
+            <PublishPreviewCard
+                style={{display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px'}}
+            >
+              <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
+                <div onClick={() => onPopupClose()}>
+                  <img src={Close} alt="success-tick" width={32} height={32}/>
+                </div>
               </div>
-            </div>
-            <img src={RedTick} alt="success-tick" width={56} height={56}/>
-            <PublishPreviewTitle style={{marginTop: 16}}>Publish post</PublishPreviewTitle>
-          </PublishPreviewCard>
-        </FlowModal>
+              <img src={RedTick} alt="success-tick" width={56} height={56}/>
+              <PublishPreviewTitle style={{marginTop: 16}}>Publish post</PublishPreviewTitle>
+            </PublishPreviewCard>
+          </FlowModal>
+        </If>
       </If>
     </div>
   );

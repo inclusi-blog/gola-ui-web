@@ -8,6 +8,7 @@ export const SuperHandSymbolOuterLine = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const SuperHandSymbol = styled.img`

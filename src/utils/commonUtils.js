@@ -18,7 +18,7 @@ const getLikesUnit = (likes) => {
 const convertPostLikesCount = (likesCount) => {
   const count = String(likesCount);
   const unit = conversionMapper[getLikesUnit(count)];
-  const mainSegment = (count / unit.factor).toFixed(unit.roundOff);
+  const mainSegment = parseInt((count / unit.factor).toFixed(unit.roundOff));
   return `${mainSegment}${unit.identifier}`;
 };
 

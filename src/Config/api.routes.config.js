@@ -12,3 +12,5 @@ export const GET_CATEGORIES_AND_INTERESTS = 'user-profile/v1/interests/explore';
 export const FOLLOW_INTEREST = 'user-profile/v1/interests';
 export const GET_USER_FOLLOWING_INTERESTS = 'user-profile/v1/interests/followed';
 export const GET_PUBLISHED_POST = 'user-profile/v1/posts';
+export const LIKE_POST = 'post/v1/post/like';
+export const UNLIKE_POST = 'post/v1/post/unlike';
