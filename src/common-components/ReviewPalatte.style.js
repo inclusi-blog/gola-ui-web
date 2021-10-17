@@ -30,9 +30,8 @@ export const LikeCount = styled.p`
 `;
 
 export const Comment = styled.img`
-  width: 18px;
-  height: 18.5px;
-  background: #3b3b58;
+  width: 24px;
+  height: 24px;
   margin-right: 10.5px;
 `;
 

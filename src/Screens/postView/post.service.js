@@ -1,5 +1,12 @@
 import ajax from 'helpers/ajaxHelper';
-import {GET_POST, GET_PUBLISHED_POST, LIKE_POST, UNLIKE_POST} from '../../Config/api.routes.config';
+import {
+  ADD_COMMENT,
+  GET_POST,
+  GET_PUBLISHED_POST,
+  LIKE_POST,
+  LIST_COMMENTS,
+  UNLIKE_POST
+} from '../../Config/api.routes.config';
 
 // eslint-disable-next-line import/prefer-default-export
 export const GetPost = (postId) => {
@@ -17,4 +24,14 @@ export const LikePost = (cancelToken, postID) => {
 
 export const UnlikePost = (cancelToken, postID) => {
   return ajax.get(`${UNLIKE_POST}?post=${postID}`, {}, {cancelToken: cancelToken.token});
+}
+
+export const AddComment = (postID, comment) => {
+  const addCommentURL = ADD_COMMENT.replace('{postID}', postID);
+  return ajax.post(addCommentURL, {data: comment});
+}
+
+export const ListComments = (postID,start,limit) => {
+  const listCommentURL = LIST_COMMENTS.replace('{postID}', postID);
+  return ajax.get(`${listCommentURL}?start=${start}&limit=${limit}`);
 }

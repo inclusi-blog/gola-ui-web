@@ -2,10 +2,8 @@ import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import ProfilePalatte from 'common-components/ProfilePalatte';
 import ReviewPalatte from 'common-components/ReviewPalatte';
-import DownArrowImg from 'assets/images/Arrow.svg';
+import SingleCommentTile from 'common-components/SingleCommentTile';
 import ProfileImg from 'assets/images/profile.png';
-import CommentImg from 'assets/images/commentProfile.svg';
-import superClick from 'assets/images/OkHand.svg';
 import RedTick from 'assets/images/red_tick.svg';
 import Close from 'assets/images/close.svg';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
@@ -21,7 +19,7 @@ import Element from '../../new-story/editor/components/Element';
 import { withImages, withLinks } from '../../new-story/editor/ContentEditor';
 import Leaf from '../../new-story/editor/Leaf';
 import { PublishPreviewCard, PublishPreviewTitle } from '../../new-story/NewStory.style';
-import { GetPost } from './post.service';
+import {AddComment, GetPost, ListComments} from './post.service';
 import {
   MainContainer,
   PostMainImage,
@@ -34,16 +32,10 @@ import {
   CommentButton,
   CommentLabel,
   ViewCommentListContainer,
-  SingleCommentContainer,
-  CommentAuthor,
-  CommentAuthorName,
-  CommentDate,
-  CommentHandSymbol,
-  CommentContent,
-  ArrowImg,
-  ViewAllComments,
+  ViewAllComments, CommentsDivider,
 } from './PostView.style';
 import { InterestTag, InterestTagText } from '../../new-story/editor/PreviewCard.style';
+import moment from "moment";
 
 let hidden = null;
 let visibilityChange = null;
@@ -75,6 +67,30 @@ const PostView = () => {
   const [post, setPost] = useState(null);
   const [publishedDate, setPublishedDate] = useState(0);
   const [isViewIsAuthor, setIsViewerIsAuthor] = useState(false);
+  const [commentText, setCommentText] = useState('');
+  const [commentList, setCommentList] = useState([]);
+  const [isShowAllComments, setIsShowAllComments] = useState(false);
+  const [start, setStart] = useState(0);
+
+  const onComment = () => {
+    AddComment(postID,commentText).then(()=>{
+      const comment = {
+        commented_at: moment(new Date()).format('YYYY-MM-DDThh:mm:ss.SSSSSSZ'),
+        data: commentText,
+        id: `${commentList.length+1}`,
+        post_id: postID,
+        username: "nivethaa",
+      };
+      setPost({...post,commentCount:post.commentCount+1});
+      setCommentList([comment,...commentList]);
+      setCommentText('');
+    }).catch((err)=>console.log("unable to comment on this post",err));
+  };
+
+  const onClickAllComments = () => {
+    setIsShowAllComments(true);
+    console.log("all comments clicked!!!!",commentList.length);
+  }
 
   const pauseTimer = () => {
     clearInterval(timer);
@@ -118,6 +134,15 @@ const PostView = () => {
     debounce: 0,
   });
 
+  const fetchComments = () => {
+    ListComments(postID, start, 5)
+        .then(({data}) => {
+          setCommentList([...commentList, ...data]);
+        }).catch((err) => {
+      console.log("unable to fetch comments ", err);
+    })
+  };
+
   useEffect(() => {
     if (postID) {
       GetPost(postID)
@@ -138,6 +163,7 @@ const PostView = () => {
           // eslint-disable-next-line no-console
           console.log('error occurred ', err);
         });
+      fetchComments();
     }
     startTimer();
   }, [postID]);
@@ -182,7 +208,6 @@ const PostView = () => {
       </InterestTag>
     ));
   };
-
   const onPopupClose = () => {
     setShowSharePopup(false);
     delete location.state.shouldOpenSharePopup;
@@ -195,7 +220,7 @@ const PostView = () => {
   return (
     <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} id="post-view">
       <If condition={post}>
-        <MainContainer>
+        <MainContainer >
           <PreviewPostOuterContainer
               style={{marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover'}}
           >
@@ -224,34 +249,38 @@ const PostView = () => {
           <CommentContainer>
             <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
               <ProfilePic src={ProfileImg}/>
-              <CommentBox placeholder="Write your thoughts..."/>
-              <CommentButton>
+              <CommentBox value={commentText}
+                          placeholder="Write your thoughts..."
+                          onFocus={(e) => e.target.placeholder = ''}
+                          onBlur={(e) => e.target.placeholder = 'Write your thoughts...'}
+                          onChange={(event)=>{
+                            setCommentText(event.target.value);
+              }}/>
+              <CommentButton onClick={onComment}>
                 <CommentLabel>Comment</CommentLabel>
               </CommentButton>
             </ApplyRow>
           </CommentContainer>
-          <ViewCommentListContainer style={{marginTop: 40}}>
-            <ApplyColumn style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-              <SingleCommentContainer>
-                <ApplyRow>
-                  <CommentAuthor src={CommentImg}/>
-                  <ApplyColumn style={{marginLeft: 12}}>
-                    <CommentAuthorName>Munniyamma</CommentAuthorName>
-                    <CommentDate>July, 2020</CommentDate>
-                  </ApplyColumn>
-                  <div style={{display: 'flex', justifyContent: 'flex-end', alignItems: 'center', flex: 3}}>
-                    <CommentHandSymbol src={superClick}/>
-                  </div>
-                </ApplyRow>
-                <ApplyRow style={{marginTop: 17}}>
-                  <CommentContent>
-                    படிப்படியாக உயர்ந்த எண்ணிக்கை தமிழ்நாட்டில் கொரோனா தொற்று பரவத் தொடங்கியபோது
-                  </CommentContent>
-                  <ArrowImg src={DownArrowImg}/>
-                </ApplyRow>
-              </SingleCommentContainer>
-              <ViewAllComments>all comments</ViewAllComments>
-            </ApplyColumn>
+          <ViewCommentListContainer>
+            <If condition={isShowAllComments}>
+              <ApplyColumn style={{marginTop: 32}}>
+                {
+                  commentList.map((comment)=>{
+                    return (
+                        <div>
+                          <SingleCommentTile key={comment.id} singleComment={comment}/>
+                          <CommentsDivider/>
+                        </div>
+                    );
+                  })
+                }
+              </ApplyColumn>
+              <Else/>
+              <ApplyColumn style={{marginTop: 32}}>
+                <SingleCommentTile singleComment={commentList[0]}/>
+                <ViewAllComments onClick={onClickAllComments}>all comments</ViewAllComments>
+              </ApplyColumn>
+            </If>
           </ViewCommentListContainer>
         </MainContainer>
         <If condition={showSharePopup}>

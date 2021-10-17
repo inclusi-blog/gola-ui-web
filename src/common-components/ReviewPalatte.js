@@ -2,7 +2,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import PostSharePalatte from 'common-components/PostSharePalatte';
 import LikeImage from 'assets/images/OkHand.svg';
 import LikedImage from 'assets/images/PostLikedButton.svg';
-import CommentImg from 'assets/images/comment.svg';
+import CommentImg from 'assets/images/comment_icon.png';
 import {CancelToken} from "helpers/ajaxHelper";
 import {
   SuperHandSymbolOuterLine,

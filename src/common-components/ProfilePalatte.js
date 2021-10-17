@@ -22,8 +22,8 @@ const ProfilePalatte = ({ publishedDate, authorName, isAuthorViewingPost }) => {
           <AuthorProfilePic src={AuthorProfile} />
           <ApplyColumn style={{ marginLeft: 19, marginRight: 34 }}>
             <AuthorName>{authorName}</AuthorName>
-            <ApplyRow style={{ marginTop: 8, width: 171, justifyContent: 'space-between' }}>
-              <PostedDate>{moment(new Date(publishedDate)).format('d MMM, YYYY')}</PostedDate>
+            <ApplyRow style={{ marginTop: 8, width: 180, justifyContent: 'space-between' }}>
+              <PostedDate>{moment(new Date(publishedDate)).format('DD MMM, YYYY')}</PostedDate>
               <PostReadTime>5 min read</PostReadTime>
             </ApplyRow>
           </ApplyColumn>

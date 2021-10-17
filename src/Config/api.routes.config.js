@@ -14,3 +14,5 @@ export const GET_USER_FOLLOWING_INTERESTS = 'user-profile/v1/interests/followed'
 export const GET_PUBLISHED_POST = 'user-profile/v1/posts';
 export const LIKE_POST = 'post/v1/post/like';
 export const UNLIKE_POST = 'post/v1/post/unlike';
+export const ADD_COMMENT = 'post/v1/post/comment/{postID}';
+export const LIST_COMMENTS = 'post/v1/post/id/{postID}/comments';

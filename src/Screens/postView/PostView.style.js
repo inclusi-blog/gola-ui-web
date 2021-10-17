@@ -43,6 +43,14 @@ export const ApplyRow = styled.div`
 export const ApplyColumn = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CommentsDivider = styled.div`
+  border: 1px solid #DFDFDF;
+  margin-top: 16px;
+  margin-bottom: 18px;
 `;
 
 export const CommentBox = styled.textarea`
@@ -57,6 +65,8 @@ export const CommentBox = styled.textarea`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 6px 10px 2px 10px;
+  overflow-y: hidden;
   font-family: Poppins;
   &::placeholder {
     font-family: Poppins;
@@ -77,6 +87,7 @@ export const CommentButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const CommentLabel = styled.p`
@@ -91,14 +102,15 @@ export const CommentLabel = styled.p`
 
 export const ViewCommentListContainer = styled.div`
   width: 756px;
-  height: 235px;
+  margin-bottom: 47px;
+  margin-top: 40px;
   border: 1px solid #dee3ed;
   box-sizing: border-box;
   border-radius: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 47px;
+  
 `;
 
 export const SingleCommentContainer = styled.div`
@@ -122,7 +134,7 @@ export const CommentAuthorName = styled.p`
 `;
 
 export const CommentDate = styled.p`
-  font-family: MuktaMalar;
+  font-family: Poppins;
   font-style: normal;
   font-weight: 300;
   font-size: 12px;
@@ -162,4 +174,5 @@ export const ViewAllComments = styled.p`
   line-height: 129%;
   color: #fa163f;
   margin-top: 48px;
+  cursor: pointer;
 `;
