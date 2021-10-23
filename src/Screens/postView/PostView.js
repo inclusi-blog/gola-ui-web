@@ -277,7 +277,9 @@ const PostView = () => {
               </ApplyColumn>
               <Else/>
               <ApplyColumn style={{marginTop: 32}}>
-                <SingleCommentTile singleComment={commentList[0]}/>
+                <If condition={commentList && commentList[0]}>
+                  <SingleCommentTile singleComment={commentList[0]}/>
+                </If>
                 <ViewAllComments onClick={onClickAllComments}>all comments</ViewAllComments>
               </ApplyColumn>
             </If>

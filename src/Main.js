@@ -12,6 +12,7 @@ import PostView from './Screens/postView/PostView';
 import ReadingList from './Screens/ReadingList/ReadingList';
 import FollowingPage from './Screens/following-page/FollowingPage';
 import {NEW_STORY_PATH, STORIES_PATH} from './helpers/routes';
+import UserProfilePage from "./Screens/UserProfilePage/UserProfilePage";
 
 const Main = () => {
   return (
@@ -19,6 +20,7 @@ const Main = () => {
       <Switch>
         <PrivateRoute path="/p/:draftId/edit" component={NewStory} />
         <PrivateRoute path="/@:username/:post_url" component={PostView} />
+        <PrivateRoute path="/@:username" component={UserProfilePage} />
         <PrivateRoute path={STORIES_PATH} component={Stories} />
         <PrivateRoute path="/me/following" component={FollowingPage} />
         <PrivateRoute path="/reading-list" component={ReadingList} />
