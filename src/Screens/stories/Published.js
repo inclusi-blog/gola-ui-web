@@ -32,7 +32,7 @@ const Published = () => {
 
 
   const getPostDetails = () => {
-    return postDetails.map((post, index) => {
+    return postDetails?.map((post, index) => {
       return(
           <PublishedPostTile
               details={post}

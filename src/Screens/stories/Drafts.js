@@ -12,7 +12,7 @@ const Drafts = () => {
       cancelToken.cancel();
     }
   }, []);
-  
+
   const getDrafts = () => {
     const cancelToken = CancelToken();
     GetDrafts(cancelToken, 0, 5).then(({ data }) => {
@@ -30,7 +30,7 @@ const Drafts = () => {
   }, [cleanup]);
 
   const getDraftList = () => {
-    return drafts.map((draft) => <DraftTile draftContent={draft} />);
+    return drafts?.map((draft) => <DraftTile draftContent={draft} />);
   };
 
   return <div>{getDraftList()}</div>;
