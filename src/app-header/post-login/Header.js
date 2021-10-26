@@ -49,8 +49,10 @@ const Header = ({ location: { pathname } }) => {
     <HeaderWrapper id="post-login-header">
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
-          <LogoIcon alt="logo" src={Logo} />
-          <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+          <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
+            <LogoIcon alt="logo" src={Logo} />
+            <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+          </Link>
           <If condition={isDraft}>
             <StoryTypeText>Draft</StoryTypeText>
             <If condition={isInitiallySaved}>

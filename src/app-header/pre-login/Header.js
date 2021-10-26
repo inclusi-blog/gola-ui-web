@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Logo from 'assets/images/logo.png';
 import Context from 'context-providers/auth-modal-provider/Context';
 import LanguageChangeButton from '../LanugageChangeButton';
@@ -27,13 +27,17 @@ const Header = ({ location: { pathname } }) => {
       <HeaderWidthWrapper>
         <If condition={pathname === '/m/callback/email'}>
           <LeftHeader margin={0} style={{ justifyContent: 'center' }}>
-            <LogoIcon alt="logo" src={Logo} />
-            <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+            <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
+              <LogoIcon alt="logo" src={Logo} />
+              <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+            </Link>
           </LeftHeader>
           <Else />
           <LeftHeader margin={50}>
-            <LogoIcon alt="logo" src={Logo} />
-            <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+            <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
+              <LogoIcon alt="logo" src={Logo} />
+              <AppHeaderName>{t('welcome.title')}</AppHeaderName>
+            </Link>
           </LeftHeader>
           <RightHeader>
             <SignInButton
