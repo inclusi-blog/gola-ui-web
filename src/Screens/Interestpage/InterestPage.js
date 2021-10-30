@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import FollowerPic from 'assets/images/followerPic.svg';
 import PostTile from 'common-components/PostTile';
 import {
@@ -10,62 +10,20 @@ import {
   FollowLabel,
   BorderLine,
 } from './InterestPage.style';
+import {GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
 
 const InterestPage = () => {
-  const [postDetails, setPostDetails] = useState([
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: false,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: true,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: false,
-    },
-    {
-      headLine: 'ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்',
-      content: 'விவசாயிகள் போராட்டத்துக்கு திமுக ஆதரவு: மு.க.',
-      publishDate: 'Jul 8,2020',
-      tags: ['GARDENING', 'SPORTS'],
-      authorName: 'Mensuvadi',
-      likeCount: 1500,
-      previewImage: 'https://d14r87p68zn22t.cloudfront.net/InterestedPost/Post/Postpic.png',
-      isBookmarked: false,
-      isAddedToReadLater: false,
-      isLiked: false,
-      isRecentEdit: true,
-    },
-  ]);
+  const [postDetails, setPostDetails] = useState([]);
+  const [interestDetails, setInterestDetails] = useState([]);
+
+  useEffect(()=>{
+    Promise.all([GetPostsByInterest(),GetInterestDetails()]).then(([{data}, {data:detailsData}])=>{
+      setPostDetails(data);
+      setInterestDetails(detailsData);
+    }).catch((err)=>{
+      console.log('Error while getting posts by interest ', err);
+    });
+  },[]);
 
   const OnLikeStatusChange = (selectedIndex) => {
     setPostDetails(
@@ -101,16 +59,32 @@ const InterestPage = () => {
   };
 
   const getPostDetails = () => {
-    return postDetails.map((post, index) => (
-      <PostTile
-        details={post}
-        index={index}
-        OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
-        onBookmarkChange={(selectedIndex) => OnBookmarkStatusChange(selectedIndex)}
-        OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
-      />
-    ));
+    return postDetails.map((post, index) => {
+      const details = {
+        headLine: post.title,
+        content: post.tagline,
+        publishDate: post.published_at,
+        tags: post.interests,
+        authorName: post.author_name,
+        likeCount: post.likes_count,
+        previewImage: post.preview_image,
+        isBookmarked: post.is_bookmarked,
+        isAddedToReadLater: false,
+        isLiked: post.is_viewer_liked,
+        isRecentEdit: false,
+      };
+      return (
+          <PostTile
+              details={details}
+              index={index}
+              OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
+              onBookmarkChange={(selectedIndex) => OnBookmarkStatusChange(selectedIndex)}
+              OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
+          />
+      );
+    });
   };
+
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <MainContainer>
@@ -127,12 +101,16 @@ const InterestPage = () => {
             <PageTitle>Interest</PageTitle>
             <div style={{ display: 'flex', flex: '8', justifyContent: 'flex-end', alignItems: 'center' }}>
               <FollowersCount>
-                64k
+                {interestDetails.followers_count}
                 <FollowersCountProfile src={FollowerPic} />
                 Followers
               </FollowersCount>
               <FollowButton>
-                <FollowLabel>Follow</FollowLabel>
+                <If condition={interestDetails.is_followed}>
+                  <FollowLabel>Following</FollowLabel>
+                  <Else/>
+                  <FollowLabel>Follow</FollowLabel>
+                </If>
               </FollowButton>
             </div>
           </div>

@@ -21,3 +21,5 @@ export const EDIT_USER_PROFILE_DETAILS ='idp/v1/user-details';
 export const GET_PRESIGN_PROFILE_PICTURE_URL = 'user-profile/v1/profile/presign';
 export const SYNC_PROFILE_PICTURE = 'user-profile/v1/profile/avatar/upload';
 export const GET_PROFILE_PICTURE = 'http://localhost:8080/api/user-profile/v1/user/:user_id/avatar';
+export const GET_POSTS_BY_INTERESTS = 'post/v1/interests/12534477-5625-4fff-a677-71d0fad26072/posts';
+export const GET_INTEREST_DETAILS = 'post/v1/interests/12534477-5625-4fff-a677-71d0fad26072';

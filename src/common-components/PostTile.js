@@ -28,6 +28,7 @@ import {
   CommonFlexEnd,
   PostImage,
 } from './PostTile.style';
+import moment from "moment";
 
 const PostTile = ({
   details,
@@ -57,7 +58,7 @@ const PostTile = ({
   } = details;
 
   const renderPostTags = () => {
-    return <PostTag>{tags[0]}</PostTag>;
+    return <PostTag>{tags[0].name}</PostTag>;
   };
   return (
     <div>
@@ -69,7 +70,7 @@ const PostTile = ({
             <If condition={isRecentEdit}>
               <EditIcon src={EditImg} />
             </If>
-            <PublishDate>{publishDate}</PublishDate>
+            <PublishDate>{moment(new Date(publishDate)).format('MMM DD,YYYY')}</PublishDate>
             {renderPostTags()}
           </CommonFlexRow>
           <CommonFlexRow style={{ justifyContent: 'space-between', height: 25 }}>

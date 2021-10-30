@@ -25,7 +25,7 @@ const Main = () => {
         <PrivateRoute path="/me/following" component={FollowingPage} />
         <PrivateRoute path="/reading-list" component={ReadingList} />
         <PrivateRoute path="/user-publication" component={UserPublication} />
-        <PrivateRoute path="/interest-page" component={InterestPage} />
+        <PrivateRoute path="/interest/:interestName" component={InterestPage} />
         <PrivateRoute path={NEW_STORY_PATH} component={NewStory} />
         <PrivateRoute path="/" component={HomePage} />
         <>
