@@ -10,7 +10,7 @@ import {
   FollowLabel,
   BorderLine,
 } from './InterestPage.style';
-import {GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
+import {BookmarkPost, GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
 
 const InterestPage = () => {
   const [postDetails, setPostDetails] = useState([]);
@@ -36,10 +36,10 @@ const InterestPage = () => {
     );
   };
 
-  const OnBookmarkStatusChange = (selectedIndex) => {
+  const OnBookmarkStatusChange = (postID) => {
     setPostDetails(
       postDetails.map((post, index) => {
-        if (index === selectedIndex) {
+        if (index === postID) {
           return { ...post, isBookmarked: !post.isBookmarked };
         }
         return post;
@@ -61,6 +61,7 @@ const InterestPage = () => {
   const getPostDetails = () => {
     return postDetails.map((post, index) => {
       const details = {
+        id: post.id,
         headLine: post.title,
         content: post.tagline,
         publishDate: post.published_at,
@@ -78,7 +79,7 @@ const InterestPage = () => {
               details={details}
               index={index}
               OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
-              onBookmarkChange={(selectedIndex) => OnBookmarkStatusChange(selectedIndex)}
+              onBookmarkChange={(postID) => OnBookmarkStatusChange(postID)}
               OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
           />
       );

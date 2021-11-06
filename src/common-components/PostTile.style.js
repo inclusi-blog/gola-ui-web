@@ -68,6 +68,7 @@ export const Bookmark = styled.img`
   width: 13.5px;
   height: 17.36px;
   margin-right: 15.7px;
+  cursor: pointer;
 `;
 
 export const ReadLater = styled.img`

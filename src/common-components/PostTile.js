@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
@@ -29,6 +29,7 @@ import {
   PostImage,
 } from './PostTile.style';
 import moment from "moment";
+import {BookmarkPost} from "../Screens/Interestpage/interestpage.service";
 
 const PostTile = ({
   details,
@@ -43,55 +44,50 @@ const PostTile = ({
   const isSavedPage = location.pathname === '/reading-list/saved';
   const isReadLaterPage = location.pathname === '/reading-list/read-later';
 
-  const {
-    headLine,
-    content,
-    publishDate,
-    tags,
-    authorName,
-    isBookmarked,
-    isLiked,
-    isAddedToReadLater,
-    likeCount,
-    previewImage,
-    isRecentEdit,
-  } = details;
+  const [postDetails,setPostDetails] = useState(details);
 
   const renderPostTags = () => {
-    return <PostTag>{tags[0].name}</PostTag>;
+    return <PostTag>{postDetails.tags[0].name}</PostTag>;
+  };
+  const onBookmark = () => {
+    BookmarkPost(postDetails.id).then(()=>{
+      setPostDetails({...postDetails,isBookmarked:true});
+    }).catch((err)=>{
+      console.log()
+    })
   };
   return (
     <div>
       <InterestMainContainer style={{ marginTop: 32 }}>
         <CommonFlexColumn style={{ marginRight: 24 }}>
-          <PostHeadLine>{headLine}</PostHeadLine>
-          <PostContent>{content}</PostContent>
+          <PostHeadLine>{postDetails.headLine}</PostHeadLine>
+          <PostContent>{postDetails.content}</PostContent>
           <CommonFlexRow style={{ marginTop: 7, marginBottom: 4, alignItems: 'center' }}>
-            <If condition={isRecentEdit}>
+            <If condition={postDetails.isRecentEdit}>
               <EditIcon src={EditImg} />
             </If>
-            <PublishDate>{moment(new Date(publishDate)).format('MMM DD,YYYY')}</PublishDate>
+            <PublishDate>{moment(new Date(postDetails.publishDate)).format('MMM DD,YYYY')}</PublishDate>
             {renderPostTags()}
           </CommonFlexRow>
           <CommonFlexRow style={{ justifyContent: 'space-between', height: 25 }}>
-            <AuthorName> {authorName}</AuthorName>
+            <AuthorName> {postDetails.authorName}</AuthorName>
             <If condition={canShowActionArea}>
               <CommonFlexRow>
                 <CommonFlexEnd>
                   <If condition={!isSavedPage}>
                     <Bookmark
-                      src={isBookmarked ? BookmarkedImg : BookMarkImg}
-                      onClick={() => onBookmarkChange(index)}
+                      src={postDetails.isBookmarked ? BookmarkedImg : BookMarkImg}
+                      onClick={() => onBookmark()}
                     />
                   </If>
                   <If condition={!isReadLaterPage}>
                     <ReadLater
-                      src={isAddedToReadLater ? ReadLaterImg : LaterImg}
+                      src={postDetails.isAddedToReadLater ? ReadLaterImg : LaterImg}
                       onClick={() => OnReadLaterChange(index)}
                     />
                   </If>
-                  <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
-                  <LikeCount>{convertPostLikesCount(likeCount)}</LikeCount>
+                  <HandSymbol src={postDetails.isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
+                  <LikeCount>{convertPostLikesCount(postDetails.likeCount)}</LikeCount>
                   <CommonFlexRow>
                     <SmallDots />
                     <SmallDots />
@@ -102,7 +98,7 @@ const PostTile = ({
             </If>
           </CommonFlexRow>
         </CommonFlexColumn>
-        <PostImage src={previewImage} />
+        <PostImage src={postDetails.previewImage} />
       </InterestMainContainer>
       <div style={{ borderBottom: '1px solid #DEE3ED ', marginTop: 20, width: borderWidth }} />
     </div>
@@ -110,6 +106,7 @@ const PostTile = ({
 };
 PostTile.propTypes = {
   details: PropTypes.shape({
+    id: PropTypes.string,
     headLine: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
     publishDate: PropTypes.string.isRequired,
