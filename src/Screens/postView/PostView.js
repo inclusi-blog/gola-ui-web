@@ -15,6 +15,7 @@ import FlowModal from 'common-components/FlowModal/FlowModal';
 import useEscapeHandler from 'hooks/useEscapeHandler';
 import useScrollBlock from 'hooks/useScrollBlock';
 import useBlur from 'hooks/useBlur';
+import moment from "moment";
 import Element from '../../new-story/editor/components/Element';
 import { withImages, withLinks } from '../../new-story/editor/ContentEditor';
 import Leaf from '../../new-story/editor/Leaf';
@@ -35,7 +36,6 @@ import {
   ViewAllComments, CommentsDivider,
 } from './PostView.style';
 import { InterestTag, InterestTagText } from '../../new-story/editor/PreviewCard.style';
-import moment from "moment";
 
 let hidden = null;
 let visibilityChange = null;
@@ -51,6 +51,7 @@ if (typeof document.hidden !== 'undefined') {
   visibilityChange = 'webkitvisibilitychange';
 }
 
+// TODO: Fix all warnings from this file
 const PostView = () => {
   const [timerStatus, setTimerStatus] = useState('start');
   const [time, setTime] = useState(0);
@@ -70,6 +71,7 @@ const PostView = () => {
   const [commentText, setCommentText] = useState('');
   const [commentList, setCommentList] = useState([]);
   const [isShowAllComments, setIsShowAllComments] = useState(false);
+  const [reachedLimit, setReachedLimit] = useState(false);
   const [start, setStart] = useState(0);
 
   const onComment = () => {
@@ -90,7 +92,7 @@ const PostView = () => {
   const onClickAllComments = () => {
     setIsShowAllComments(true);
     console.log("all comments clicked!!!!",commentList.length);
-  }
+  };
 
   const pauseTimer = () => {
     clearInterval(timer);
@@ -123,6 +125,7 @@ const PostView = () => {
     pauseTimer();
     compensateTimer(6);
   };
+
   const handleOnActive = () => {
     startTimer();
   };
@@ -137,11 +140,25 @@ const PostView = () => {
   const fetchComments = () => {
     ListComments(postID, start, 5)
         .then(({data}) => {
-          setCommentList([...commentList, ...data]);
+          if (data) {
+            if (data.length !== 5) {
+              setReachedLimit(true);
+            }
+            setCommentList([...commentList, ...data]);
+            return;
+          }
+          setReachedLimit(true);
         }).catch((err) => {
+      // eslint-disable-next-line no-console
       console.log("unable to fetch comments ", err);
-    })
+    });
   };
+
+  useEffect(() => {
+    if (postID) {
+      fetchComments();
+    }
+  }, [start]);
 
   useEffect(() => {
     if (postID) {
@@ -208,17 +225,26 @@ const PostView = () => {
       </InterestTag>
     ));
   };
+
   const onPopupClose = () => {
     setShowSharePopup(false);
     delete location.state.shouldOpenSharePopup;
     history.replace({...history.location, state: {}});
   };
 
+  const handleScroll = (e) => {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom && !reachedLimit) {
+      setStart(start + 5);
+    }
+  };
+
   useEscapeHandler({onEscape: () => setShowSharePopup(false)});
   useScrollBlock({isModalOpen: showSharePopup});
   useBlur({nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup});
+  /* eslint-disable-next-line no-return-assign */
   return (
-    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} id="post-view">
+    <section style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1 1 auto', overflowX: 'hidden', overflowY: 'auto'}} id="post-view">
       <If condition={post}>
         <MainContainer >
           <PreviewPostOuterContainer
@@ -249,6 +275,7 @@ const PostView = () => {
           <CommentContainer>
             <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
               <ProfilePic src={ProfileImg}/>
+              {/* TODO: Add a state variable and change the variable to empty on focus - don't modify object event */}
               <CommentBox value={commentText}
                           placeholder="Write your thoughts..."
                           onFocus={(e) => e.target.placeholder = ''}
@@ -261,8 +288,9 @@ const PostView = () => {
               </CommentButton>
             </ApplyRow>
           </CommentContainer>
-          <ViewCommentListContainer>
+          <ViewCommentListContainer style={{height: 500, overflowY: 'auto', overflowX: 'hidden'}}  onScroll={handleScroll}>
             <If condition={isShowAllComments}>
+              {/* TODO: Use jsx control statements for running over for loop */}
               <ApplyColumn style={{marginTop: 32}}>
                 {
                   commentList.map((comment)=>{
@@ -302,7 +330,7 @@ const PostView = () => {
           </FlowModal>
         </If>
       </If>
-    </div>
+    </section>
   );
 };
 export default PostView;
