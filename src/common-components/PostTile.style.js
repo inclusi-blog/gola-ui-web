@@ -71,12 +71,6 @@ export const Bookmark = styled.img`
   cursor: pointer;
 `;
 
-export const ReadLater = styled.img`
-  width: 17.42px;
-  height: 17.42px;
-  margin-right: 13.14px;
-`;
-
 export const HandSymbol = styled.img`
   width: 15.03px;
   height: 19.6px;

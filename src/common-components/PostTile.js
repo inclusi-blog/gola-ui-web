@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
-import LaterImg from 'assets/images/Later.png';
 // eslint-disable-next-line import/no-unresolved
 import SuperClickImg from 'assets/images/super_click.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
-import ReadLaterImg from 'assets/images/ReadLater.svg';
 import EditImg from 'assets/images/Edit.svg';
 import convertPostLikesCount from 'utils/commonUtils';
+import moment from "moment";
 import {
   InterestMainContainer,
   PostHeadLine,
@@ -19,7 +18,6 @@ import {
   PostTag,
   AuthorName,
   Bookmark,
-  ReadLater,
   HandSymbol,
   LikeCount,
   SmallDots,
@@ -28,22 +26,17 @@ import {
   CommonFlexEnd,
   PostImage,
 } from './PostTile.style';
-import moment from "moment";
 import {BookmarkPost} from "../Screens/Interestpage/interestpage.service";
 
 const PostTile = ({
   details,
   index,
   OnLikeChange,
-  onBookmarkChange,
-  OnReadLaterChange,
   borderWidth,
   canShowActionArea,
 }) => {
   const location = useLocation();
   const isSavedPage = location.pathname === '/reading-list/saved';
-  const isReadLaterPage = location.pathname === '/reading-list/read-later';
-
   const [postDetails,setPostDetails] = useState(details);
 
   const renderPostTags = () => {
@@ -53,8 +46,9 @@ const PostTile = ({
     BookmarkPost(postDetails.id).then(()=>{
       setPostDetails({...postDetails,isBookmarked:true});
     }).catch((err)=>{
-      console.log()
-    })
+      // eslint-disable-next-line no-console
+      console.log("Unable to bookmark",err);
+    });
   };
   return (
     <div>
@@ -78,12 +72,6 @@ const PostTile = ({
                     <Bookmark
                       src={postDetails.isBookmarked ? BookmarkedImg : BookMarkImg}
                       onClick={() => onBookmark()}
-                    />
-                  </If>
-                  <If condition={!isReadLaterPage}>
-                    <ReadLater
-                      src={postDetails.isAddedToReadLater ? ReadLaterImg : LaterImg}
-                      onClick={() => OnReadLaterChange(index)}
                     />
                   </If>
                   <HandSymbol src={postDetails.isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
@@ -121,8 +109,6 @@ PostTile.propTypes = {
   }).isRequired,
   index: PropTypes.number.isRequired,
   OnLikeChange: PropTypes.func.isRequired,
-  onBookmarkChange: PropTypes.func.isRequired,
-  OnReadLaterChange: PropTypes.func.isRequired,
   borderWidth: PropTypes.number,
   canShowActionArea: PropTypes.bool,
 };
