@@ -75,6 +75,7 @@ export const HandSymbol = styled.img`
   width: 15.03px;
   height: 19.6px;
   margin-right: 4.21px;
+  cursor: pointer;
 `;
 
 export const LikeCount = styled.p`

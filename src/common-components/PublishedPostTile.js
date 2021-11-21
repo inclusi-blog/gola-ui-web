@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import moment from "moment";
 import SuperImg from 'assets/images/Super.png';
 // eslint-disable-next-line import/no-unresolved
 import countFormatter from 'utils/commonUtils';
+import SuperClickImg from "assets/images/super_click.png";
 import {
     CommonFlexColumn,
     CommonFlexRow,
@@ -17,6 +18,8 @@ import {
     PublishDate,
     SmallDots,
 } from './PostTile.style';
+import {CancelToken} from "../helpers/ajaxHelper";
+import {LikePost, UnlikePost} from "../Screens/postView/post.service";
 
 const PublishedPostTile = ({
 details,
@@ -32,10 +35,49 @@ borderWidth,
         title
     } = details;
     const publishedAt = moment(published_at);
+    const is_liked = true;
+    const [isLiked,setIsLiked]=useState(is_liked);
+    const [likeCount,setLikeCount] = useState(likes_count);
+    const cancelTokens = [];
+    const cleanup = useCallback(() => {
+        if (cancelTokens.length > 0) {
+            const cancelToken = cancelTokens.pop();
+            cancelToken.cancel();
+        }
+    }, []);
 
     const renderPostTags = () => {
         return <PostTag>{interests[0].name}</PostTag>;
     };
+
+    useEffect(()=>{
+        return cleanup;
+    },[cleanup]);
+
+    const onLikePost = () => {
+        const cancelToken = CancelToken();
+        LikePost(cancelToken, id).then(() => {
+            setIsLiked(true);
+            setLikeCount(likeCount+1);
+        }).catch(err => {
+            // eslint-disable-next-line no-console
+            console.log('unable to like post', err);
+        });
+        cancelTokens.push(cancelToken);
+    };
+
+    const onUnlikePost = () => {
+        const cancelToken = CancelToken();
+        UnlikePost(cancelToken, id).then(() => {
+            setIsLiked(false);
+            setLikeCount(likeCount-1);
+        }).catch(err => {
+            // eslint-disable-next-line no-console
+            console.log('unable to unlike post', err);
+        });
+        cancelTokens.push(cancelToken);
+    };
+
     return (
         <div>
             <InterestMainContainer style={{ marginTop: 32 }}>
@@ -47,8 +89,8 @@ borderWidth,
                         {renderPostTags()}
                     </CommonFlexRow>
                     <CommonFlexRow style={{ alignItems: 'center', justifyContent: 'flex-end', height: 25 }}>
-                        <HandSymbol src={SuperImg} />
-                        <LikeCount>{countFormatter(likes_count)}</LikeCount>
+                        <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={isLiked?onUnlikePost:onLikePost} />
+                        <LikeCount>{countFormatter(likeCount)}</LikeCount>
                         <CommonFlexRow>
                             <SmallDots />
                             <SmallDots />

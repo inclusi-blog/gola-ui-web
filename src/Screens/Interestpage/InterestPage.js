@@ -39,17 +39,6 @@ const InterestPage = () => {
     }
   },[interestDetails]);
 
-  const OnLikeStatusChange = (selectedIndex) => {
-    setPostDetails(
-      postDetails.map((post, index) => {
-        if (index === selectedIndex) {
-          return { ...post, isLiked: !post.isLiked };
-        }
-        return post;
-      })
-    );
-  };
-
   const OnBookmarkStatusChange = (postID) => {
     setPostDetails(
       postDetails.map((post, index) => {
@@ -73,7 +62,7 @@ const InterestPage = () => {
   };
 
   const getPostDetails = () => {
-    return postDetails.map((post, index) => {
+    return postDetails.map((post) => {
       const details = {
         id: post.id,
         headLine: post.title,
@@ -91,8 +80,6 @@ const InterestPage = () => {
       return (
           <PostTile
               details={details}
-              index={index}
-              OnLikeChange={(selectedIndex) => OnLikeStatusChange(selectedIndex)}
               onBookmarkChange={(postID) => OnBookmarkStatusChange(postID)}
               OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
           />

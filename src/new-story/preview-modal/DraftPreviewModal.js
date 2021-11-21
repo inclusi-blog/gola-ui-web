@@ -38,8 +38,6 @@ const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
           <PublishPreviewCard>
             <PublishPreviewTitle>Publish post</PublishPreviewTitle>
             <PostTile
-              onBookmarkChange={() => {}}
-              OnReadLaterChange={() => {}}
               details={{
                 headLine: previewDraft.title,
                 content: previewDraft.tagline,
@@ -48,8 +46,6 @@ const DraftPreviewModal = ({ onClose, showPreviewModal }) => {
                 authorName: previewDraft.author_name,
                 publishDate: moment(new Date()).format('MMM DD, YYYY'),
               }}
-              index={1}
-              OnLikeChange={() => {}}
               borderWidth={645}
               canShowActionArea={false}
             />

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
@@ -27,21 +27,59 @@ import {
   PostImage,
 } from './PostTile.style';
 import {BookmarkPost} from "../Screens/Interestpage/interestpage.service";
+import {LikePost, UnlikePost} from "../Screens/postView/post.service";
+import {CancelToken} from "../helpers/ajaxHelper";
 
 const PostTile = ({
   details,
-  index,
-  OnLikeChange,
   borderWidth,
   canShowActionArea,
 }) => {
   const location = useLocation();
   const isSavedPage = location.pathname === '/reading-list/saved';
   const [postDetails,setPostDetails] = useState(details);
+  const [isLiked,setIsLiked]=useState(postDetails?.isLiked);
+  const [likeCount,setLikeCount] = useState(postDetails.likeCount);
+  const cancelTokens = [];
+  const cleanup = useCallback(() => {
+    if (cancelTokens.length > 0) {
+      const cancelToken = cancelTokens.pop();
+      cancelToken.cancel();
+    }
+  }, []);
 
   const renderPostTags = () => {
     return <PostTag>{postDetails.tags[0].name}</PostTag>;
   };
+
+  useEffect(()=>{
+    return cleanup;
+  },[cleanup]);
+
+  const onLikePost = () => {
+    const cancelToken = CancelToken();
+    LikePost(cancelToken, postDetails.id).then(() => {
+      setIsLiked(true);
+      setLikeCount(likeCount+1);
+    }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.log('unable to like post', err);
+    });
+    cancelTokens.push(cancelToken);
+  };
+
+  const onUnlikePost = () => {
+    const cancelToken = CancelToken();
+    UnlikePost(cancelToken, postDetails.id).then(() => {
+      setIsLiked(false);
+      setLikeCount(likeCount-1);
+    }).catch(err => {
+      // eslint-disable-next-line no-console
+      console.log('unable to unlike post', err);
+    });
+    cancelTokens.push(cancelToken);
+  };
+
   const onBookmark = () => {
     BookmarkPost(postDetails.id).then(()=>{
       setPostDetails({...postDetails,isBookmarked:true});
@@ -74,8 +112,8 @@ const PostTile = ({
                       onClick={() => onBookmark()}
                     />
                   </If>
-                  <HandSymbol src={postDetails.isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
-                  <LikeCount>{countFormatter(postDetails.likeCount)}</LikeCount>
+                  <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={isLiked?onUnlikePost:onLikePost} />
+                  <LikeCount>{countFormatter(likeCount)}</LikeCount>
                   <CommonFlexRow>
                     <SmallDots />
                     <SmallDots />
@@ -107,8 +145,6 @@ PostTile.propTypes = {
     isLiked: PropTypes.bool,
     isRecentEdit: PropTypes.bool,
   }).isRequired,
-  index: PropTypes.number.isRequired,
-  OnLikeChange: PropTypes.func.isRequired,
   borderWidth: PropTypes.number,
   canShowActionArea: PropTypes.bool,
 };
