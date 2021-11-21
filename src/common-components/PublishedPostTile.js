@@ -5,6 +5,7 @@ import SuperImg from 'assets/images/Super.png';
 // eslint-disable-next-line import/no-unresolved
 import countFormatter from 'utils/commonUtils';
 import SuperClickImg from "assets/images/super_click.png";
+import {Link} from "react-router-dom";
 import {
     CommonFlexColumn,
     CommonFlexRow,
@@ -82,7 +83,9 @@ borderWidth,
         <div>
             <InterestMainContainer style={{ marginTop: 32 }}>
                 <CommonFlexColumn style={{ marginRight: 24 }}>
-                    <PostHeadLine>{title}</PostHeadLine>
+                    <Link to={`/@nivethaplaceholder/${title.replaceAll(" ","-")}-${details.id}`} style={{ textDecoration: 'none' }}>
+                        <PostHeadLine>{title}</PostHeadLine>
+                    </Link>
                     <PostContent>{tagline}</PostContent>
                     <CommonFlexRow style={{ marginTop: 7, marginBottom: 4, alignItems: 'center' }}>
                         <PublishDate>{publishedAt.format("MMM, DD YYYY")}</PublishDate>

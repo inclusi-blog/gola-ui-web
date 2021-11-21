@@ -1,6 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { useLocation } from 'react-router-dom';
+import {Link, useLocation} from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 // eslint-disable-next-line import/no-unresolved
@@ -92,7 +92,9 @@ const PostTile = ({
     <div>
       <InterestMainContainer style={{ marginTop: 32 }}>
         <CommonFlexColumn style={{ marginRight: 24 }}>
-          <PostHeadLine>{postDetails.headLine}</PostHeadLine>
+          <Link to={`/@${details.authorName}/${details.headLine.replaceAll(" ","-")}-${details.id}`} style={{ textDecoration: 'none' }}>
+            <PostHeadLine>{postDetails.headLine}</PostHeadLine>
+          </Link>
           <PostContent>{postDetails.content}</PostContent>
           <CommonFlexRow style={{ marginTop: 7, marginBottom: 4, alignItems: 'center' }}>
             <If condition={postDetails.isRecentEdit}>
