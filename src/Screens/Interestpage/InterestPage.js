@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import FollowerPic from 'assets/images/followerPic.svg';
 import PostTile from 'common-components/PostTile';
+import {useParams} from "react-router-dom";
 import {
   MainContainer,
   PageTitle,
@@ -10,20 +11,33 @@ import {
   FollowLabel,
   BorderLine,
 } from './InterestPage.style';
-import {BookmarkPost, GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
+import { GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
+import countFormatter from "../../utils/commonUtils";
 
 const InterestPage = () => {
   const [postDetails, setPostDetails] = useState([]);
-  const [interestDetails, setInterestDetails] = useState([]);
+  const [interestDetails, setInterestDetails] = useState({});
+  const {interestName} = useParams();
 
   useEffect(()=>{
-    Promise.all([GetPostsByInterest(),GetInterestDetails()]).then(([{data}, {data:detailsData}])=>{
-      setPostDetails(data);
-      setInterestDetails(detailsData);
+    GetInterestDetails(interestName).then(({data})=>{
+      setInterestDetails(data);
     }).catch((err)=>{
-      console.log('Error while getting posts by interest ', err);
+      // eslint-disable-next-line no-console
+      console.log("Unable to get interest details.",err);
     });
   },[]);
+
+  useEffect(()=>{
+    if(interestDetails.interest_id){
+      GetPostsByInterest(interestDetails.interest_id).then(({data})=>{
+        setPostDetails(data);
+      }).catch((err)=>{
+        // eslint-disable-next-line no-console
+        console.log("Unable to get post details by interest.",err);
+      });
+    }
+  },[interestDetails]);
 
   const OnLikeStatusChange = (selectedIndex) => {
     setPostDetails(
@@ -99,10 +113,10 @@ const InterestPage = () => {
               alignItems: 'center',
             }}
           >
-            <PageTitle>Interest</PageTitle>
+            <PageTitle>{interestDetails.name}</PageTitle>
             <div style={{ display: 'flex', flex: '8', justifyContent: 'flex-end', alignItems: 'center' }}>
               <FollowersCount>
-                {interestDetails.followers_count}
+                {countFormatter(interestDetails.followers_count)}
                 <FollowersCountProfile src={FollowerPic} />
                 Followers
               </FollowersCount>

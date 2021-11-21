@@ -4,22 +4,22 @@ const conversionMapper = {
   hundreds: { factor: 1, identifier: '', roundOff: 0 },
 };
 
-const getLikesUnit = (likes) => {
-  const likesLength = likes.length;
-  if (likesLength >= 4 && likesLength <= 6) {
+const getLikesUnit = (count) => {
+  const countLength = count.length;
+  if (countLength >= 4 && countLength <= 6) {
     return 'thousands';
   }
-  if (likesLength >= 7 && likesLength <= 9) {
+  if (countLength >= 7 && countLength <= 9) {
     return 'millions';
   }
   return 'hundreds';
 };
 
-const convertPostLikesCount = (likesCount) => {
-  const count = String(likesCount);
+const countFormatter = (Count) => {
+  const count = String(Count);
   const unit = conversionMapper[getLikesUnit(count)];
-  const mainSegment = parseInt((count / unit.factor).toFixed(unit.roundOff));
+  const mainSegment = parseInt((count / unit.factor).toFixed(unit.roundOff),10);
   return `${mainSegment}${unit.identifier}`;
 };
 
-export default convertPostLikesCount;
+export default countFormatter;

@@ -13,7 +13,7 @@ import {
   ApplyRow,
 } from './ReviewPalatte.style';
 import {LikePost, UnlikePost} from "../Screens/postView/post.service";
-import convertPostLikesCount from "../utils/commonUtils";
+import countFormatter from "../utils/commonUtils";
 
 const ReviewPalatte = ({likesCount, commentsCount, isViewerLiked, postID}) => {
   const [isLiked,setIsLiked]=useState(false);
@@ -65,7 +65,7 @@ const ReviewPalatte = ({likesCount, commentsCount, isViewerLiked, postID}) => {
           <SuperHandSymbolOuterLine onClick={isLiked?onUnlikePost:onLikePost}>
             <SuperHandSymbol src={isLiked? LikedImage: LikeImage} />
           </SuperHandSymbolOuterLine>
-          <LikeCount>{convertPostLikesCount(likeCount)}</LikeCount>
+          <LikeCount>{countFormatter(likeCount)}</LikeCount>
           <Comment src={CommentImg} />
           <CommentCount>{commentsCount}</CommentCount>
         </ApplyRow>

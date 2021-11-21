@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from "moment";
 import SuperImg from 'assets/images/Super.png';
 // eslint-disable-next-line import/no-unresolved
-import convertPostLikesCount from 'utils/commonUtils';
+import countFormatter from 'utils/commonUtils';
 import {
     CommonFlexColumn,
     CommonFlexRow,
@@ -48,7 +48,7 @@ borderWidth,
                     </CommonFlexRow>
                     <CommonFlexRow style={{ alignItems: 'center', justifyContent: 'flex-end', height: 25 }}>
                         <HandSymbol src={SuperImg} />
-                        <LikeCount>{convertPostLikesCount(likes_count)}</LikeCount>
+                        <LikeCount>{countFormatter(likes_count)}</LikeCount>
                         <CommonFlexRow>
                             <SmallDots />
                             <SmallDots />

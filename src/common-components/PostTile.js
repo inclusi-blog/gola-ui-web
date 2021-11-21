@@ -7,7 +7,7 @@ import BookMarkImg from 'assets/images/Bookmark.png';
 import SuperClickImg from 'assets/images/super_click.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import EditImg from 'assets/images/Edit.svg';
-import convertPostLikesCount from 'utils/commonUtils';
+import countFormatter from 'utils/commonUtils';
 import moment from "moment";
 import {
   InterestMainContainer,
@@ -75,7 +75,7 @@ const PostTile = ({
                     />
                   </If>
                   <HandSymbol src={postDetails.isLiked ? SuperClickImg : SuperImg} onClick={() => OnLikeChange(index)} />
-                  <LikeCount>{convertPostLikesCount(postDetails.likeCount)}</LikeCount>
+                  <LikeCount>{countFormatter(postDetails.likeCount)}</LikeCount>
                   <CommonFlexRow>
                     <SmallDots />
                     <SmallDots />
