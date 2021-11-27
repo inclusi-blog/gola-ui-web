@@ -43,14 +43,14 @@ const useSaveDraft = ({editorData}) => {
       });
   };
 
-  const changeRouteName = useCallback((id) => {
+  const changeRouteName = (id) => {
     setIsInitiallySaved(true);
     setDraftID(id);
     window.history.replaceState(null, 'Draft', `/p/${id}/edit`);
-  }, [setDraftID, setIsInitiallySaved]);
+  };
 
   const onChangeContent = useCallback((postData) => {
-    SaveDraft({ post: postData, commandToRun: !draftID ? (value) => changeRouteName(value) : () => {} });
+    SaveDraft({ post: postData, commandToRun: draftID ? () => {} : changeRouteName });
   }, [SaveDraft, changeRouteName, draftID]);
 
   useDebouncedEffect(() => {
