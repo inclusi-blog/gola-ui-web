@@ -3,7 +3,6 @@ import { debounce } from 'lodash';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import ajax from '../helpers/ajaxHelper';
 import useBlur from '../hooks/useBlur';
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
@@ -14,9 +13,9 @@ import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
 import DraftPreviewModal from './preview-modal/DraftPreviewModal';
 
-const NewStory = ({ location: { pathname } }) => {
-  const [puid, setPUID] = useState('');
-  const [contentData, setContentData] = useState({time: Date.now()});
+const NewStory = () => {
+  const [contentData, setContentData] = useState({});
+  useSaveDraft({editorData: contentData});
   const {
     setIsSaving,
     setIsInitiallySaved,
@@ -30,7 +29,6 @@ const NewStory = ({ location: { pathname } }) => {
     redirectUrl,
     draftID
   } = useDraft();
-  const { save } = useSaveDraft();
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -39,39 +37,6 @@ const NewStory = ({ location: { pathname } }) => {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const params = useParams();
   const history = useHistory();
-
-  const SaveDraft = ({ post, commandToRun = () => {} }) => {
-    setIsSaving(true);
-
-    if (!puid) {
-      ajax
-        .post('/post/v1/draft', {
-          data: post,
-        })
-        .then(({ data }) => {
-          setPUID(data.draft_id);
-          commandToRun(data.draft_id);
-          setIsSaving(false);
-        })
-        .catch(() => {
-          setIsSaving(false);
-        });
-      return;
-    }
-    ajax
-      .put(`/post/v1/draft?draft=${puid}`, {
-        data: post,
-      })
-      .then(() => {
-        setIsSaving(false);
-        commandToRun();
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.log('something went wrong', err);
-        setIsSaving(false);
-      });
-  };
 
   const SaveTaglineAndChangeRouteName = (changedTagline, commandToRun = {}) => {
     setIsSaving(true);
@@ -105,25 +70,9 @@ const NewStory = ({ location: { pathname } }) => {
     window.history.replaceState(null, 'Draft', `/p/${id}/edit`);
   };
 
-  const onChangeContent = (postData) => {
-    console.log('this is path name', pathname, puid);
-    if (!puid) {
-      SaveDraft({
-        post: postData,
-        commandToRun: (id) => changeRouteName(id),
-      });
-      return;
-    }
-    SaveDraft({ post: postData });
-  };
-
-  const delayedHandleChangeContent = useCallback(
-    debounce((eventData) => onChangeContent(eventData), 2000),
-    [puid]
-  );
   const delayedHandleChangeTagline = useCallback(
     debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000),
-    [puid]
+    [draftID]
   );
 
   useEffect(() => {
@@ -136,8 +85,7 @@ const NewStory = ({ location: { pathname } }) => {
     if (params?.draftId) {
       GetDraft(params.draftId)
         .then(({ data }) => {
-          setPUID(params.draftId);
-          setContentData(data.data);
+          setDraftID(params.draftId);
           if (data.interests) {
             setSelectedTags(data.interests);
           }
@@ -146,14 +94,16 @@ const NewStory = ({ location: { pathname } }) => {
           }
           setTagline(data.tagline);
           setIsInitiallySaved(true);
-          setDraftID(params.draftId);
           setIsPublished(data.is_published);
+          setContentData(data.data);
         })
         .catch((err) => {
           // eslint-disable-next-line no-console
           console.log('unable to get draft', err);
         });
+      return;
     }
+    setContentData({time: Date.now()});
   }, []);
 
   useEffect(() => {
@@ -193,11 +143,9 @@ const NewStory = ({ location: { pathname } }) => {
 
   useBlur({ nodes: ['post-login-header', 'new-story'], isVisible: showPreviewModal });
 
-  const updateDraft = useCallback((postData) => {
-      console.log('new story', draftID);
+  const updateDraft = (postData) => {
       setContentData(postData);
-      save(postData);
-  }, [save]);
+  };
 
   return (
     <div
@@ -225,7 +173,7 @@ const NewStory = ({ location: { pathname } }) => {
                 delayedHandleChangeTagline(changedTagline);
               }}
               tagline={tagline}
-              draftID={puid}
+              draftID={draftID}
               previewImage={previewImage}
               setPreviewImage={setPreviewImage}
               selectedFile={selectedFile}
@@ -238,7 +186,7 @@ const NewStory = ({ location: { pathname } }) => {
         <div
           style={{
             width: '62%',
-            marginTop: titleText.length ? 83 : 246,
+            marginTop: titleText?.length ? 83 : 246,
           }}
         >
           <PostEditor

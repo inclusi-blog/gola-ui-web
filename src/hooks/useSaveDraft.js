@@ -1,19 +1,18 @@
-import { debounce } from "lodash";
 import { useCallback } from "react";
 import ajax from "../helpers/ajaxHelper";
+import useDebouncedEffect from "./useDebounceEffect";
 import useDraft from "./useDraft";
 
-const useSaveDraft = () => {
+const useSaveDraft = ({editorData}) => {
   const {
     setIsSaving,
     setIsInitiallySaved,
     setDraftID,
     draftID
   } = useDraft();
-  console.log('this is draft id from hook', draftID);
+
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
-
     if (!draftID) {
       ajax
         .post('/post/v1/draft', {
@@ -51,25 +50,14 @@ const useSaveDraft = () => {
   }, [setDraftID, setIsInitiallySaved]);
 
   const onChangeContent = useCallback((postData) => {
-    console.log('this is draft id ', draftID);
-    if (!draftID) {
-      SaveDraft({
-        post: postData,
-        commandToRun: (id) => changeRouteName(id),
-      });
-      return;
-    }
-    SaveDraft({ post: postData });
+    SaveDraft({ post: postData, commandToRun: !draftID ? (value) => changeRouteName(value) : () => {} });
   }, [SaveDraft, changeRouteName, draftID]);
 
-  const delayedHandleChangeContent = useCallback(
-    debounce((eventData) => onChangeContent(eventData), 2000),
-    [draftID]
-  );
-
-  return  {
-    save: delayedHandleChangeContent
-  };
+  useDebouncedEffect(() => {
+    if (Object.keys(editorData).length !== 1){
+      onChangeContent(editorData);
+    }
+  }, [editorData], 2000);
 };
 
 export default useSaveDraft;
