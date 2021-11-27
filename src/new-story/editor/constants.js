@@ -1,0 +1,47 @@
+import CheckList from '@editorjs/checklist';
+import Code from '@editorjs/code';
+import Delimiter from '@editorjs/delimiter';
+import Embed from '@editorjs/embed';
+import Table from '@editorjs/table';
+import List from '@editorjs/list';
+import Warning from '@editorjs/warning';
+import LinkTool from '@editorjs/link';
+import Image from '@editorjs/image';
+import Raw from '@editorjs/raw';
+import Header from '@editorjs/header';
+import Quote from '@editorjs/quote';
+import Marker from '@editorjs/marker';
+import InlineCode from '@editorjs/inline-code';
+import SimpleImage from '@editorjs/simple-image';
+import Mention from '@mrpritchett/editorjs-mentions';
+import Undo from 'editorjs-undo';
+
+
+export const EDITOR_JS_TOOLS = {
+  embed: Embed,
+  table: Table,
+  marker: Marker,
+  list: List,
+  warning: Warning,
+  code: Code,
+  linkTool: {
+    class: LinkTool,
+    config: {
+      endpoint: 'http://localhost:8080'
+    }
+  },
+  image: Image,
+  raw: Raw,
+  header: Header,
+  quote: Quote,
+  checklist: CheckList,
+  delimiter: Delimiter,
+  inlineCode: InlineCode,
+  simpleImage: SimpleImage,
+  mention: {
+    class: Mention,
+    config: {
+    }
+  },
+  undo: Undo
+};

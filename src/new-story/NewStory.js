@@ -3,29 +3,20 @@ import { debounce } from 'lodash';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faVideo, faPlus } from '@fortawesome/free-solid-svg-icons';
 import ajax from '../helpers/ajaxHelper';
 import useBlur from '../hooks/useBlur';
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
+import useSaveDraft from "../hooks/useSaveDraft";
 import { GetDraft, SaveTagline } from './draft.service';
-import ContentEditor from './editor/ContentEditor';
+import PostEditor from "./editor/Editor";
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
 import DraftPreviewModal from './preview-modal/DraftPreviewModal';
 
-const initialValue = [
-  {
-    children: [{ text: '' }],
-  },
-];
-
 const NewStory = ({ location: { pathname } }) => {
-  const [showSideBar, setShowSideBar] = useState(true);
   const [puid, setPUID] = useState('');
-  const [sideBarCoords, setSideBarCoords] = useState({ x: 370, y: 430 });
-  const [contentData, setContentData] = useState(initialValue);
+  const [contentData, setContentData] = useState({time: Date.now()});
   const {
     setIsSaving,
     setIsInitiallySaved,
@@ -37,7 +28,9 @@ const NewStory = ({ location: { pathname } }) => {
     setPreviewDraft,
     postRedirect,
     redirectUrl,
+    draftID
   } = useDraft();
+  const { save } = useSaveDraft();
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -113,7 +106,7 @@ const NewStory = ({ location: { pathname } }) => {
   };
 
   const onChangeContent = (postData) => {
-    console.log('this is path name', pathname);
+    console.log('this is path name', pathname, puid);
     if (!puid) {
       SaveDraft({
         post: postData,
@@ -134,19 +127,10 @@ const NewStory = ({ location: { pathname } }) => {
   );
 
   useEffect(() => {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < contentData.length; i++) {
-      let flag = 0;
-      if (contentData[i].children[0].text !== '') {
-        flag = 1;
-        setTitleText(contentData[i].children[0].text);
-        break;
-      }
-      if (flag) {
-        break;
-      }
+    if (contentData?.blocks) {
+      setTitleText(contentData.blocks.find((block) => ['paragraph', 'header'].includes(block.type))?.data?.text);
     }
-  }, [contentData.length]);
+  }, [contentData]);
 
   useEffect(() => {
     if (params?.draftId) {
@@ -209,6 +193,12 @@ const NewStory = ({ location: { pathname } }) => {
 
   useBlur({ nodes: ['post-login-header', 'new-story'], isVisible: showPreviewModal });
 
+  const updateDraft = useCallback((postData) => {
+      console.log('new story', draftID);
+      setContentData(postData);
+      save(postData);
+  }, [save]);
+
   return (
     <div
       style={{
@@ -226,28 +216,8 @@ const NewStory = ({ location: { pathname } }) => {
           alignItems: 'center',
         }}
       >
-        <If condition={showSideBar}>
-          <div className="fab-container" style={{ top: sideBarCoords.y, left: sideBarCoords.x }}>
-            <div className="fab fab-icon-holder">
-              <FontAwesomeIcon icon={faPlus} />
-            </div>
-
-            <ul className="fab-options">
-              <li>
-                <div className="fab-icon-holder">
-                  <FontAwesomeIcon icon={faImage} />
-                </div>
-              </li>
-              <li>
-                <div className="fab-icon-holder">
-                  <FontAwesomeIcon icon={faVideo} />
-                </div>
-              </li>
-            </ul>
-          </div>
-        </If>
         <div style={{ marginTop: 51 }}>
-          <If condition={titleText.length}>
+          <If condition={titleText?.length}>
             <PreviewCard
               title={titleText}
               onChangeTagline={(changedTagline) => {
@@ -271,15 +241,8 @@ const NewStory = ({ location: { pathname } }) => {
             marginTop: titleText.length ? 83 : 246,
           }}
         >
-          <ContentEditor
-            setShowSideBar={setShowSideBar}
-            setClientRects={(rect) => {
-              setSideBarCoords({ ...sideBarCoords, y: rect.y - 17 });
-            }}
-            onChangeRoute={(postData) => {
-              setContentData(postData);
-              delayedHandleChangeContent(postData);
-            }}
+          <PostEditor
+            onChangeRoute={updateDraft}
             value={contentData}
           />
         </div>
