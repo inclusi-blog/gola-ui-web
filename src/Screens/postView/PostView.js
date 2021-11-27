@@ -9,16 +9,15 @@ import Close from 'assets/images/close.svg';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { createEditor } from 'slate';
 import { withHistory } from 'slate-history';
-import { Editable, Slate, withReact } from 'slate-react';
+import { withReact } from 'slate-react';
 import useDraft from 'hooks/useDraft';
 import FlowModal from 'common-components/FlowModal/FlowModal';
 import useEscapeHandler from 'hooks/useEscapeHandler';
 import useScrollBlock from 'hooks/useScrollBlock';
 import useBlur from 'hooks/useBlur';
 import moment from "moment";
-import Element from '../../new-story/editor/components/Element';
 import { withImages, withLinks } from '../../new-story/editor/ContentEditor';
-import Leaf from '../../new-story/editor/Leaf';
+import PostEditor from "../../new-story/editor/Editor";
 import { PublishPreviewCard, PublishPreviewTitle } from '../../new-story/NewStory.style';
 import {AddComment, GetPost, ListComments} from './post.service';
 import {
@@ -62,7 +61,6 @@ const PostView = () => {
   const {post_url, username} = useParams();
   const location = useLocation();
   const history = useHistory();
-  const editor = useMemo(() => withImages(withLinks(withHistory(withReact(createEditor())))), []);
   const [postID, setPostID] = useState();
   const [isViewerLiked, setIsViewerLiked] = useState(false);
   const [post, setPost] = useState(null);
@@ -258,17 +256,7 @@ const PostView = () => {
               isAuthorViewingPost={isViewIsAuthor}
           />
           <div style={{borderBottom: '1px solid #DFDFDF ', marginTop: 60, marginBottom: 24}}>
-            <Slate editor={editor} value={post.data}>
-              <Editable
-                  renderElement={(props) => <Element {...props} />}
-                  readOnly
-                  style={{
-                    fontSize: 24,
-                    lineHeight: '177%',
-                  }}
-                  renderLeaf={(props) => <Leaf {...props} />}
-              />
-            </Slate>
+            <PostEditor value={post.data} readOnly/>
           </div>
           <ReviewPalatte likesCount={post.likeCount} commentsCount={post.commentCount} isViewerLiked={isViewerLiked} postID={postID}/>
           <div style={{display: 'flex', alignItems: 'center', marginTop: 32}}>{getInterestPills()}</div>

@@ -1,9 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { debounce } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useBlur from '../hooks/useBlur';
+import useDebouncedEffect from "../hooks/useDebounceEffect";
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
 import useSaveDraft from "../hooks/useSaveDraft";
@@ -33,25 +33,14 @@ const NewStory = () => {
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState('');
-  const [tagline, setTagline] = useState('');
+  const [tagline, setTagline] = useState(null);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const params = useParams();
   const history = useHistory();
 
-  const SaveTaglineAndChangeRouteName = (changedTagline, commandToRun = {}) => {
+  const SaveTaglineAndChangeRouteName = (changedTagline) => {
     setIsSaving(true);
-    if (!puid) {
-      SaveTagline(puid, changedTagline)
-        .then(() => {
-          commandToRun();
-        })
-        .catch((err) => {
-          // eslint-disable-next-line no-console
-          console.log('something went wrong', err);
-        });
-      return;
-    }
-    SaveTagline(puid, changedTagline)
+    SaveTagline(draftID, changedTagline)
       .then(() => {
         setIsSaving(false);
         // eslint-disable-next-line no-console
@@ -64,16 +53,11 @@ const NewStory = () => {
       });
   };
 
-  const changeRouteName = (id) => {
-    setIsInitiallySaved(true);
-    setDraftID(id);
-    window.history.replaceState(null, 'Draft', `/p/${id}/edit`);
-  };
-
-  const delayedHandleChangeTagline = useCallback(
-    debounce((eventData) => SaveTaglineAndChangeRouteName(eventData, () => changeRouteName()), 3000),
-    [draftID]
-  );
+  useDebouncedEffect(() => {
+    if (tagline){
+      SaveTaglineAndChangeRouteName(tagline);
+    }
+  },[tagline], 3000);
 
   useEffect(() => {
     if (contentData?.blocks) {
@@ -170,7 +154,6 @@ const NewStory = () => {
               title={titleText}
               onChangeTagline={(changedTagline) => {
                 setTagline(changedTagline);
-                delayedHandleChangeTagline(changedTagline);
               }}
               tagline={tagline}
               draftID={draftID}

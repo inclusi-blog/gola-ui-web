@@ -243,12 +243,14 @@ const PreviewCard = ({
 
 PreviewCard.defaultProps = {
   selectedFile: null,
+  tagline: '',
+  draftID: '',
 };
 
 PreviewCard.propTypes = {
   title: PropTypes.string.isRequired,
   onChangeTagline: PropTypes.func.isRequired,
-  draftID: PropTypes.string.isRequired,
+  draftID: PropTypes.string,
   previewImage: PropTypes.string.isRequired,
   setPreviewImage: PropTypes.func.isRequired,
   selectedFile: PropTypes.shape({
@@ -257,7 +259,7 @@ PreviewCard.propTypes = {
   setSelectedFile: PropTypes.func.isRequired,
   selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
   setSelectedTags: PropTypes.func.isRequired,
-  tagline: PropTypes.string.isRequired,
+  tagline: PropTypes.string,
 };
 
 export default PreviewCard;

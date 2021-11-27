@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { createReactEditorJS } from 'react-editor-js';
 import { EDITOR_JS_TOOLS } from './constants';
 
-const PostEditor = ({onChangeRoute, value}) => {
+const PostEditor = ({onChangeRoute, value, readOnly}) => {
   const ReactEditorJS = createReactEditorJS();
   const editorJS = useRef(null);
 
@@ -25,6 +25,7 @@ const PostEditor = ({onChangeRoute, value}) => {
   return (
     <If condition={value.time}>
       <ReactEditorJS
+        readOnly={readOnly}
         onInitialize={handleInitialize}
         tools={EDITOR_JS_TOOLS}
         defaultValue={value}
@@ -34,11 +35,17 @@ const PostEditor = ({onChangeRoute, value}) => {
   );
 };
 
+PostEditor.defaultProps = {
+  readOnly: false,
+  onChangeRoute: undefined,
+};
+
 PostEditor.propTypes = {
-  onChangeRoute: PropTypes.func.isRequired,
+  onChangeRoute: PropTypes.func,
   value: PropTypes.shape({
     time: PropTypes.number,
-  }).isRequired
+  }).isRequired,
+  readOnly: PropTypes.bool,
 };
 
 export default PostEditor;
