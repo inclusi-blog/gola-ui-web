@@ -1,10 +1,10 @@
 import moment from "moment";
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Link} from "react-router-dom";
 import {
   ApplyRow,
   ApplyColumn,
-  DraftContent,
   Tagline,
   Date,
   TagList,
@@ -12,13 +12,16 @@ import {
   PublishButton,
   PublishLabel,
 } from './DraftList.style';
+import {PostHeadLine} from "./PostTile.style";
 
 const DraftTile = ({ draftContent }) => {
   const createdAt = moment(draftContent.created_at);
   return (
     <div>
-      <ApplyColumn>
-        <DraftContent>{draftContent.title}</DraftContent>
+      <ApplyColumn style={{ marginTop: 32 }}>
+        <Link to={`/p/${draftContent.id}/edit`} style={{ textDecoration: 'none' }}>
+          <PostHeadLine>{draftContent.title}</PostHeadLine>
+        </Link>
         <Tagline>{draftContent.tagline}</Tagline>
         <ApplyRow style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: 11 }}>
           <Date>{createdAt.format("MMM, DD YYYY")}</Date>

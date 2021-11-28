@@ -104,6 +104,7 @@ export const PostImage = styled.img`
 export const CommonFlexRow = styled.div`
   display: flex;
   flex-direction: row;
+  cursor: pointer;
 `;
 
 export const CommonFlexColumn = styled.div`
