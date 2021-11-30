@@ -9,34 +9,28 @@ import ajax from 'helpers/ajaxHelper';
 import Close from 'assets/images/close.svg';
 import FlowModal from 'common-components/FlowModal/FlowModal';
 import {
-    SignupHeader,
-    SignupContainer,
-    GoogleIcon,
-    SignupLabelContainer,
-    SignupLabel,
-    CenterSignupModalWrapper, GoogleText,
+  SignupHeader,
+  SignupContainer,
+  GoogleIcon,
+  SignupLabelContainer,
+  SignupLabel,
+  CenterSignupModalWrapper,
+  GoogleText,
 } from './Signup.style';
-import UsernameInputScreen from './UsernameInputScreen';
 
 const SignupModal = ({ isSignup, onClose }) => {
   const [userSignupDetails, setUserSignupDetails] = useState({
-    username: '',
     encryptedPassword: '',
     email: '',
   });
   const [redirect, setRedirect] = useState(false);
-  const [shouldRenderUsernameField, setShouldRenderUsernameField] = useState(false);
 
   useEffect(() => {
-    if (userSignupDetails.email.length) {
-      setShouldRenderUsernameField(true);
-    }
-    if (userSignupDetails.username && userSignupDetails.email && userSignupDetails.encryptedPassword) {
+    if (userSignupDetails.email && userSignupDetails.encryptedPassword) {
       ajax
         .post('/idp/v1/user/register', {
           email: userSignupDetails.email,
           password: userSignupDetails.encryptedPassword,
-          username: userSignupDetails.username,
         })
         .then(() => {
           setRedirect(true);
@@ -107,31 +101,27 @@ const SignupModal = ({ isSignup, onClose }) => {
             <img src={Close} width={32} height={32} alt="closeButton" />
           </div>
         </div>
-        <If condition={shouldRenderUsernameField}>
-          <UsernameInputScreen onSubmit={(username) => setUserSignupDetails({ ...userSignupDetails, username })} />
-          <Else />
-          <CenterSignupModalWrapper>
-            <SignupContainer>
-              <GoogleIcon src={GoogleImg} />
-              <GoogleText>Continue with Google</GoogleText>
-            </SignupContainer>
-            <SignupLabelContainer>
-              <SignupLabel>or sign in with</SignupLabel>
-            </SignupLabelContainer>
-            <Choose>
-              <When condition={isSignup}>
-                <SignupComponent
-                  renderUsernameField={(email, password) => {
-                    setUserSignupDetails({ ...userSignupDetails, email, encryptedPassword: password });
-                  }}
-                />
-              </When>
-              <Otherwise>
-                <SigninComponent />
-              </Otherwise>
-            </Choose>
-          </CenterSignupModalWrapper>
-        </If>
+        <CenterSignupModalWrapper>
+          <SignupContainer>
+            <GoogleIcon src={GoogleImg} />
+            <GoogleText>Continue with Google</GoogleText>
+          </SignupContainer>
+          <SignupLabelContainer>
+            <SignupLabel>or sign in with</SignupLabel>
+          </SignupLabelContainer>
+          <Choose>
+            <When condition={isSignup}>
+              <SignupComponent
+                renderUsernameField={(email, password) => {
+                  setUserSignupDetails({ ...userSignupDetails, email, encryptedPassword: password });
+                }}
+              />
+            </When>
+            <Otherwise>
+              <SigninComponent />
+            </Otherwise>
+          </Choose>
+        </CenterSignupModalWrapper>
       </div>
     </FlowModal>
   );
