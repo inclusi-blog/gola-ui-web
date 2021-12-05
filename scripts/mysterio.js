@@ -32,7 +32,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const modifyResponse = require('node-http-proxy-json');
 
 const app = express();
-const TARGET_ENV_REGEX = new RegExp(`http://localhost:4444`,'g');
+const TARGET_ENV_REGEX = new RegExp("https:\\/\\/api.gola.xyz",'g');
 
 // eslint-disable-next-line no-unused-vars
 function handleRedirect(proxyRes, req, res) {
@@ -73,12 +73,12 @@ const onResponse = function (proxyRes, req, res) {
 };
 
 const routerProxyConfig = {
-  '/oauth2': 'http://localhost:4444',
-  '/idp/v1': 'http://localhost:8080',
+  '/oauth2': 'https://api.gola.xyz',
+  '/idp/v1': 'https://api.gola.xyz',
 };
 
 const proxyOptions = {
-  target: `http://localhost:9000/`,
+  target: `https://api.gola.xyz`,
   changeOrigin: true,
   secure: false,
   ws: true,

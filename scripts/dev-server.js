@@ -21,15 +21,15 @@ const DEV_PORT = process.env.DEV_PORT ?? '3000';
 const DEV_HOST = process.env.DEV_HOST ?? 'localhost';
 
 const routerProxyConfig = {
-  '/post/v1': 'http://localhost:8080',
-  '/user-profile/v1': 'http://localhost:8080',
+  '/post/v1': 'https://api.gola.xyz',
+  '/user-profile/v1': 'https://api.gola.xyz',
   '/idp/v1': 'http://localhost:9000',
   'api/v1': 'http://localhost:3001',
   '/tracing/span': 'http://localhost:9411'
 };
 
 const options = {
-  target: 'http://localhost:3000',
+  target: 'https://api.gola.xyz',
   changeOrigin: true,
   cookieDomainRewrite: "",
   secure: false,
@@ -38,8 +38,8 @@ const options = {
 
 const authProxy = {
   target: 'http://localhost:9000',
-  cookieDomainRewrite: "",
   changeOrigin: true,
+  cookieDomainRewrite: "",
   secure: false,
 };
 
@@ -51,8 +51,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.use(webpackHotMiddleware(compiler, {
-  // eslint-disable-next-line no-console
-  log: console.log,
+  log: false,
   path: '/__webpack_hmr',
   heartbeat: 10 * 1000
 }));
