@@ -91,11 +91,16 @@ const UserProfilePage = () => {
                 // eslint-disable-next-line no-console
                 console.log('something went wrong - unable to get User Profile Details : ', err);
             });
-
-        GetProfilePicture('9b223395-897b-460a-8804-8d3dea11b86d').then((response)=>{
-            setSelectedFile(response.request.responseURL)
-        });
     },[]);
+
+    useEffect(() => {
+        if (profileDetails?.id) {
+            GetProfilePicture(profileDetails.id).then((response)=>{
+                setSelectedFile(response.request.responseURL);
+            });
+        }
+    }, [profileDetails]);
+
     return (
         <MainProfileContainer>
             <PageDescription>Profile</PageDescription>

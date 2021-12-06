@@ -1,8 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import PreviewPicker from 'assets/images/preview-pen.svg';
-import ajax from 'helpers/ajaxHelper';
-import { GetInterests, UpdateInterests, UpdatePreviewImage } from '../draft.service';
+import {
+  GetInterests,
+  GetPreSignPreviewImageURL,
+  SyncPreviewImage,
+  UpdateInterests,
+  UploadPreviewImage
+} from '../draft.service';
 import {
   AddInterestTagText,
   AddTagButton,
@@ -59,18 +64,6 @@ const PreviewCard = ({
       });
   };
 
-  const updateImage = (previewImageUrl) => {
-    UpdatePreviewImage(draftID, previewImageUrl)
-      .then(({ data }) => {
-        if (data.status === 'succes') {
-          setErrorStatus(null);
-        }
-      })
-      .catch(() => {
-        setErrorStatus(true);
-      });
-  };
-
   const onClickInterest = (tags) => {
     UpdateInterests(draftID, tags)
       .then(() => setErrorStatus(false))
@@ -108,37 +101,37 @@ const PreviewCard = ({
     }
   }, [selectedTags]);
 
-  useEffect(() => {
-    if (selectedFile) {
-      const fromData = new FormData();
-      fromData.append('file', selectedFile, selectedFile.fileName);
-
-      ajax
-        .post('/v1/upload', fromData, {
-          headers: {
-            accept: 'application/json',
-            'Accept-Language': 'en-US,en;q=0.8',
-            // eslint-disable-next-line no-underscore-dangle
-            'Content-Type': `multipart/form-data; boundary=${fromData._boundary}`,
-          },
-        })
-        .then(({ data: steam }) => {
-          const imageUrl = steam.filePath.replace(
-            'https://golaimage.s3.ap-south-1.amazonaws.com',
-            'https://d14r87p68zn22t.cloudfront.net'
-          );
-          setPreviewImage(imageUrl);
-          updateImage(imageUrl);
-        })
-        .catch((err) => {
+  const onInputFileChange = (event) => {
+    const file = event.target.files[0];
+    const fileExtension = file.name.split('.').pop();
+    GetPreSignPreviewImageURL(fileExtension, draftID).then(({data})=>{
+      UploadPreviewImage(data.url, file).then(()=>{
+        const url = data.url.split('?')[0];
+        const urlPaths = url.split('/');
+        const uploadID = urlPaths.slice(urlPaths.length - 3);
+        SyncPreviewImage(uploadID.join('/'), draftID).then(()=>{
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            setSelectedFile(event.target.result);
+            setPreviewImage(event.target.result);
+          };
+          reader.readAsDataURL(file);
+          setErrorStatus(false);
+        }).catch((err)=>{
           // eslint-disable-next-line no-console
           console.log(err);
+          setErrorStatus(true);
         });
-    }
-  }, [selectedFile]);
-
-  const onInputFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
+      }).catch((err)=>{
+        // eslint-disable-next-line no-console
+        console.log(err);
+        setErrorStatus(true);
+      });
+    }).catch((err)=>{
+      // eslint-disable-next-line no-console
+      console.log(err);
+      setErrorStatus(true);
+    });
   };
 
   return (
@@ -152,7 +145,7 @@ const PreviewCard = ({
             style={{ display: 'none' }}
             ref={pickerRef}
             accept=".jpg,.jpeg,.png"
-            onChange={(event) => onInputFileChange(event)}
+            onChange={onInputFileChange}
           />
           {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions,jsx-a11y/click-events-have-key-events */}
           <img
@@ -253,11 +246,9 @@ PreviewCard.propTypes = {
   draftID: PropTypes.string,
   previewImage: PropTypes.string.isRequired,
   setPreviewImage: PropTypes.func.isRequired,
-  selectedFile: PropTypes.shape({
-    fileName: PropTypes.string,
-  }),
+  selectedFile: PropTypes.string,
   setSelectedFile: PropTypes.func.isRequired,
-  selectedTags: PropTypes.arrayOf(PropTypes.string).isRequired,
+  selectedTags: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   setSelectedTags: PropTypes.func.isRequired,
   tagline: PropTypes.string,
 };
