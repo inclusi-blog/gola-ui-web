@@ -33,7 +33,8 @@ borderWidth,
         preview_image,
         published_at,
         tagline,
-        title
+        title,
+        username
     } = details;
     const publishedAt = moment(published_at);
     const is_liked = true;
@@ -83,7 +84,7 @@ borderWidth,
         <div>
             <InterestMainContainer style={{ marginTop: 32 }}>
                 <CommonFlexColumn style={{ marginRight: 24 }}>
-                    <Link to={`/@nivethaplaceholder/${title.replaceAll(" ","-")}-${details.id}`} style={{ textDecoration: 'none' }}>
+                    <Link to={`/@${username}/${title.replaceAll(" ","-")}-${details.id}`} style={{ textDecoration: 'none' }}>
                         <PostHeadLine>{title}</PostHeadLine>
                     </Link>
                     <PostContent>{tagline}</PostContent>
@@ -118,7 +119,8 @@ PublishedPostTile.propTypes = {
         preview_image: PropTypes.string,
         published_at: PropTypes.string.isRequired,
         tagline: PropTypes.string.isRequired,
-        title: PropTypes.string.isRequired
+        title: PropTypes.string.isRequired,
+        username: PropTypes.string.isRequired
     }).isRequired,
     borderWidth: PropTypes.number,
 };
