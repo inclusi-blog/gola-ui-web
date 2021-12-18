@@ -1,10 +1,9 @@
-import React, { lazy, useContext } from 'react';
+import React, { useContext } from 'react';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import Header from '../app-header/post-login/Header';
 import PreLoginHeader from '../app-header/pre-login';
 import AppContentWrapper from './AppContent.style';
-
-const PostLogin = lazy(() => import('../App'));
+import App from '../App';
 
 const AppContent = () => {
   const { isLoggedIn } = useContext(LoggedInContext);
@@ -16,7 +15,8 @@ const AppContent = () => {
         <Else />
         <PreLoginHeader />
       </If>
-      <PostLogin />
+    {/*TODO: Add the app into a lazy loading view*/}
+      <App />
     </AppContentWrapper>
   );
 };
