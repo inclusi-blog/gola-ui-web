@@ -31,7 +31,9 @@ const InterestPage = () => {
   useEffect(()=>{
     if(interestDetails.interest_id){
       GetPostsByInterest(interestDetails.interest_id).then(({data})=>{
-        setPostDetails(data);
+        if (data) {
+          setPostDetails(data);
+        }
       }).catch((err)=>{
         // eslint-disable-next-line no-console
         console.log("Unable to get post details by interest.",err);
