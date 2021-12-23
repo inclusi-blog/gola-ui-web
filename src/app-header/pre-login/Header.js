@@ -1,68 +1,45 @@
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
-import { Link, withRouter } from 'react-router-dom';
+import React, {useContext} from 'react';
+import {useTranslation} from 'react-i18next';
+import {Link, withRouter} from 'react-router-dom';
 import Logo from 'assets/images/logo.png';
 import Context from 'context-providers/auth-modal-provider/Context';
+import {AppBar, Button, Container, Toolbar, Typography} from "@mui/material";
 import LanguageChangeButton from '../LanugageChangeButton';
-import {
-  AppHeaderName,
-  HeaderWidthWrapper,
-  HeaderWrapper,
-  LeftHeader,
-  LogoIcon,
-  RightHeader,
-  SignInButton,
-  SignInButtonText,
-  SubscribeButton,
-  SubscribeText,
-} from './Header.style';
+import {LogoIcon} from './Header.style';
+import Z_INDEX from "../../constants/zIndex";
 
-// eslint-disable-next-line no-unused-vars
-const Header = ({ location: { pathname } }) => {
-  const { setModalName, setShowModal } = useContext(Context);
-  const { t } = useTranslation();
-  return (
-    <HeaderWrapper id="pre-login-header">
-      <HeaderWidthWrapper>
-        <If condition={pathname === '/m/callback/email'}>
-          <LeftHeader margin={0} style={{ justifyContent: 'center' }}>
-            <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
-              <LogoIcon alt="logo" src={Logo} />
-              <AppHeaderName>{t('welcome.title')}</AppHeaderName>
-            </Link>
-          </LeftHeader>
-          <Else />
-          <LeftHeader margin={50}>
-            <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
-              <LogoIcon alt="logo" src={Logo} />
-              <AppHeaderName>{t('welcome.title')}</AppHeaderName>
-            </Link>
-          </LeftHeader>
-          <RightHeader>
-            <SignInButton
-              onClick={() => {
-                setModalName('signin');
-                setShowModal(true);
-              }}
-            >
-              <SignInButtonText>Signin</SignInButtonText>
-            </SignInButton>
-            <SubscribeButton>
-              <SubscribeText>Subscribe</SubscribeText>
-            </SubscribeButton>
-            <LanguageChangeButton />
-          </RightHeader>
-        </If>
-      </HeaderWidthWrapper>
-    </HeaderWrapper>
-  );
-};
-
-Header.propTypes = {
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }).isRequired,
+const Header = () => {
+    const {setModalName, setShowModal} = useContext(Context);
+    const {t} = useTranslation();
+    return (
+        <AppBar id="pre-login-header" style={{boxShadow: '0px 8px 46px rgba(0, 0, 0, 0.07)', zIndex: Z_INDEX.HEADER}} position='fixed'>
+            <Toolbar style={{backgroundColor: "#FFFFFF", justifyContent: 'space-between'}}>
+                <Container>
+                    <Link style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        underline: 'none',
+                        alignItems: 'center',
+                        textDecoration: 'none'
+                    }} to="/">
+                        <LogoIcon alt="logo" src={Logo}/>
+                        <Typography marginLeft='12px'>{t('welcome.title')}</Typography>
+                    </Link>
+                </Container>
+                <Container style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button
+                        onClick={() => {
+                            setModalName('signin');
+                            setShowModal(true);
+                        }}
+                        variant="text"
+                        style={{color: '#FA163F', textTransform: 'capitalize', height: 23}}
+                    >Signin</Button>
+                    <LanguageChangeButton/>
+                </Container>
+            </Toolbar>
+        </AppBar>
+    );
 };
 
 export default withRouter(Header);

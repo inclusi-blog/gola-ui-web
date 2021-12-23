@@ -10,7 +10,7 @@ import Context from './LoggedInContext';
 
 const LoggedInProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTokenValid, setIsTokenValid] = useState(false);
+  const [isLoginDone, setIsLoginDone] = useState(false);
   const [accessToken, setAccessToken] = useState('');
   const [encryptedIdToken, setEncryptedIdToken] = useState('');
   const history = useHistory();
@@ -22,14 +22,8 @@ const LoggedInProvider = ({ children }) => {
       setAccessToken(acxsToken);
       setEncryptedIdToken(encIdToken);
       setIsLoggedIn(true);
-      setIsTokenValid(true);
     }
-  }, []);
-
-  useEffect(() => {
-    if (isTokenValid) {
-      setIsLoggedIn(false);
-    }
+    setIsLoginDone(true);
   }, []);
 
   const saveToken = (tokenData) => {
@@ -73,7 +67,7 @@ const LoggedInProvider = ({ children }) => {
   };
 
   return (
-    <Context.Provider value={{ isLoggedIn, login, logout, accessToken, encryptedIdToken, logoutOnTokenExpiry }}>
+    <Context.Provider value={{ isLoggedIn, login, logout, accessToken, encryptedIdToken, logoutOnTokenExpiry, isLoginDone }}>
       {children}
     </Context.Provider>
   );
