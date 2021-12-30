@@ -1,24 +1,13 @@
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material/styles';
-import {Typography, Button} from "@mui/material";
+import { Typography, Button } from '@mui/material';
+import { AppTitle, AppDescription } from 'common-components/ComponentLibrary/Styles';
 
-export const TitleText = muiStyled(Typography)`
-  font-family: ${(props) => (props.lang === 'tam' ? 'BalooThambi' : 'Quando')};
-  font-style: normal;
-  font-weight: 400;
-  text-align: center;
-  font-size: 6em;
-  line-height: 120px;
+export const TitleText = muiStyled(AppTitle)`
   color: #3b3b58;
-  margin: 0;
 `;
 
-export const TitleContent = muiStyled(Typography)`
-  font-style: normal;
-  font-family: ${(props) => (props.lang === 'tam' ? 'MuktaMalar' : 'Poppins')};
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 36px;
+export const TitleContent = muiStyled(AppDescription)`
   color: #2c363f;
 `;
 
@@ -35,12 +24,12 @@ export const PillBlock = styled.div`
 `;
 
 export const SignupBorder = muiStyled(Button)`
-  width: 164px;
+  width: 302px;
   height: 68px;
   background: #fa163f;
   border-radius: 52.5px;
   margin-top: 55px;
-  margin-bottom: 75px;
+  margin-bottom: 49px;
 `;
 
 export const SignupText = muiStyled(Typography)`

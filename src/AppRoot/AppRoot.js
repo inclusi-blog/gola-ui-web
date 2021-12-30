@@ -13,23 +13,23 @@ import i18n from '../i18n/i18n';
 
 const AppRoot = () => {
   return (
-    <LoggedInProvider>
-      <BaseLayers>
-        <AuthModalProvider>
-          <FeedSortProvider>
-            <UserProfileProvider>
-              <NewStoryProvider>
-                <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18n}>
+      <LoggedInProvider>
+        <BaseLayers>
+          <AuthModalProvider>
+            <FeedSortProvider>
+              <UserProfileProvider>
+                <NewStoryProvider>
                   <Suspense fallback={<LazyLoader />}>
                     <AppContent />
                   </Suspense>
-                </I18nextProvider>
-              </NewStoryProvider>
-            </UserProfileProvider>
-          </FeedSortProvider>
-        </AuthModalProvider>
-      </BaseLayers>
-    </LoggedInProvider>
+                </NewStoryProvider>
+              </UserProfileProvider>
+            </FeedSortProvider>
+          </AuthModalProvider>
+        </BaseLayers>
+      </LoggedInProvider>
+    </I18nextProvider>
   );
 };
 

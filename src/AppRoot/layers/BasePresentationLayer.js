@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ThemeProvider } from 'styled-components';
+import ThemeProvider from 'context-providers/ThemeProvider';
 import ScreenSizeProvider from 'context-providers/screen-size-provider/ScreenSizeProvider';
-import { base } from '../../theme';
 
 const BasePresentationLayer = ({ children }) => {
   return (
-    <ThemeProvider theme={base}>
+    <ThemeProvider>
       <ScreenSizeProvider>{children}</ScreenSizeProvider>
     </ThemeProvider>
   );
