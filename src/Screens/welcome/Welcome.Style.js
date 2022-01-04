@@ -1,24 +1,13 @@
 import styled from 'styled-components';
 import { styled as muiStyled } from '@mui/material/styles';
-import {Typography, Button} from "@mui/material";
+import { Typography, Button } from '@mui/material';
+import { AppTitle, AppDescription } from 'common-components/ComponentLibrary/Styles';
 
-export const TitleText = muiStyled(Typography)`
-  font-family: ${(props) => (props.lang === 'tam' ? 'BalooThambi' : 'Quando')};
-  font-style: normal;
-  font-weight: 400;
-  text-align: center;
-  font-size: 6em;
-  line-height: 120px;
+export const TitleText = muiStyled(AppTitle)`
   color: #3b3b58;
-  margin: 0;
 `;
 
-export const TitleContent = muiStyled(Typography)`
-  font-style: normal;
-  font-family: ${(props) => (props.lang === 'tam' ? 'MuktaMalar' : 'Poppins')};
-  font-weight: 400;
-  font-size: 1.5em;
-  line-height: 36px;
+export const TitleContent = muiStyled(AppDescription)`
   color: #2c363f;
 `;
 
@@ -35,12 +24,32 @@ export const PillBlock = styled.div`
 `;
 
 export const SignupBorder = muiStyled(Button)`
-  width: 164px;
+  width: 302px;
   height: 68px;
   background: #fa163f;
   border-radius: 52.5px;
   margin-top: 55px;
-  margin-bottom: 75px;
+  margin-bottom: 49px;
+ 
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    width: 248px;
+    height: 56px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('md')} {
+    width: 255px;
+    height: 59px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    width: 398px;
+    height: 68px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    width: 302px;
+    height: 68px;
+  }
 `;
 
 export const SignupText = muiStyled(Typography)`
@@ -50,5 +59,27 @@ export const SignupText = muiStyled(Typography)`
   font-size: 24px;
   line-height: 54px;
   color: #ffffff;
+  letter-spacing: 0em;
   text-transform: capitalize;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-family: Poppins;
+    font-size: 16px;
+    line-height: 24px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 18px;
+    line-height: 27px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 24px;
+    line-height: 36px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 24px;
+    line-height: 36px;
+  }
 `;
