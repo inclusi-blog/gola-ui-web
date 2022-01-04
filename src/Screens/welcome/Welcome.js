@@ -5,49 +5,48 @@ import { Redirect } from 'react-router';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import useBlur from 'hooks/useBlur';
 import useEscapeHandler from 'hooks/useEscapeHandler';
-import {Box, Button, Container, Grid, useMediaQuery} from '@mui/material';
+import {Box, Container, Grid, useMediaQuery} from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import {PillText} from "common-components/ComponentLibrary/Styles";
 import SignupOrSignInModal from './signup/SignupModal';
-import { SignupBorder, SignupText, TitleContent, TitleText } from './Welcome.Style';
+import {Pill, SignupBorder, SignupText, TitleContent, TitleText} from './Welcome.Style';
 
 const styles = makeStyles({
   translationButton: {
     marginLeft: '83px',
     // eslint-disable-next-line no-useless-computed-key
-    ['@media (max-width: 768px)']: {
+    ['@media (min-width: 768px)']: {
       marginLeft: '33px',
     },
   },
   body: {
     padding: '0px',
-    width: '1165px',
     marginTop: '62px',
-    '@media (max-width: 768px)': {
-      marginTop: '100px',
-      maxWidth: '712px',
+    '@media (min-width: 360px)': {
+      marginTop: '60px',
+      maxWidth: '282px'
     },
-    '@media (max-width: 533px)': {
+    '@media (min-width: 533px)': {
       marginTop: '60px',
       maxWidth: '507px'
     },
-    '@media (max-width: 360px)': {
-      marginTop: '60px',
-      maxWidth: '282px'
+    '@media (min-width: 768px)': {
+      marginTop: '100px',
+      maxWidth: '712px',
     },
   },
   signupButton: {
     '&:hover': {
       backgroundColor: '#fa163f',
     },
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       height: '56px',
       width: '248px',
       borderRadius: '52.5px',
     },
   },
   signupButtonTypography: {
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       fontSize: '16px',
       fontStyle: 'normal',
       fontWeight: 400,
@@ -56,18 +55,26 @@ const styles = makeStyles({
     },
   },
   welcomeSection: {
-    '@media (max-width:360px)': {
-      width: '360px',
-    },
   },
   titleBody: {
-    maxWidth: '555px',
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       width: '278px',
+    },
+
+    '@media (min-width:533px)': {
+      width: '417px',
+    },
+
+    '@media (min-width:768px)': {
+      width: '651px',
+    },
+
+    '@media (min-width:1260px)': {
+      width: '555px',
     },
   },
   titleStyle: {
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       fontWeight: 'bold',
       fontStyle: 'normal',
       fontSize: '48px',
@@ -75,7 +82,7 @@ const styles = makeStyles({
     },
   },
   descriptionStyle: {
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       fontWeight: 400,
       fontStyle: 'normal',
       fontSize: '14px',
@@ -85,58 +92,62 @@ const styles = makeStyles({
   },
   pillsContainer: {
     marginTop: '81px',
-    width: '1166px',
-    height: '178px',
     overflow: 'hidden',
-    '@media (max-width: 768px)': {
-      width: '712px',
-      height: '220px',
-    },
-    '@media (max-width: 533px)': {
-      width: '507px',
-      height: '210px',
-      marginTop: '20px',
-    },
-    '@media (max-width: 360px)': {
+    '@media (min-width: 360px)': {
       width: '282px',
       height: '210px',
       marginTop: '20px',
     },
+    '@media (min-width: 533px)': {
+      width: '507px',
+      height: '210px',
+      marginTop: '20px',
+    },
+    '@media (min-width: 768px)': {
+      width: '712px',
+      height: '180px',
+    },
+    '@media (min-width: 1260px)': {
+      width: '1180px',
+      height: '220px',
+    },
   },
   pillGrid: {
-    '@media (max-width: 768px)': {
-      '& > :first-child': {
-        paddingLeft: '40px',
-      },
-      '& > :nth-child(5n + 0)': {
-        paddingLeft: '40px',
-      }
-    },
-    '@media (max-width: 533px)': {
-      '& > :first-child': {
-        paddingLeft: '17px',
-      },
-      '& > :nth-child(5n + 0)': {
-        paddingLeft: '17px',
-      }
-    },
-    '@media (max-width: 360px)': {
-      '& > :first-child': {
-        paddingLeft: '20px',
-      },
-      '& > :nth-child(2n + 1)': {
-        paddingLeft: '20px',
-      }
-    },
+    // TODO: enable this after proper alignment fixes
+    // '@media (min-width: 360px)': {
+    //   '& > :first-child': {
+    //     paddingLeft: '32px',
+    //   },
+    //   '& > :nth-child(2n + 1)': {
+    //     paddingLeft: '32px',
+    //   }
+    // },
+    // '@media (min-width: 533px)': {
+    //   '& > :first-child': {
+    //     paddingLeft: '22px',
+    //   },
+    //   '& > :nth-child(4n + 0)': {
+    //     paddingLeft: '22px',
+    //   }
+    // },
+    // '@media (min-width: 768px)': {
+    //   '& > :first-child': {
+    //     paddingLeft: '40px',
+    //   },
+    //   '& > :nth-child(5n + 0)': {
+    //     paddingLeft: '40px',
+    //   }
+    // },
   }
 });
 
 const Welcome = () => {
   const { modalName, setModalName, showModal, setShowModal } = useContext(Context);
   const { isLoggedIn } = useContext(LoggedInContext);
-  const isSmall = useMediaQuery('(max-width: 360px)');
-  const isMedium = useMediaQuery('(max-width: 533px)');
-  const isLarge = useMediaQuery('(max-width: 768px)');
+  const isSmall = useMediaQuery('(min-width: 360px)');
+  const isMedium = useMediaQuery('(min-width: 533px)');
+  const isLarge = useMediaQuery('(min-width: 768px)');
+  console.log('this is value', isSmall, isMedium, isLarge);
   const style = styles();
   const [pills, setPills] = useState([
     {
@@ -210,31 +221,6 @@ const Welcome = () => {
   useEscapeHandler({ onEscape: () => setShowModal(false) });
 
   useBlur({ nodes: ['pre-login-header', 'welcome'], isVisible: showModal });
-  const getPillSpacing = () => {
-    if (isSmall) {
-      return 4;
-    }
-    if (isMedium) {
-      return 7;
-    }
-    if (isLarge) {
-      return 9;
-    }
-    return 5;
-  };
-
-  const getColumnSpacing = () => {
-    if (isSmall) {
-      return 5;
-    }
-    if (isMedium) {
-      return 2.2;
-    }
-    if (isLarge) {
-      return 9;
-    }
-    return 6;
-  };
 
   return (
     <section style={{ marginTop: 64, display: 'flex' }} className={style.welcomeSection} id="welcome">
@@ -253,11 +239,11 @@ const Welcome = () => {
           style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
         >
           <Box sx={{ flexGrow: 1 }} className={style.pillsContainer}>
-            <Grid container rowSpacing={getPillSpacing()} columnSpacing={getColumnSpacing()} style={{ marginLeft: 0, marginTop: 0 }} className={style.pillGrid}>
+            <Grid container rowSpacing={{ xs: 2, sm: 4, md: 6, lg: 5 }} columnSpacing={{ xs: 4, sm: 5, md: 6, lg: 7 }} style={{ marginLeft: 0, marginTop: 0 }} className={style.pillGrid}>
               {pills.map((item, index) => {
                 return (
                   <Grid item xs="auto" md={8} key={item.id} style={{ flexBasis: 'auto' }}>
-                    <Button
+                    <Pill
                       variant="text"
                       style={{
                         border: '1px solid #CCCFD1',
@@ -266,9 +252,6 @@ const Welcome = () => {
                         boxSizing: 'border-box',
                         borderRadius: '35px',
                         padding: '4px 32px',
-                        ...(isSmall && { width: 86, height: 28, padding: '4px 16px', }),
-                        ...(isMedium && { width: 104, height: 35, padding: '0px 16px', }),
-                        ...(isLarge) && { width: 104, height: 35, padding: '0px 16px', }
                       }}
                       onClick={() =>
                         setPills((allItems) =>
@@ -284,7 +267,7 @@ const Welcome = () => {
                       }
                     >
                       <PillText>{item.value}</PillText>
-                    </Button>
+                    </Pill>
                   </Grid>
                 );
               })}

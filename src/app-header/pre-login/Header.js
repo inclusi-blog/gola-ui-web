@@ -10,7 +10,7 @@ import Z_INDEX from '../../constants/zIndex';
 
 const Header = () => {
   const { setModalName, setShowModal } = useContext(Context);
-  const min = useMediaQuery('(max-width:360px)');
+  const min = useMediaQuery('(min-width:360px)');
   const { t } = useTranslation();
   return (
     <AppBar

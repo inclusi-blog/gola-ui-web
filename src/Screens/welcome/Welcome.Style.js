@@ -83,3 +83,28 @@ export const SignupText = muiStyled(Typography)`
     line-height: 36px;
   }
 `;
+
+export const Pill = muiStyled(Button)`
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    width: 86px;
+    height: 28px;
+    padding: 4px 16px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    width: 104px;
+    height: 35px;
+    padding: 0px 16px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    width: 104px;
+    height: 35px;
+    padding: 0px 16px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    height: 38px;
+    padding: 0px 16px;
+  }
+`;
