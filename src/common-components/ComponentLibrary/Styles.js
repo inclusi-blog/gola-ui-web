@@ -63,3 +63,43 @@ export const AppDescription = styled(Typography)`
     letter-spacing: 0em;
   }
 `;
+
+export const PillText = styled(Typography)`
+  font-weight: 500;
+  line-height: 30px;
+  font-family: MuktaMalar;
+  font-style: normal;
+  letter-spacing: 0em;
+  text-align: center;
+
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    display: block;
+    line-height: 20px;
+    font-size: 12px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    display: block;
+    font-size: 16px;
+    line-height: 27px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-align: left;
+    display: block;
+    font-size: 16px;
+    line-height: 27px;
+  }
+`;

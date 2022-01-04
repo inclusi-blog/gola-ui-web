@@ -30,6 +30,26 @@ export const SignupBorder = muiStyled(Button)`
   border-radius: 52.5px;
   margin-top: 55px;
   margin-bottom: 49px;
+ 
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    width: 248px;
+    height: 56px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('md')} {
+    width: 255px;
+    height: 59px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    width: 398px;
+    height: 68px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    width: 302px;
+    height: 68px;
+  }
 `;
 
 export const SignupText = muiStyled(Typography)`
@@ -39,5 +59,27 @@ export const SignupText = muiStyled(Typography)`
   font-size: 24px;
   line-height: 54px;
   color: #ffffff;
+  letter-spacing: 0em;
   text-transform: capitalize;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-family: Poppins;
+    font-size: 16px;
+    line-height: 24px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 18px;
+    line-height: 27px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 24px;
+    line-height: 36px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 24px;
+    line-height: 36px;
+  }
 `;
