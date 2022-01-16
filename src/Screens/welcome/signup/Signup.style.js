@@ -453,6 +453,10 @@ export const SignInButton = muiStyled(LoadingButton)`
   &:hover {
     background: #FA163F;
   }
+  
+  .MuiLoadingButton-loadingIndicator {
+    color: white;
+  }
 `;
 
 export const SignInText = styled.p`

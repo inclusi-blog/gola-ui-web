@@ -14,7 +14,7 @@ import {
   AuthInputLabel,
   EmailInput,
   PasswordInput,
-  SignInButton, SignupTooltip,
+  SignInButton,
   SignupWrapper,
 } from '../Screens/welcome/signup/Signup.style';
 import {
