@@ -7,7 +7,7 @@ import BookMarkImg from 'assets/images/Bookmark.png';
 import SuperClickImg from 'assets/images/super_click.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import EditImg from 'assets/images/Edit.svg';
-import countFormatter from 'utils/commonUtils';
+import {countFormatter} from 'utils/commonUtils';
 import moment from "moment";
 import {
   InterestMainContainer,

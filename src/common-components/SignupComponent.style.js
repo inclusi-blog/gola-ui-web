@@ -205,13 +205,20 @@ export const TermsConditionsLink = muiStyled(Link)`
   }
 `;
 
-export const EmailExistenceError = styled.p`
+export const EmailExistenceError = muiStyled(Typography)`
   visibility: ${(props) => (props.showExistsError ? 'visible' : 'hidden')};
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
   color: #ff6e05;
-  margin: 0;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-size: 9px;
+    line-height: 14px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 18px;
+    line-height: 21px;
+  }
 `;

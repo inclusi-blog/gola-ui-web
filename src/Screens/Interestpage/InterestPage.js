@@ -12,7 +12,7 @@ import {
   BorderLine,
 } from './InterestPage.style';
 import { GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
-import countFormatter from "../../utils/commonUtils";
+import {countFormatter} from "../../utils/commonUtils";
 
 const InterestPage = () => {
   const [postDetails, setPostDetails] = useState([]);

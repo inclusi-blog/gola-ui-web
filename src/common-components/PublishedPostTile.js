@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import moment from "moment";
 import SuperImg from 'assets/images/Super.png';
 // eslint-disable-next-line import/no-unresolved
-import countFormatter from 'utils/commonUtils';
+import {countFormatter} from 'utils/commonUtils';
 import SuperClickImg from "assets/images/super_click.png";
 import {Link} from "react-router-dom";
 import {

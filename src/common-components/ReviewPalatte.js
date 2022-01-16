@@ -13,7 +13,7 @@ import {
   ApplyRow,
 } from './ReviewPalatte.style';
 import {LikePost, UnlikePost} from "../Screens/postView/post.service";
-import countFormatter from "../utils/commonUtils";
+import {countFormatter} from "../utils/commonUtils";
 
 const ReviewPalatte = ({likesCount, commentsCount, isViewerLiked, postID}) => {
   const [isLiked,setIsLiked]=useState(false);

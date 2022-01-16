@@ -1,6 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 import {styled as muiStyled} from '@mui/material/styles';
+import {LoadingButton} from "@mui/lab";
 import {Button, Container, Box, Typography, Input, Tooltip} from "@mui/material";
 import {tooltipClasses} from "@mui/material/Tooltip";
 
@@ -400,7 +401,7 @@ export const PasswordInput = muiStyled(Input)`
   }
 `;
 
-export const SignInButton = muiStyled(Button)`
+export const SignInButton = muiStyled(LoadingButton)`
   box-shadow: 0px 4.21295px 6.31942px rgba(0, 0, 0, 0.15);
   border-radius: 4.21295px;
   background: #FA163F;
@@ -741,8 +742,8 @@ export const EmailNotifierIcon = muiStyled(Container)`
   }
 `;
 
-const CustomToolTip = styled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }} />
+const CustomToolTip = muiStyled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }}/>
 ))(() => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: 'white',
