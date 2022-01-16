@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import GoogleImg from 'assets/images/google.svg';
 import Modal from '@mui/material/Modal';
@@ -8,6 +8,8 @@ import {Redirect} from 'react-router-dom';
 import '../../../index.css';
 import ajax from 'helpers/ajaxHelper';
 import Close from 'assets/images/close.svg';
+import {Fade} from "@mui/material";
+import Context from "context-providers/auth-modal-provider/Context";
 import {
     AuthBottomContainer,
     CenterSignupModalWrapper,
@@ -25,22 +27,10 @@ import {
     SignupOuterContainer,
     SignupTitleContainer,
 } from './Signup.style';
-import {Fade} from "@mui/material";
 import {TermsConditionsLabel, TermsConditionsLink} from "../../../common-components/SignupComponent.style";
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-};
-
 const SignupModal = ({isSignup, onClose}) => {
+    const { setModalName } = useContext(Context);
     const [userSignupDetails, setUserSignupDetails] = useState({
         encryptedPassword: '',
         email: '',
@@ -139,7 +129,7 @@ const SignupModal = ({isSignup, onClose}) => {
                         <If condition={isSignup}>
                             <PromptTextContainer>
                                 <PromptText>Already have an account ?</PromptText>
-                                <SigninButton>
+                                <SigninButton onClick={() => setModalName('signin')}>
                                     Sign in
                                 </SigninButton>
                             </PromptTextContainer>
@@ -151,7 +141,7 @@ const SignupModal = ({isSignup, onClose}) => {
                         <Else/>
                         <PromptTextContainer>
                             <PromptText>Don’t have an account ?</PromptText>
-                            <SigninButton>
+                            <SigninButton onClick={() => setModalName('signup')}>
                                 Sign up
                             </SigninButton>
                             <ForgetPasswordButton>Forgot password ?</ForgetPasswordButton>
