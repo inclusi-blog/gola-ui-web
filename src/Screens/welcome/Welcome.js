@@ -39,20 +39,6 @@ const styles = makeStyles({
     '&:hover': {
       backgroundColor: '#fa163f',
     },
-    '@media (min-width: 360px)': {
-      height: '56px',
-      width: '248px',
-      borderRadius: '52.5px',
-    },
-  },
-  signupButtonTypography: {
-    '@media (min-width: 360px)': {
-      fontSize: '16px',
-      fontStyle: 'normal',
-      fontWeight: 400,
-      lineHeight: '24px',
-      letterSpacing: '0em',
-    },
   },
   welcomeSection: {
   },
@@ -280,7 +266,7 @@ const Welcome = () => {
               setShowModal(true);
             }}
           >
-            <SignupText className={style.signupButtonTypography}>Signup</SignupText>
+            <SignupText>Signup</SignupText>
           </SignupBorder>
         </Container>
       </Container>

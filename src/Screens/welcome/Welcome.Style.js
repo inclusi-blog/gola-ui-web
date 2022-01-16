@@ -24,8 +24,6 @@ export const PillBlock = styled.div`
 `;
 
 export const SignupBorder = muiStyled(Button)`
-  width: 302px;
-  height: 68px;
   background: #fa163f;
   border-radius: 52.5px;
   margin-top: 55px;

@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
+import {debounce} from 'lodash';
 import EmptyNotify from 'assets/images/EmptyNotify.svg';
 import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
@@ -9,25 +9,21 @@ import SuccessTick from 'assets/images/SuccessTick.png';
 import ajax from '../helpers/ajaxHelper';
 import encrypt from '../helpers/encrypt';
 import {
+  AuthInputLabel,
   EmailInput,
-  EmailLabel,
-  PassLabel,
   PasswordInput,
   SignInButton,
-  SignInText,
+  SignupTooltip,
   SignupWrapper,
-  AuthBottomContainer,
 } from '../Screens/welcome/signup/Signup.style';
 import {
   CapslockNotifierText,
   EmailExistenceError,
   PasswordContainer,
-  PasswordToolTip,
-  TermsConditionsLabel,
-  TermsConditionsLink,
-  ToolTipSpan,
+  ValidationFactorContainer,
   ValidationFactorName,
 } from './SignupComponent.style';
+import {useMediaQuery} from "@mui/material";
 
 const SignupComponent = ({ renderUsernameField }) => {
   const showWarning = false;
@@ -38,6 +34,7 @@ const SignupComponent = ({ renderUsernameField }) => {
   const [shouldStartValidating, setShouldStarValidating] = useState(false);
   const [passwordInvalidErr, setPassInvalidErr] = useState(false);
   const [emailAlreadyExists, setEmailAlreadyExists] = useState(false);
+  const matches = useMediaQuery('(max-width:767px)');
   const [isValidPassword, setIsValidPassword] = useState([
     {
       name: 'One small',
@@ -144,17 +141,17 @@ const SignupComponent = ({ renderUsernameField }) => {
           justifyContent: 'center',
         }}
       >
-        <EmailLabel>Email</EmailLabel>
+        <AuthInputLabel>Email</AuthInputLabel>
         <If condition={emailAlreadyExists}>
-          <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
           <EmailExistenceError showExistsError={emailAlreadyExists}>Email already exists.</EmailExistenceError>
           <Else />
-          <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
         </If>
       </div>
       <EmailInput
         isError={emailInvalidErr}
-        placeholder="abc_123@gmail.com"
+        placeholder="example@gmail.com"
         value={email}
         onChange={({ target }) => {
           setEmailAlreadyExists(false);
@@ -163,26 +160,28 @@ const SignupComponent = ({ renderUsernameField }) => {
         }}
       />
       <PasswordContainer>
-        <PassLabel>Password</PassLabel>
-        <If condition={showWarning}>
-          <img src={WarningNotify} width={12} height={12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
-        <Else />
-          <img src={EmptyNotify} width={12} height={12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
-          <PasswordToolTip isVisible={showCritieria}>
-            <ToolTipSpan>
+        <AuthInputLabel>Password</AuthInputLabel>
+        <SignupTooltip className="tooltip" arrow placement="right" title={
+          <div style={{background: 'white'}}>
               {isValidPassword.map((item) => {
                 return (
-                  <div
-                    key={item.id}
-                    style={{ display: 'flex', flexDirection: 'row', height: 21, alignItems: 'center' }}
-                  >
+                  <ValidationFactorContainer key={item.id}>
                     <img src={item.isValid ? SuccessTick : ValidatorWarning} width={12} height={12} alt="acceptance factor" />
                     <ValidationFactorName>{item.name}</ValidationFactorName>
-                  </div>
+                  </ValidationFactorContainer>
                 );
               })}
-            </ToolTipSpan>
-          </PasswordToolTip>
+          </div>
+        } open={showCritieria}>
+          <Choose>
+            <When condition={showWarning}>
+              <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+            </When>
+            <Otherwise>
+              <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+            </Otherwise>
+          </Choose>
+        </SignupTooltip>
           <ReactIsCapsLockActive>
             {(active) => (
               <If condition={active}>
@@ -190,7 +189,6 @@ const SignupComponent = ({ renderUsernameField }) => {
               </If>
             )}
           </ReactIsCapsLockActive>
-        </If>
       </PasswordContainer>
       <PasswordInput
         isError={passwordInvalidErr}
@@ -206,15 +204,8 @@ const SignupComponent = ({ renderUsernameField }) => {
         }}
       />
       <SignInButton onClick={() => onSubmit()}>
-        <SignInText>Sign up</SignInText>
+        Sign up
       </SignInButton>
-      <AuthBottomContainer style={{ marginTop: 24 }}>
-        <TermsConditionsLabel>
-          By signing up you agree with all our{' '}
-          <TermsConditionsLink href="https://www.google.com">terms</TermsConditionsLink> and{' '}
-          <TermsConditionsLink href="https://www.google.com">conditions</TermsConditionsLink>
-        </TermsConditionsLabel>
-      </AuthBottomContainer>
     </SignupWrapper>
   );
 };

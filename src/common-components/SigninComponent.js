@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useState} from 'react';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import encrypt from '../helpers/encrypt';
 import {
@@ -8,19 +8,13 @@ import {
 } from '../Screens/welcome/signin/helper';
 import loginService from '../Screens/welcome/signin/loginService';
 import {
-  AccountTxt,
+  AuthInputLabel,
   EmailInput,
-  EmailLabel,
-  ForgetPass,
-  PassLabel,
   PasswordInput,
   SignInButton,
-  SignInText,
-  SignUpLink,
   SignupWrapper,
-  AuthBottomContainer,
 } from '../Screens/welcome/signup/Signup.style';
-import { PasswordContainer } from './SignupComponent.style';
+import {PasswordContainer} from './SignupComponent.style';
 
 const SigninComponent = () => {
   const [email, setEmail] = useState('');
@@ -60,20 +54,15 @@ const SigninComponent = () => {
 
   return (
     <SignupWrapper>
-      <EmailLabel>Email</EmailLabel>
-      <EmailInput placeholder="abc_123@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
+      <AuthInputLabel>Email</AuthInputLabel>
+      <EmailInput placeholder="example@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
       <PasswordContainer>
-        <PassLabel>Password</PassLabel>
+        <AuthInputLabel>Password</AuthInputLabel>
       </PasswordContainer>
       <PasswordInput type="password" value={password} onChange={({ target }) => setPassword(target.value)} />
       <SignInButton onClick={() => submitPassword()}>
-        <SignInText>Sign in</SignInText>
+        Sign in
       </SignInButton>
-      <AuthBottomContainer>
-        <AccountTxt>Don’t have an account ?</AccountTxt>
-        <SignUpLink>Sign up</SignUpLink>
-        <ForgetPass>Forgot password ?</ForgetPass>
-      </AuthBottomContainer>
     </SignupWrapper>
   );
 };

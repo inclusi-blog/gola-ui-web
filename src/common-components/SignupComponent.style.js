@@ -1,51 +1,65 @@
 import styled from 'styled-components';
+import {styled as muiStyled} from '@mui/material/styles';
+import {Container, Link, Typography} from "@mui/material";
 
-export const TermsConditionsLabel = styled.p`
-  margin: 0;
+export const TermsConditionsLabel = muiStyled(Typography)`
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 19px;
+  font-weight: 400;
   color: #828294;
   text-align: center;
+  letter-spacing: 0em;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-size: 10px;
+    line-height: 14px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 10px;
+    line-height: 14px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 14px;
+    line-height: 19px;
+  }
 `;
 
-export const PasswordContainer = styled.div`
+export const PasswordContainer = muiStyled(Container)`
   display: flex;
   flex-direction: row;
   margin-top: 32px;
   align-items: center;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    padding: 0px;
+    margin-top: 18px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    padding: 0px;
+    margin-top: 18px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    margin-top: 32px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    margin-top: 32px;
+  }
+  
+  
 `;
 
 export const PasswordToolTip = styled.div`
   position: relative;
-
-  &:nth-child(3) {
-    visibility: ${(props) => (props.isVisible ? 'visible' : 'hidden')};
-    width: 198px;
-    height: 71px;
-    color: #fff;
-    border-radius: 6px;
-    padding-bottom: 4px;
-    padding-top: 2px;
-    position: absolute;
-    z-index: 1;
-    top: 472px;
-    left: 43%;
-    background-color: #ffffff;
-    border: 1px solid #2c363f;
-    box-sizing: border-box;
-    border-radius: 8px;
-    color: black;
-
-    opacity: ${(props) => (props.isVisible ? 1 : 0)};
-    -webkit-transition: opacity 0.5s linear;
-    -moz-transition: opacity 0.5s linear;
-    -ms-transition: opacity 0.5s linear;
-    -o-transition: opacity 0.5s linear;
-    transition: opacity 0.5s linear;
-  }
 `;
 
 export const ToolTipSpan = styled.div`
@@ -79,7 +93,32 @@ export const ToolTipSpan = styled.div`
   }
 `;
 
-export const ValidationFactorName = styled.div`
+export const ValidationFactorContainer = muiStyled(Container)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    height: 15px;
+    padding: 0px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    height: 15px;
+    padding: 0px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    height: 21px;
+    padding: 0px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    height: 21px;
+    padding: 0px;
+  }
+`;
+
+export const ValidationFactorName = muiStyled(Typography)`
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
@@ -87,29 +126,83 @@ export const ValidationFactorName = styled.div`
   line-height: 21px;
   color: #2c363f;
   margin-left: 5px;
-  margin-right: 0;
-  margin-top: 0;
-  margin-bottom: 0;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-size: 10px;
+    line-height: 15px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 10px;
+    line-height: 15px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 14px;
+    line-height: 21px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 14px;
+    line-height: 21px;
+  }
 `;
 
-export const CapslockNotifierText = styled.p`
-  margin: 0;
+export const CapslockNotifierText = muiStyled(Typography)`
   font-family: Poppins;
   font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
+  font-weight: 400;
   color: #fa163f;
-  margin-left: 210px;
+  letter-spacing: 0em;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-size: 10px;
+    line-height: 15px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 10px;
+    line-height: 15px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 18px;
+    line-height: 21px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 18px;
+    line-height: 21px;
+  }
 `;
 
-export const TermsConditionsLink = styled.a`
+export const TermsConditionsLink = muiStyled(Link)`
   font-family: Poppins;
   font-style: normal;
   font-weight: normal;
   font-size: 14px;
   line-height: 21px;
   color: #03527c;
+  
+  ${(props) => props.theme.breakpoints.up('sm')} {
+    font-size: 10px;
+    line-height: 14px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('md')} {
+    font-size: 10px;
+    line-height: 14px;
+  }
+ 
+  ${(props) => props.theme.breakpoints.up('lg')} {
+    font-size: 14px;
+    line-height: 21px;
+  }
+  
+  ${(props) => props.theme.breakpoints.up('xl')} {
+    font-size: 14px;
+    line-height: 21px;
+  }
 `;
 
 export const EmailExistenceError = styled.p`
