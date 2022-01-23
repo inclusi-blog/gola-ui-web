@@ -35,6 +35,12 @@ export default {
     });
   },
 
+  forgetPassword: (email) => {
+    return ajax.post('idp/v1/login/reset-password', {
+      email
+    });
+  },
+
   async fetchLoginChallenge(code) {
     const codeChallenge = await getCodeChallenge(code);
     // eslint-disable-next-line compat/compat

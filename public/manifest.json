@@ -1,7 +1,7 @@
 {
-  "short_name": "Gola Web App",
-  "name": "Gola Web App",
-  "description": "Welcome to Gola",
+  "name": "Mensuvadi",
+  "short_name": "Mensuvadi Web App",
+  "description": "Welcome to Mensuvadi",
   "icons": [
     {
       "src": "favicon.ico",

@@ -28,9 +28,11 @@ import {
     SignupTitleContainer,
 } from './Signup.style';
 import {TermsConditionsLabel, TermsConditionsLink} from "../../../common-components/SignupComponent.style";
+import ForgetPassword from "../../../common-components/ForgetPassword/ForgetPassword";
+import ForgetPasswordSent from "../../../common-components/ForgetPassword/ForgetPasswordSent";
 
 const SignupModal = ({isSignup, onClose}) => {
-    const { setModalName } = useContext(Context);
+    const { setModalName, modalName } = useContext(Context);
     const [userSignupDetails, setUserSignupDetails] = useState({
         encryptedPassword: '',
         email: '',
@@ -101,13 +103,15 @@ const SignupModal = ({isSignup, onClose}) => {
                         </CloseContainer>
                     </SignupTitleContainer>
                     <CenterSignupModalWrapper>
-                        <GoogleButton>
-                            <GoogleIcon src={GoogleImg} component="img"/>
-                            <GoogleText>Continue with Google</GoogleText>
-                        </GoogleButton>
-                        <SignupLabelContainer>
-                            <SignupLabel>or sign in with</SignupLabel>
-                        </SignupLabelContainer>
+                        <If condition={modalName === 'signup' || modalName === 'signin'}>
+                            <GoogleButton>
+                                <GoogleIcon src={GoogleImg} component="img"/>
+                                <GoogleText>Continue with Google</GoogleText>
+                            </GoogleButton>
+                            <SignupLabelContainer>
+                                <SignupLabel>or sign in with</SignupLabel>
+                            </SignupLabelContainer>
+                        </If>
                         <Choose>
                             <When condition={isSignup}>
                                 <SignupComponent
@@ -120,32 +124,40 @@ const SignupModal = ({isSignup, onClose}) => {
                                     }}
                                 />
                             </When>
+                            <When condition={modalName === 'forgetPassword'}>
+                                <ForgetPassword onSuccessForgetPassword={() => setModalName('sentResetMail')} />
+                            </When>
+                            <When condition={modalName === 'sentResetMail'}>
+                                <ForgetPasswordSent />
+                            </When>
                             <Otherwise>
                                 <SigninComponent/>
                             </Otherwise>
                         </Choose>
                     </CenterSignupModalWrapper>
                     <AuthBottomContainer>
-                        <If condition={isSignup}>
+                        <If condition={modalName === 'signup' || modalName === 'signin'}>
+                            <If condition={isSignup}>
+                                <PromptTextContainer>
+                                    <PromptText>Already have an account ?</PromptText>
+                                    <SigninButton onClick={() => setModalName('signin')}>
+                                        Sign in
+                                    </SigninButton>
+                                </PromptTextContainer>
+                                <TermsConditionsLabel>
+                                    By signing up you agree with all our{' '}
+                                    <TermsConditionsLink href="https://www.missingparantheses.com">terms</TermsConditionsLink> and{' '}
+                                    <TermsConditionsLink href="https://www.missingparantheses.com">conditions</TermsConditionsLink>
+                                </TermsConditionsLabel>
+                            <Else/>
                             <PromptTextContainer>
-                                <PromptText>Already have an account ?</PromptText>
-                                <SigninButton onClick={() => setModalName('signin')}>
-                                    Sign in
+                                <PromptText>Don’t have an account ?</PromptText>
+                                <SigninButton onClick={() => setModalName('signup')}>
+                                    Sign up
                                 </SigninButton>
+                                <ForgetPasswordButton onClick={() => setModalName('forgetPassword')}>Forgot password ?</ForgetPasswordButton>
                             </PromptTextContainer>
-                            <TermsConditionsLabel>
-                                By signing up you agree with all our{' '}
-                                <TermsConditionsLink href="https://www.missingparantheses.com">terms</TermsConditionsLink> and{' '}
-                                <TermsConditionsLink href="https://www.missingparantheses.com">conditions</TermsConditionsLink>
-                            </TermsConditionsLabel>
-                        <Else/>
-                        <PromptTextContainer>
-                            <PromptText>Don’t have an account ?</PromptText>
-                            <SigninButton onClick={() => setModalName('signup')}>
-                                Sign up
-                            </SigninButton>
-                            <ForgetPasswordButton>Forgot password ?</ForgetPasswordButton>
-                        </PromptTextContainer>
+                            </If>
                         </If>
                     </AuthBottomContainer>
                 </SignupOuterContainer>
