@@ -10,6 +10,10 @@ import ajax from 'helpers/ajaxHelper';
 import Close from 'assets/images/close.svg';
 import {Fade} from "@mui/material";
 import Context from "context-providers/auth-modal-provider/Context";
+import {TermsConditionsLabel, TermsConditionsLink} from "common-components/SignupComponent.style";
+import ForgetPassword from "common-components/ForgetPassword/ForgetPassword";
+import ForgetPasswordSent from "common-components/ForgetPassword/ForgetPasswordSent";
+import ResetPassword from "common-components/ResetPassword/ResetPassword";
 import {
     AuthBottomContainer,
     CenterSignupModalWrapper,
@@ -27,11 +31,8 @@ import {
     SignupOuterContainer,
     SignupTitleContainer,
 } from './Signup.style';
-import {TermsConditionsLabel, TermsConditionsLink} from "../../../common-components/SignupComponent.style";
-import ForgetPassword from "../../../common-components/ForgetPassword/ForgetPassword";
-import ForgetPasswordSent from "../../../common-components/ForgetPassword/ForgetPasswordSent";
 
-const SignupModal = ({isSignup, onClose}) => {
+const SignupModal = ({isSignup, onClose, verifier}) => {
     const { setModalName, modalName } = useContext(Context);
     const [userSignupDetails, setUserSignupDetails] = useState({
         encryptedPassword: '',
@@ -130,6 +131,9 @@ const SignupModal = ({isSignup, onClose}) => {
                             <When condition={modalName === 'sentResetMail'}>
                                 <ForgetPasswordSent />
                             </When>
+                            <When condition={modalName === 'resetPassword'}>
+                                <ResetPassword verifier={verifier}/>
+                            </When>
                             <Otherwise>
                                 <SigninComponent/>
                             </Otherwise>
@@ -166,9 +170,14 @@ const SignupModal = ({isSignup, onClose}) => {
     );
 };
 
+SignupModal.defaultProps = {
+    verifier: null,
+};
+
 SignupModal.propTypes = {
     onClose: PropTypes.func.isRequired,
     isSignup: PropTypes.bool.isRequired,
+    verifier: PropTypes.string,
 };
 
 export default SignupModal;

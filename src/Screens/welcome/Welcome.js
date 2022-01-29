@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router';
@@ -10,6 +10,7 @@ import { makeStyles } from '@mui/styles';
 import {PillText} from "common-components/ComponentLibrary/Styles";
 import SignupOrSignInModal from './signup/SignupModal';
 import {Pill, SignupBorder, SignupText, TitleContent, TitleText} from './Welcome.Style';
+import PropTypes from "prop-types";
 
 const styles = makeStyles({
   translationButton: {
@@ -127,14 +128,11 @@ const styles = makeStyles({
   }
 });
 
-const Welcome = () => {
+const Welcome = ({location}) => {
   const { modalName, setModalName, showModal, setShowModal } = useContext(Context);
   const { isLoggedIn } = useContext(LoggedInContext);
-  const isSmall = useMediaQuery('(min-width: 360px)');
-  const isMedium = useMediaQuery('(min-width: 533px)');
-  const isLarge = useMediaQuery('(min-width: 768px)');
-  console.log('this is value', isSmall, isMedium, isLarge);
   const style = styles();
+  const [verifier, setVerifier] = useState(null);
   const [pills, setPills] = useState([
     {
       value: 'அரசியல்',
@@ -208,6 +206,14 @@ const Welcome = () => {
 
   useBlur({ nodes: ['pre-login-header', 'welcome'], isVisible: showModal });
 
+  useEffect(() => {
+    if (location?.state?.verifier) {
+      setVerifier(location.state.verifier);
+      setModalName('resetPassword');
+      setShowModal(true);
+    }
+  }, [location, setModalName]);
+
   return (
     <section style={{ marginTop: 64, display: 'flex' }} className={style.welcomeSection} id="welcome">
       <If condition={isLoggedIn}>
@@ -271,10 +277,16 @@ const Welcome = () => {
         </Container>
       </Container>
       <If condition={showModal}>
-        <SignupOrSignInModal onClose={() => setShowModal(false)} isSignup={!!(modalName && modalName === 'signup')} />
+        <SignupOrSignInModal onClose={() => setShowModal(false)} isSignup={!!(modalName && modalName === 'signup')} verifier={verifier}/>
       </If>
     </section>
   );
+};
+
+Welcome.propTypes = {
+  location: PropTypes.shape({
+    state: PropTypes.shape
+  }).isRequired
 };
 
 export default Welcome;

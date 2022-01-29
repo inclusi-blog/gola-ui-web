@@ -41,6 +41,14 @@ export default {
     });
   },
 
+  canResetPassword: (uniqueKey) => {
+    return ajax.get(`idp/v1/login/can-reset/${uniqueKey}`);
+  },
+
+  resetPassword: (verifier, encryptedPassword) => {
+    return ajax.post(`idp/v1/login/reset/${verifier}`, { password: encryptedPassword });
+  },
+
   async fetchLoginChallenge(code) {
     const codeChallenge = await getCodeChallenge(code);
     // eslint-disable-next-line compat/compat

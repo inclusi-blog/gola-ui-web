@@ -21,6 +21,7 @@ const ForgetPassword = ({onSuccessForgetPassword}) => {
     const matches = useMediaQuery('(max-width:767px)');
     const [isValidEmail, setIsValidEmail] = useState(false);
     const [startedTyping, setStartedTyping] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (validateEmail(email)) {
@@ -34,11 +35,14 @@ const ForgetPassword = ({onSuccessForgetPassword}) => {
 
 
     const onSubmit = () => {
+        setIsLoading(true);
         loginService.forgetPassword(email).then(({ data }) => {
             if (data?.status === 'success') {
+                setIsLoading(false);
                 onSuccessForgetPassword();
             }
         }).catch((err) => {
+            setIsLoading(false);
             console.log('unable to process the request ', err);
         });
     };
@@ -72,7 +76,7 @@ const ForgetPassword = ({onSuccessForgetPassword}) => {
             />
             <FPBottomWrapper>
                 <FPSupportText>Need help ? reach us at support@mensuvadi.com</FPSupportText>
-                <FPContinueButton disabled={!isValidEmail} onClick={onSubmit}>Continue</FPContinueButton>
+                <FPContinueButton disabled={!isValidEmail} loading={isLoading} onClick={onSubmit}>Continue</FPContinueButton>
             </FPBottomWrapper>
         </ForgetPasswordContainer>
     );
