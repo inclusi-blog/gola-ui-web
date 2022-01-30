@@ -14,6 +14,7 @@ import {TermsConditionsLabel, TermsConditionsLink} from "common-components/Signu
 import ForgetPassword from "common-components/ForgetPassword/ForgetPassword";
 import ForgetPasswordSent from "common-components/ForgetPassword/ForgetPasswordSent";
 import ResetPassword from "common-components/ResetPassword/ResetPassword";
+import ResetPasswordSuccess from "common-components/ResetPasswordSuccess/ForgetPasswordSent";
 import {
     AuthBottomContainer,
     CenterSignupModalWrapper,
@@ -133,6 +134,9 @@ const SignupModal = ({isSignup, onClose, verifier}) => {
                             </When>
                             <When condition={modalName === 'resetPassword'}>
                                 <ResetPassword verifier={verifier}/>
+                            </When>
+                            <When condition={modalName === 'passwordResetSuccess'}>
+                                <ResetPasswordSuccess />
                             </When>
                             <Otherwise>
                                 <SigninComponent/>

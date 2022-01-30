@@ -1,13 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import WarningNotify from "assets/images/WarningNotify.png";
 import EmptyNotify from "assets/images/EmptyNotify.svg";
 import {useMediaQuery} from "@mui/material";
 import SuccessTick from "assets/images/SuccessTick.png";
 import ValidatorWarning from "assets/images/ValidatorWarning.svg";
 import PropTypes from "prop-types";
+import encrypt from "helpers/encrypt";
+import Context from "context-providers/auth-modal-provider/Context";
 import {
-    ForgetPasswordContainer, FPBottomWrapper,
-    FPContinueButton,
+    ForgetPasswordContainer, FPContinueButton,
     FPSupportText,
     HappensText
 } from "../ForgetPassword/ForgetPassword.style";
@@ -19,7 +20,6 @@ import {
     ResetPasswordCenterContainer,
     ResetPasswordToolTip, RPBottomWrapper
 } from "./ResetPassword.style";
-import encrypt from "../../helpers/encrypt";
 import loginService from "../../Screens/welcome/signin/loginService";
 
 const ResetPassword = ({verifier}) => {
@@ -51,6 +51,7 @@ const ResetPassword = ({verifier}) => {
             id: 3,
         },
     ]);
+    const { setModalName } = useContext(Context);
 
     const isHavingOneCapitalLetter = /[A-Z]/.test(password);
     const isHavingOneSmallLetter = /[a-z]/.test(password);
@@ -96,7 +97,9 @@ const ResetPassword = ({verifier}) => {
         setLoading(true);
         const encryptedPassword = encrypt(password);
         loginService.resetPassword(verifier, encryptedPassword).then(({ data }) => {
-            console.log('success ', data);
+            if (data?.status === 'success') {
+                setModalName('passwordResetSuccess');
+            }
         }).catch((err) => {
             if (err?.response?.data?.errorCode) {
                 console.log('unable to reset ', err?.response?.data?.errorCode);
