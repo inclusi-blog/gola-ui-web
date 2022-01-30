@@ -34,6 +34,7 @@ const ResetPassword = ({verifier}) => {
     const [shouldStartValidating, setShouldStarValidating] = useState(false);
     const [showCritieria, setShowCriteria] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [disabled, setDisabled] = useState(true);
     const [isValidPassword, setIsValidPassword] = useState([
         {
             name: 'One small',
@@ -51,7 +52,7 @@ const ResetPassword = ({verifier}) => {
             id: 3,
         },
     ]);
-    const { setModalName } = useContext(Context);
+    const {setModalName} = useContext(Context);
 
     const isHavingOneCapitalLetter = /[A-Z]/.test(password);
     const isHavingOneSmallLetter = /[a-z]/.test(password);
@@ -83,9 +84,18 @@ const ResetPassword = ({verifier}) => {
 
     useEffect(() => {
         if (confirmStartedTyping) {
+            if (passwordInvalidErr) {
+                setIsConfirmErr(true);
+                setConfirmErr('Invalid Password');
+                return;
+            }
             if (password !== confirmPassword) {
                 setIsConfirmErr(true);
                 setConfirmErr('Password doesn\'t match');
+            } else if (confirmPassword.length === 0 && password.length === 0) {
+                setIsConfirmErr(true);
+                setConfirmErr('Enter valid password');
+                setPassInvalidErr(true);
             } else {
                 setIsConfirmErr(false);
                 setConfirmErr(null);
@@ -96,7 +106,7 @@ const ResetPassword = ({verifier}) => {
     const onReset = () => {
         setLoading(true);
         const encryptedPassword = encrypt(password);
-        loginService.resetPassword(verifier, encryptedPassword).then(({ data }) => {
+        loginService.resetPassword(verifier, encryptedPassword).then(({data}) => {
             if (data?.status === 'success') {
                 setModalName('passwordResetSuccess');
             }
@@ -108,6 +118,21 @@ const ResetPassword = ({verifier}) => {
             setLoading(false);
         });
     };
+
+    useEffect(() => {
+        if (shouldStartValidating) {
+            if (passwordInvalidErr) {
+                setDisabled(true);
+            }
+            if (confirmStartedTyping) {
+                if (isConfirmErr) {
+                    setDisabled(true);
+                    return;
+                }
+                setDisabled(false);
+            }
+        }
+    }, [passwordInvalidErr, isConfirmErr, shouldStartValidating, confirmStartedTyping]);
 
     return (
         <ForgetPasswordContainer>
@@ -193,7 +218,8 @@ const ResetPassword = ({verifier}) => {
                 </FieldWrapper>
                 <RPBottomWrapper>
                     <FPSupportText>Need help ? reach us at support@mensuvadi.com</FPSupportText>
-                    <FPContinueButton disabled={passwordInvalidErr || isConfirmErr} loading={loading} onClick={onReset}>Continue</FPContinueButton>
+                    <FPContinueButton disabled={disabled} loading={loading}
+                                      onClick={onReset}>Continue</FPContinueButton>
                 </RPBottomWrapper>
             </ResetPasswordCenterContainer>
         </ForgetPasswordContainer>
