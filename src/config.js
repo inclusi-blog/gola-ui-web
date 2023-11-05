@@ -5,7 +5,7 @@ var environmentConfiguration = {
   OAUTH: {
     URL: 'http://localhost:3000/',
     CLIENT_ID: 'ui-web-client',
-    REDIRECT_URI: 'https://api.gola.xyz/api/idp/v1/login/accept',
+    REDIRECT_URI: 'https://api.narratenet.com/api/idp/v1/login/accept',
   },
   DEV_MODE: true,
   TRACING: {

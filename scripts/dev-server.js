@@ -21,15 +21,15 @@ const DEV_PORT = process.env.DEV_PORT ?? '3000';
 const DEV_HOST = process.env.DEV_HOST ?? 'localhost';
 
 const routerProxyConfig = {
-  '/post/v1': 'https://api.gola.xyz',
-  '/user-profile/v1': 'https://api.gola.xyz',
+  '/post/v1': 'https://api.narratenet.com',
+  '/user-profile/v1': 'https://api.narratenet.com',
   '/idp/v1': 'http://localhost:9000',
   'api/v1': 'http://localhost:3001',
   '/tracing/span': 'http://localhost:9411'
 };
 
 const options = {
-  target: 'https://api.gola.xyz',
+  target: 'https://api.narratenet.com',
   changeOrigin: true,
   cookieDomainRewrite: "",
   secure: false,

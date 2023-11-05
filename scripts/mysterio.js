@@ -6,7 +6,7 @@
 2. Update proxy config in dev-server like below
 
 const proxyOptions = {
-  target: 'https://app.gola.xyz',
+  target: 'https://app.narratenet.com',
   changeOrigin: true,
   secure: false,
   router: {
@@ -32,7 +32,7 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const modifyResponse = require('node-http-proxy-json');
 
 const app = express();
-const TARGET_ENV_REGEX = new RegExp("https:\\/\\/api.gola.xyz",'g');
+const TARGET_ENV_REGEX = new RegExp("https:\\/\\/api.narratenet.com",'g');
 
 // eslint-disable-next-line no-unused-vars
 function handleRedirect(proxyRes, req, res) {
@@ -73,12 +73,12 @@ const onResponse = function (proxyRes, req, res) {
 };
 
 const routerProxyConfig = {
-  '/oauth2': 'https://api.gola.xyz',
-  '/idp/v1': 'https://api.gola.xyz',
+  '/oauth2': 'https://api.narratenet.com',
+  '/idp/v1': 'https://api.narratenet.com',
 };
 
 const proxyOptions = {
-  target: `https://api.gola.xyz`,
+  target: `https://api.narratenet.com`,
   changeOrigin: true,
   secure: false,
   ws: true,

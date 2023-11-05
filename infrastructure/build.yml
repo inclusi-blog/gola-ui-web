@@ -1,12 +1,15 @@
-version: '3.7'
+version: '3'
 services:
+  install-deps:
+    image: node:12-alpine
+    working_dir: /gola-ui-web
+    volumes:
+      - "../:/gola-ui-web"
+    command: sh -c "yarn install --frozen-lockfile"
 
   build-env:
-    image: node:10-alpine
+    image: node:12-alpine
+    working_dir: /gola-ui-web
     volumes:
-      - jenkins-home:/gola
-    working_dir: /gola/gola-web-ui
-volumes:
-  jenkins-home:
-    external: true
-    name: jenkins-home
+      - "../:/gola-ui-web"
+    command: sh -c "yarn build"
