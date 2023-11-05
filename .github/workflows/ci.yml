@@ -19,13 +19,13 @@ jobs:
 
     - name: Install
       run: |
-        docker compose -f infrastructure/build.yml --project-name $(PROJECT) run --rm install-deps
+        docker compose -f infrastructure/build.yml --project-name ${PROJECT} run --rm install-deps
       env:
         PROJECT: gola-ui-web
 
     - name: Build
       run: |
-        docker compose -f infrastructure/build.yml --project-name $(PROJECT) run --rm build-env
+        docker compose -f infrastructure/build.yml --project-name ${PROJECT} run --rm build-env
       env:
         PROJECT: gola-ui-web
 
