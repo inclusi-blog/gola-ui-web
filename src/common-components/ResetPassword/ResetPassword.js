@@ -217,7 +217,7 @@ const ResetPassword = ({verifier}) => {
                     />
                 </FieldWrapper>
                 <RPBottomWrapper>
-                    <FPSupportText>Need help ? reach us at support@mensuvadi.com</FPSupportText>
+                    <FPSupportText>Need help ? reach us at support@narratenet.com</FPSupportText>
                     <FPContinueButton disabled={disabled} loading={loading}
                                       onClick={onReset}>Continue</FPContinueButton>
                 </RPBottomWrapper>

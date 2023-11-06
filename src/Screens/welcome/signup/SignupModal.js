@@ -96,7 +96,7 @@ const SignupModal = ({isSignup, onClose, verifier}) => {
                         />
                     </If>
                     <SignupTitleContainer>
-                        <SignupHeader>Mensuvadi</SignupHeader>
+                        <SignupHeader>Narratenet</SignupHeader>
                         {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions,jsx-a11y/click-events-have-key-events */}
                         <CloseContainer
                             onClick={() => onClose()}

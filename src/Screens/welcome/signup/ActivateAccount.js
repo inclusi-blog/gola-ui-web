@@ -22,7 +22,7 @@ const ActivateAccount = ({ location }) => {
             You’re almost done! A verification message has been sent to <strong>{email}</strong>
           </EmailSentAcknowledgeText>
           <ChangeEmailSection>
-            Just check your email and follow the link to finish creating your Mensuvadi Account. Entered the wrong
+            Just check your email and follow the link to finish creating your Narratenet Account. Entered the wrong
             address? <a href="https://www.google.com">Change your email.</a>
           </ChangeEmailSection>
         </div>

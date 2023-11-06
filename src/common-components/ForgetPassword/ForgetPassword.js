@@ -75,7 +75,7 @@ const ForgetPassword = ({onSuccessForgetPassword}) => {
                 }}
             />
             <FPBottomWrapper>
-                <FPSupportText>Need help ? reach us at support@mensuvadi.com</FPSupportText>
+                <FPSupportText>Need help ? reach us at support@narratenet.com</FPSupportText>
                 <FPContinueButton disabled={!isValidEmail} loading={isLoading} onClick={onSubmit}>Continue</FPContinueButton>
             </FPBottomWrapper>
         </ForgetPasswordContainer>
