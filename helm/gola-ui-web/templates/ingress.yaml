@@ -30,7 +30,8 @@ spec:
             backend:
               service:
                 name: {{ $apiName }}-svc
-                port: {{ $values.service.port }}
+                port:
+                  number: {{ $values.service.port }}
     {{- end }}
     {{- end }}
   tls:
