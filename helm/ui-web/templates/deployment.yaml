@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gola-api.name" . }}
+  labels:
+    {{- include "gola-api.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gola-api.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "gola-api.selectorLabels" . | nindent 8 }}
+      annotations:
+        linkerd.io/inject: {{ .Values.annotations.linkerd }}
+        {{- if .Values.annotations.reloader.enabled }}
+        auto.reloader.gola/reload: "true"
+        {{- if .Values.annotations.reloader.configmap }}
+        configmap.reloader.gola/reload: {{ include "gola-api.name" . }}-config
+        {{- end}}
+        {{- if .Values.annotations.reloader.secret }}
+        secret.reloader.gola/reload: {{ include "gola-api.name" . }}-secret
+        {{- end}}
+        {{- end}}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.version }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.secret }}
+                  key: AWS_ACCESS_KEY_ID
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.secret }}
+                  key: AWS_SECRET_ACCESS_KEY
+            - name: AWS_REGION
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.secret }}
+                  key: AWS_DEFAULT_REGION
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: {{ .Values.configMountPath }}
+              readOnly: true
+              subPath: config.js
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ include "gola-api.name" . }}-config
+            optional: true
