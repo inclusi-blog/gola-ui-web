@@ -135,67 +135,67 @@ const Welcome = ({location}) => {
   const [verifier, setVerifier] = useState(null);
   const [pills, setPills] = useState([
     {
-      value: 'அரசியல்',
+      value: 'Art',
       isSelected: false,
       id: 1,
     },
     {
-      value: 'ஆன்மீகம்',
+      value: 'Entertainment',
       isSelected: false,
       id: 2,
     },
     {
-      value: 'விளையாட்டு',
+      value: 'Culture',
       isSelected: false,
       id: 3,
     },
     {
-      value: 'அரசியல்',
+      value: 'Health',
       isSelected: false,
       id: 4,
     },
     {
-      value: 'ஆன்மீகம்',
+      value: 'Industry',
       isSelected: false,
       id: 5,
     },
     {
-      value: 'விளையாட்டு',
+      value: 'Personal',
       isSelected: false,
       id: 6,
     },
     {
-      value: 'அரசியல்',
+      value: 'Politics',
       isSelected: false,
       id: 7,
     },
     {
-      value: 'ஆன்மீகம்',
+      value: 'Software',
       isSelected: false,
       id: 8,
     },
     {
-      value: ' விளையாட்டு ',
+      value: 'Science',
       isSelected: false,
       id: 9,
     },
     {
-      value: 'விளையாட்டு',
+      value: 'Sports',
       isSelected: false,
       id: 11,
     },
     {
-      value: 'அரசியல்',
+      value: 'Personal Development',
       isSelected: false,
       id: 12,
     },
     {
-      value: 'ஆன்மீகம்',
+      value: 'Poem',
       isSelected: false,
       id: 13,
     },
     {
-      value: 'விளையாட்டு',
+      value: 'Short',
       isSelected: false,
       id: 14,
     },
