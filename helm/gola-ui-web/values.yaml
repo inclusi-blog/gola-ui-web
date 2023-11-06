@@ -49,3 +49,6 @@ ingress:
           - "app.narratenet.com"
           - "narratenet.com"
           - "www.narratenet.com"
+
+global:
+  secret: "global-secret"
