@@ -26,9 +26,11 @@ spec:
       http:
         paths:
           - path: {{ $values.ingress.path }}
+            pathType: Prefix
             backend:
-              serviceName: {{ $apiName }}-svc
-              servicePort: {{ $values.service.port }}
+              service:
+                name: {{ $apiName }}-svc
+                port: {{ $values.service.port }}
     {{- end }}
     {{- end }}
   tls:
