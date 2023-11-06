@@ -44,7 +44,7 @@ jobs:
         tags: gola05/gola-ui-web:latest
 
   dev-deploy:
-    needs: [docker]
+    needs: [dockerize]
     runs-on: ubuntu-latest
 #     if: github.ref == 'refs/heads/dev'
     steps:
