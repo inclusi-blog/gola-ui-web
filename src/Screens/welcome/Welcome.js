@@ -140,7 +140,7 @@ const Welcome = ({location}) => {
       id: 1,
     },
     {
-      value: 'Entertainment',
+      value: 'Lifestyle',
       isSelected: false,
       id: 2,
     },
@@ -185,7 +185,7 @@ const Welcome = ({location}) => {
       id: 11,
     },
     {
-      value: 'Personal Development',
+      value: 'Freedom',
       isSelected: false,
       id: 12,
     },
