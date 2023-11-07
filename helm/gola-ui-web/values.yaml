@@ -46,8 +46,6 @@ ingress:
     appFqdns:
       - secretName: narratenet-tls
         hosts:
-          - "app.narratenet.com"
-          - "narratenet.com"
           - "www.narratenet.com"
 
 global:
