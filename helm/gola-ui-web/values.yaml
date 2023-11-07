@@ -47,6 +47,7 @@ ingress:
       - secretName: narratenet-tls
         hosts:
           - "www.narratenet.com"
+          - "app.narratenet.com"
 
 global:
   secret: "global-secret"
