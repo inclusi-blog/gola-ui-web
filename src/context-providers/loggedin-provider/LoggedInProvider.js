@@ -31,8 +31,13 @@ const LoggedInProvider = ({ children }) => {
     if (CONFIGS.ENVIRONMENT.toLowerCase() === 'local') {
       isSecure = false;
     }
-    Cookies.set('access_token', tokenData.accessToken, { secure: isSecure, expires: new Date(tokenData.expiresAt) });
+    Cookies.set('access_token', tokenData.accessToken, {
+      domain: 'api.narratenet.com',
+      secure: isSecure,
+      expires: new Date(tokenData.expiresAt),
+    });
     Cookies.set('enc_id_token', tokenData.encryptedIdToken, {
+      domain: 'api.narratenet.com',
       secure: isSecure,
       expires: new Date(tokenData.expiresAt),
     });
@@ -67,7 +72,9 @@ const LoggedInProvider = ({ children }) => {
   };
 
   return (
-    <Context.Provider value={{ isLoggedIn, login, logout, accessToken, encryptedIdToken, logoutOnTokenExpiry, isLoginDone }}>
+    <Context.Provider
+      value={{ isLoggedIn, login, logout, accessToken, encryptedIdToken, logoutOnTokenExpiry, isLoginDone }}
+    >
       {children}
     </Context.Provider>
   );
