@@ -2,9 +2,9 @@ var environmentConfiguration = {
   API_BASE_URL: 'https://api.narratenet.com',
   ENVIRONMENT: 'DEV',
   OAUTH: {
-    URL: 'https://api.narratenet.com/platform/oauth/',
-    CLIENT_ID: 'ui-web',
-    REDIRECT_URI: 'http://api.narratenet.com/api/idp/v1/login/accept',
+    URL: 'https://api.narratenet.com/',
+    CLIENT_ID: '45691d1a-4fc8-49dd-90a3-121860e3efc3',
+    REDIRECT_URI: 'https://api.narratenet.com/api/idp/v1/login/accept',
   },
   DEV_MODE: true,
   PASSWORD_ENC_PUBLIC_KEY:
