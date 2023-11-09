@@ -45,7 +45,7 @@ const SigninComponent = () => {
     // eslint-disable-next-line no-console
     console.log('successfully logged in', tokenData);
     setIsLoading(false);
-    login(tokenData);
+    login();
   };
 
   const handleFailureLogin = (err) => {
@@ -61,16 +61,16 @@ const SigninComponent = () => {
       setIsLoading(false);
       setEmailErr('Please enter valid email');
       return;
-    } 
+    }
     setEmailErr(null);
-    
+
     if (password.length === 0) {
       setIsLoading(false);
       setPasswordErr('Please enter valid password');
       return;
-    } 
+    }
     setPasswordErr(null);
-    
+
 
     const code = generateRandomString();
     let loginChallengeFromResponse = '';

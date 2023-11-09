@@ -57,8 +57,8 @@ const LoggedInProvider = ({ children }) => {
     sessionStorage.clear();
   };
 
-  const login = (tokenData) => {
-    saveToken(tokenData);
+  const login = () => {
+    // saveToken(tokenData);
     setIsLoggedIn(true);
   };
 
