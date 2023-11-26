@@ -4,9 +4,6 @@ metadata:
   name: {{ include "gola-api.name" . }}-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/auth-tls-verify-client: "on"
-    nginx.ingress.kubernetes.io/auth-tls-secret: "gola-frontend/narratenet-tls"
-    nginx.ingress.kubernetes.io/auth-tls-verify-depth: "1"
     nginx.ingress.kubernetes.io/configuration-snippet: |
       add_header X-Content-Type-Options nosniff;
       add_header "X-XSS-Protection" "1;mode=block";
