@@ -42,11 +42,11 @@ const EditorBasicConfig = (draftID) => {
           uploadByFile: async (file) => {
             const fileExtension = file.name.split('.').pop();
             return GetPreSignDraftImageURL(fileExtension, draftID).then(({data})=>{
-              UploadDraftImage(data.url, file).then(()=>{
+              return UploadDraftImage(data.url, file).then(()=>{
                 const url = data.url.split('?')[0];
                 const urlPaths = url.split('/');
                 const uploadID = urlPaths.slice(urlPaths.length - 3);
-                SyncDraftImage(uploadID.join('/'), draftID).then(({data: uploadedData})=>{
+                return SyncDraftImage(uploadID.join('/'), draftID).then(({data: uploadedData})=>{
                   return {
                     success: 1,
                     file: {
