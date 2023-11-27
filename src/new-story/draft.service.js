@@ -5,11 +5,13 @@ import {
   GET_DRAFT,
   GET_DRAFTS,
   GET_INTERESTS,
+  GET_PRESIGN_DRAFT_IMAGE_URL,
   GET_PRESIGN_PREVIEW_IMAGE_URL,
   PREVIEW_DRAFT,
   PUBLISH_DRAFT,
   SAVE_INTERESTS,
-  SAVE_TAGLINE, SYNC_PREVIEW_IMAGE,
+  SAVE_TAGLINE, SYNC_DRAFT_IMAGE,
+  SYNC_PREVIEW_IMAGE,
 } from '../Config/api.routes.config';
 
 export const GetInterests = () =>
@@ -56,4 +58,16 @@ export const UploadPreviewImage = (uploadURL, file) => {
 
 export const SyncPreviewImage = (uploadID, draftID) => {
   return ajax.post(SYNC_PREVIEW_IMAGE.replace('{draftID}', draftID),{upload_id:uploadID});
+};
+
+export const GetPreSignDraftImageURL = (fileExtension, draftID) => {
+  return ajax.get(`${GET_PRESIGN_DRAFT_IMAGE_URL.replace('{draftID}', draftID)}?extension=${fileExtension}`);
+};
+
+export const UploadDraftImage = (uploadURL, file) => {
+  return axios.put(uploadURL, file);
+};
+
+export const SyncDraftImage = (uploadID, draftID) => {
+  return ajax.post(SYNC_DRAFT_IMAGE.replace('{draftID}', draftID),{upload_id:uploadID});
 };

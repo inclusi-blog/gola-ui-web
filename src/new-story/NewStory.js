@@ -12,6 +12,7 @@ import PostEditor from "./editor/Editor";
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
 import DraftPreviewModal from './preview-modal/DraftPreviewModal';
+import EditorBasicConfig from "./editor/constants";
 
 const NewStory = () => {
   const [contentData, setContentData] = useState({});
@@ -27,8 +28,10 @@ const NewStory = () => {
     setPreviewDraft,
     postRedirect,
     redirectUrl,
-    draftID
+    draftID,
+    isInitiallySaved
   } = useDraft();
+  const [basicConfig, setBasicConfig] = useState(EditorBasicConfig(draftID));
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -89,6 +92,13 @@ const NewStory = () => {
     }
     setContentData({time: Date.now()});
   }, []);
+
+  useEffect(() => {
+    if (isInitiallySaved) {
+      console.log("initially saved so updating the editor config");
+      setBasicConfig(EditorBasicConfig(draftID));
+    }
+  }, [draftID, isInitiallySaved]);
 
   useEffect(() => {
     if (previewDraft) {
@@ -175,6 +185,7 @@ const NewStory = () => {
           <PostEditor
             onChangeRoute={updateDraft}
             value={contentData}
+            basicConfig={basicConfig}
           />
         </div>
         <DraftPreviewModal onClose={() => setShowPreviewModal(false)} showPreviewModal={showPreviewModal} />

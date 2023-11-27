@@ -1,9 +1,8 @@
 import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createReactEditorJS } from 'react-editor-js';
-import { EDITOR_JS_TOOLS } from './constants';
 
-const PostEditor = ({onChangeRoute, value, readOnly}) => {
+const PostEditor = ({onChangeRoute, value, readOnly, basicConfig}) => {
   const ReactEditorJS = createReactEditorJS();
   const editorJS = useRef(null);
 
@@ -27,7 +26,7 @@ const PostEditor = ({onChangeRoute, value, readOnly}) => {
       <ReactEditorJS
         readOnly={readOnly}
         onInitialize={handleInitialize}
-        tools={EDITOR_JS_TOOLS}
+        tools={basicConfig}
         defaultValue={value}
         onChange={handleSave}
       />
@@ -45,6 +44,7 @@ PostEditor.propTypes = {
   value: PropTypes.shape({
     time: PropTypes.number,
   }).isRequired,
+  basicConfig: PropTypes.shape({}).isRequired,
   readOnly: PropTypes.bool,
 };
 
