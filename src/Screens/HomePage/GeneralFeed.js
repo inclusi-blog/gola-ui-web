@@ -34,6 +34,7 @@ import {convertDateStringToFormattedDate, countFormatter} from "../../utils/comm
 import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import MoreIcon from "@mui/icons-material/MoreHoriz";
 import {DeleteDraft} from "../../new-story/draft.service";
+import {useHistory} from "react-router-dom";
 
 const GeneralFeed = () => {
   // eslint-disable-next-line no-unused-vars
@@ -42,6 +43,7 @@ const GeneralFeed = () => {
   const [posts, setPosts] = useState([]);
   const [start, setStart] = useState(0);
   const settings = [{name: "Open", handler: () => {}}];
+  const history = useHistory();
 
   useEffect(() => {
     GetHomeFeed(start, 5).then(({data}) => {
@@ -104,7 +106,7 @@ const GeneralFeed = () => {
                   </For>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <PostAuthorName style={{ margin: 2, marginTop: 5 }}>{post.author_name}</PostAuthorName>
+                  <PostAuthorName onClick={() => history.push(`/@${post.author_name}`)} style={{ margin: 2, marginTop: 5 }}>{post.author_name}</PostAuthorName>
                 </div>
               </div>
               <div
@@ -178,7 +180,7 @@ const GeneralFeed = () => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}>
                       <div style={{ display: 'flex', marginTop: 4 }}>
-                        <PostAuthorName style={{ margin: 0, fontSize: 14 }}>{post.author_name}</PostAuthorName>
+                        <PostAuthorName onClick={() => history.push(`/@${post.author_name}`)} style={{ margin: 0, fontSize: 14 }}>{post.author_name}</PostAuthorName>
                       </div>
                     </div>
                   </div>
