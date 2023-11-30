@@ -21,10 +21,9 @@ const DEV_PORT = process.env.DEV_PORT ?? '3000';
 const DEV_HOST = process.env.DEV_HOST ?? 'localhost';
 
 const routerProxyConfig = {
-  '/post/v1': 'https://api.narratenet.com',
-  '/user-profile/v1': 'https://api.narratenet.com',
-  '/idp/v1': 'http://localhost:9000',
-  'api/v1': 'http://localhost:3001',
+  '/api/post/': 'https://api.narratenet.com',
+  '/api/user-profile/v1': 'https://api.narratenet.com',
+  '/api/idp/v1': 'https://api.narratenet.com',
   '/tracing/span': 'http://localhost:9411'
 };
 
@@ -32,15 +31,15 @@ const options = {
   target: 'https://api.narratenet.com',
   changeOrigin: true,
   cookieDomainRewrite: "",
-  secure: false,
+  secure: true,
   router: routerProxyConfig,
 };
 
 const authProxy = {
-  target: 'http://localhost:9000',
+  target: 'https://oauth.narratenet.com',
   changeOrigin: true,
   cookieDomainRewrite: "",
-  secure: false,
+  secure: true,
 };
 
 app.use(createProxyMiddleware('/api', options));

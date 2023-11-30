@@ -16,7 +16,6 @@ import EditorBasicConfig from "./editor/constants";
 
 const NewStory = () => {
   const [contentData, setContentData] = useState({});
-  useSaveDraft({editorData: contentData});
   const {
     setIsSaving,
     setIsInitiallySaved,
@@ -31,6 +30,7 @@ const NewStory = () => {
     draftID,
     isInitiallySaved
   } = useDraft();
+  useSaveDraft({editorData: contentData});
   const [basicConfig, setBasicConfig] = useState(EditorBasicConfig(draftID));
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);

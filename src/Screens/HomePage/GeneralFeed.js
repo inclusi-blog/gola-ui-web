@@ -29,11 +29,27 @@ import {
   PostDots,
   PinIcon,
 } from './GeneralFeed.style';
+import {GetHomeFeed} from "../postView/post.service";
+import {convertDateStringToFormattedDate, countFormatter} from "../../utils/commonUtils";
+import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
+import MoreIcon from "@mui/icons-material/MoreHoriz";
+import {DeleteDraft} from "../../new-story/draft.service";
 
 const GeneralFeed = () => {
   // eslint-disable-next-line no-unused-vars
   const [isAdminPost, setIsAdminPost] = useState('true');
   const { selectedSort } = useGeneralFeedSorter();
+  const [posts, setPosts] = useState([]);
+  const [start, setStart] = useState(0);
+  const settings = [{name: "Open", handler: () => {}}];
+
+  useEffect(() => {
+    GetHomeFeed(start, 5).then(({data}) => {
+      setPosts(data);
+    }).catch((err) => {
+      console.log("unable to fetch posts ", err)
+    });
+  }, []);
 
   const sidebarOptionsConfig = {
     Top: () => {
@@ -62,51 +78,50 @@ const GeneralFeed = () => {
     sidebarOptionsConfig[selectedSort]();
   }, [selectedSort]);
 
-  return (
-    <div>
-      <GeneralPostsContainer style={{ display: 'flex', flexDirection: 'row' }}>
+  const FeaturePost = ({post}) => {
+    return (
         <div style={{ width: 397, height: 464 }}>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <PostPicture src={HeroPostPic} style={{ display: 'flex', width: 397, height: 326 }} />
+            <PostPicture src={post.preview_image} style={{ display: 'flex', width: 397, height: 326 }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div>
               <PostTitle
-                style={{ display: 'flex', marginTop: 8, fontSize: 20, width: 397, height: 78, marginBottom: 0 }}
+                  style={{ display: 'flex', marginTop: 8, fontSize: 20, width: 397, height: 78, marginBottom: 0 }}
               >
-                ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்
+                {post.title}
               </PostTitle>
             </div>
             <div style={{ display: 'flex', flexDirection: 'row', height: 57 }}>
               <div style={{ display: 'flex', flexDirection: 'column', width: 280, height: 57, flex: 3 }}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <PostDate style={{ margin: 5, marginLeft: 1, marginRight: 11 }}>Jul 8,2020</PostDate>
-                  <PostTags style={{ marginRight: 5, marginLeft: 5, marginTop: 0, marginBottom: 0 }}> அரசியல்</PostTags>
-                  <PostTags style={{ marginRight: 5, marginLeft: 5, marginTop: 0, marginBottom: 0 }}>
-                    விளையாட்டு
-                  </PostTags>
+                  <PostDate style={{ margin: 5, marginLeft: 1, marginRight: 11 }}>{convertDateStringToFormattedDate(post.published_date)}</PostDate>
+                  <For each="tag" of={post.interest_names} index="idx">
+                    <If condition={idx < 3}>
+                      <PostTags style={{ marginRight: 5, marginLeft: 5, marginTop: 0, marginBottom: 0 }}> {tag}</PostTags>
+                    </If>
+                  </For>
                 </div>
-
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <PostAuthorName style={{ margin: 2, marginTop: 5 }}>கருபழனியப்பன் </PostAuthorName>
+                  <PostAuthorName style={{ margin: 2, marginTop: 5 }}>{post.author_name}</PostAuthorName>
                 </div>
               </div>
               <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                  alignItems: 'flex-end',
-                  height: 55,
-                  flex: 1,
-                  margin: 0,
-                }}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-end',
+                    height: 55,
+                    flex: 1,
+                    margin: 0,
+                  }}
               >
                 <PostSuperSymbol src={Super} style={{ width: 15, height: 19, margin: 0, marginBottom: 10 }} />
-                <PostLikes style={{ width: 41, height: 36, margin: 0, marginLeft: 4 }}>1.5K</PostLikes>
+                <PostLikes style={{ width: 41, height: 36, margin: 0, marginLeft: 4 }}>{countFormatter(post.like_count)}</PostLikes>
                 <div
-                  style={{ display: 'flex', width: 18, height: 4, marginBottom: 16, marginLeft: 12, cursor: 'pointer' }}
+                    style={{ display: 'flex', width: 18, height: 4, marginBottom: 16, marginLeft: 12, cursor: 'pointer' }}
                 >
                   <PostDots src={ThreeDots} style={{ display: 'flex', width: 4, height: 4, marginRight: 3 }} />
                   <PostDots src={ThreeDots} style={{ display: 'flex', width: 4, height: 4, marginRight: 3 }} />
@@ -116,166 +131,114 @@ const GeneralFeed = () => {
             </div>
           </div>
         </div>
+    );
+  };
+
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleClick = () => {
+    handleCloseUserMenu();
+  };
+
+  return (
+    <div>
+      <GeneralPostsContainer style={{ display: 'flex', flexDirection: 'row' }}>
+        <If condition={posts.length > 0}>
+          <FeaturePost post={posts[0]} />
+        </If>
 
         <SidePostContainer style={{ display: 'flex', flexDirection: 'column', marginLeft: 54 }}>
-          <div style={{ display: 'flex', width: 416, height: 137 }}>
-            <div style={{ width: 256, height: 137, marginRight: 25 }}>
-              <div style={{ display: 'flex', width: 255, height: 83 }}>
-                <PostTitle style={{ margin: 0, fontSize: 16 }}>
-                  ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்
-                </PostTitle>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
-                  <div style={{ display: 'flex', width: 195, height: 22 }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14 }}>July,2020</PostDate>
-                      <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>விளையாட்டு</PostTags>
+          <For each="post" of={posts} index="idx" >
+            <div style={{ display: 'flex', width: 416, height: 137 }}>
+              <div style={{ width: 256, height: 137, marginRight: 25 }}>
+                <div style={{ display: 'flex', width: 255, height: 83 }}>
+                  <PostTitle style={{ margin: 0, fontSize: 16 }}>
+                    {post.title}
+                  </PostTitle>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'row' }}>
+                  <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
+                    <div style={{ display: 'flex', width: 195, height: 22 }}>
+                      <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14, width: 85 }}>{convertDateStringToFormattedDate(post.published_date)}</PostDate>
+                        <For each="tag" of={post.interest_names} index="idx">
+                          <If condition={idx < 3}>
+                            <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>{tag}</PostTags>
+                          </If>
+                        </For>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}>
+                      <div style={{ display: 'flex', marginTop: 4 }}>
+                        <PostAuthorName style={{ margin: 0, fontSize: 14 }}>{post.author_name}</PostAuthorName>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}
-                  >
-                    <div style={{ display: 'flex', marginTop: 4 }}>
-                      <PostAuthorName style={{ margin: 0, fontSize: 14 }}>கருபழனியப்பன்</PostAuthorName>
+                  <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                    <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
+                    <PostLikes style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}>
+                      {countFormatter(post.like_count)}
+                    </PostLikes>
+                    <div
+                        style={{
+                          display: 'flex',
+                          cursor: 'pointer',
+                        }}
+                    >
+                      <Tooltip title="Open settings">
+                        <IconButton
+                            size="small"
+                            aria-label="display more actions"
+                            edge="end"
+                            color="inherit"
+                            onClick={(e) => handleOpenUserMenu(e)}
+                        >
+                          <MoreIcon />
+                        </IconButton>
+                      </Tooltip>
+                      <Menu
+                          sx={{ mt: '45px' }}
+                          id="menu-appbar"
+                          anchorEl={anchorElUser}
+                          anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          keepMounted
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                          }}
+                          open={Boolean(anchorElUser)}
+                          onClose={handleCloseUserMenu}
+                      >
+                        {settings.map((setting) => (
+                            <MenuItem key={setting.name} onClick={() => handleClick()}>
+                              <Typography textAlign="center">{setting.name}</Typography>
+                            </MenuItem>
+                        ))}
+                      </Menu>
                     </div>
                   </div>
                 </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                  <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
-                  <PostLikes
-                    style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}
-                  >
-                    1.5K
-                  </PostLikes>
-                  <div
-                    style={{
-                      display: 'flex',
-                      width: 10,
-                      height: 2,
-                      marginBottom: 11,
-                      marginLeft: 7,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2 }} />
-                  </div>
-                </div>
+              </div>
+              <div style={{ display: 'flex', width: 135, height: 135 }}>
+                <PostPicture src={post.preview_image} width={135} height={135} />
               </div>
             </div>
-            <div style={{ display: 'flex', width: 135, height: 135 }}>
-              <PostPicture src={SidePostPic} width={135} height={135} />
-            </div>
-          </div>
 
-          <HorizontalLine style={{ width: 416, height: 0, right: 260, top: 349, marginTop: 12, marginBottom: 15 }} />
-
-          <div style={{ display: 'flex', width: 416, height: 137 }}>
-            <div style={{ width: 256, height: 137, marginRight: 25 }}>
-              <div style={{ display: 'flex', width: 255, height: 83 }}>
-                <PostTitle style={{ margin: 0, fontSize: 16 }}>
-                  ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்
-                </PostTitle>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
-                  <div style={{ display: 'flex', width: 195, height: 22 }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14 }}>July,2020</PostDate>
-                      <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>விளையாட்டு</PostTags>
-                    </div>
-                  </div>
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}
-                  >
-                    <div style={{ display: 'flex', marginTop: 4 }}>
-                      <PostAuthorName style={{ margin: 0, fontSize: 14 }}>கருபழனியப்பன்</PostAuthorName>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                  <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
-                  <PostLikes
-                    style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}
-                  >
-                    1.5K
-                  </PostLikes>
-                  <div
-                    style={{
-                      display: 'flex',
-                      width: 10,
-                      height: 2,
-                      marginBottom: 11,
-                      marginLeft: 7,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2 }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', width: 135, height: 135 }}>
-              <PostPicture src={SidePostPic} width={135} height={135} />
-            </div>
-          </div>
-
-          <HorizontalLine style={{ width: 416, height: 0, right: 260, top: 349, marginTop: 12, marginBottom: 15 }} />
-          <div style={{ display: 'flex', width: 416, height: 137 }}>
-            <div style={{ width: 256, height: 137, marginRight: 25 }}>
-              <div style={{ display: 'flex', width: 255, height: 83 }}>
-                <PostTitle style={{ margin: 0, fontSize: 16 }}>
-                  ராஜஸ்தான்:`காங்கிரஸில் வலுக்கும் மோதல்!’ - டெல்லியில் முகாமிட்ட சச்சின் பைலட்
-                </PostTitle>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'row' }}>
-                <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
-                  <div style={{ display: 'flex', width: 195, height: 22 }}>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14 }}>July,2020</PostDate>
-                      <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>விளையாட்டு</PostTags>
-                    </div>
-                  </div>
-                  <div
-                    style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}
-                  >
-                    <div style={{ display: 'flex', marginTop: 4 }}>
-                      <PostAuthorName style={{ margin: 0, fontSize: 14 }}>கருபழனியப்பன்</PostAuthorName>
-                    </div>
-                  </div>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                  <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
-                  <PostLikes
-                    style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}
-                  >
-                    1.5K
-                  </PostLikes>
-                  <div
-                    style={{
-                      display: 'flex',
-                      width: 10,
-                      height: 2,
-                      marginBottom: 11,
-                      marginLeft: 7,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2, marginRight: 2 }} />
-                    <PostDots src={ThreeDots} style={{ display: 'flex', width: 2, height: 2 }} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', width: 135, height: 135 }}>
-              <PostPicture src={SidePostPic} width={135} height={135} />
-            </div>
-          </div>
+            <If condition={idx !== posts.length - 1}>
+              <HorizontalLine style={{ width: 416, height: 0, right: 260, top: 349, marginTop: 12, marginBottom: 15 }} />
+            </If>
+          </For>
         </SidePostContainer>
       </GeneralPostsContainer>
 

@@ -1,6 +1,7 @@
 import axios from "axios";
 import ajax from '../helpers/ajaxHelper';
 import {
+  DELETE_DRAFT,
   DELETE_INTEREST,
   GET_DRAFT,
   GET_DRAFTS,
@@ -70,4 +71,8 @@ export const UploadDraftImage = (uploadURL, file) => {
 
 export const SyncDraftImage = (uploadID, draftID) => {
   return ajax.post(SYNC_DRAFT_IMAGE.replace('{draftID}', draftID),{upload_id:uploadID});
+};
+
+export const DeleteDraft = (draftID) => {
+  return ajax.delete(`${DELETE_DRAFT}?draft=${draftID}`);
 };

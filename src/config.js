@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-var, no-unused-vars
 var environmentConfiguration = {
-  API_BASE_URL: 'http://localhost:3000',
+  API_BASE_URL: 'https://api.narratenet.com',
   ENVIRONMENT: 'LOCAL',
   OAUTH: {
-    URL: 'http://localhost:3000/',
-    CLIENT_ID: 'ui-web-client',
+    URL: 'https://oauth.narratenet.com',
+    CLIENT_ID: '45691d1a-4fc8-49dd-90a3-121860e3efc3',
     REDIRECT_URI: 'https://api.narratenet.com/api/idp/v1/login/accept',
   },
   DEV_MODE: true,

@@ -54,7 +54,7 @@ const useSaveDraft = ({editorData}) => {
   }, [SaveDraft, changeRouteName, draftID]);
 
   useDebouncedEffect(() => {
-    if (Object.keys(editorData).length !== 1){
+    if (Object.keys(editorData).length > 0){
       onChangeContent(editorData);
     }
   }, [editorData], 2000);

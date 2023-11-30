@@ -29,8 +29,13 @@ const Drafts = () => {
     return cleanup;
   }, [cleanup]);
 
+  const removeDraft = (deletedIndex) => {
+    const updatedDrafts = drafts.filter((draft, index) => deletedIndex !== index);
+    setDrafts(updatedDrafts);
+  };
+
   const getDraftList = () => {
-    return drafts?.map((draft) => <DraftTile draftContent={draft} />);
+    return drafts?.map((draft, id) => <DraftTile draftContent={draft} removeElement={() => removeDraft(id)}/>);
   };
 
   return <div>{getDraftList()}</div>;
