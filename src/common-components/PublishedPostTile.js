@@ -5,7 +5,7 @@ import SuperImg from 'assets/images/Super.png';
 // eslint-disable-next-line import/no-unresolved
 import {countFormatter} from 'utils/commonUtils';
 import SuperClickImg from "assets/images/super_click.png";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {
     CommonFlexColumn,
     CommonFlexRow,
@@ -21,6 +21,8 @@ import {
 } from './PostTile.style';
 import {CancelToken} from "../helpers/ajaxHelper";
 import {LikePost, UnlikePost} from "../Screens/postView/post.service";
+import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
+import MoreIcon from "@mui/icons-material/MoreHoriz";
 
 const PublishedPostTile = ({
 details,
@@ -34,13 +36,16 @@ borderWidth,
         published_at,
         tagline,
         title,
-        username
+        username,
+        url,
     } = details;
     const publishedAt = moment(published_at);
     const is_liked = true;
     const [isLiked,setIsLiked]=useState(is_liked);
     const [likeCount,setLikeCount] = useState(likes_count);
     const cancelTokens = [];
+    const history = useHistory();
+    const settings = [{name: "Open", handler: (authorName, url) => history.push(`/@${authorName}/${url}`)}];
     const cleanup = useCallback(() => {
         if (cancelTokens.length > 0) {
             const cancelToken = cancelTokens.pop();
@@ -80,6 +85,21 @@ borderWidth,
         cancelTokens.push(cancelToken);
     };
 
+    const [anchorElUser, setAnchorElUser] = useState(null);
+
+    const handleOpenUserMenu = (event) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
+
+    const handleClick = (handler) => {
+        handler(username, url);
+        handleCloseUserMenu();
+    };
+
     return (
         <div>
             <InterestMainContainer style={{ marginTop: 32 }}>
@@ -95,11 +115,39 @@ borderWidth,
                     <CommonFlexRow style={{ alignItems: 'center', justifyContent: 'flex-end', height: 25 }}>
                         <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={isLiked?onUnlikePost:onLikePost} />
                         <LikeCount>{countFormatter(likeCount)}</LikeCount>
-                        <CommonFlexRow>
-                            <SmallDots />
-                            <SmallDots />
-                            <SmallDots />
-                        </CommonFlexRow>
+                        <Tooltip title="Open settings">
+                            <IconButton
+                                size="small"
+                                aria-label="display more actions"
+                                edge="end"
+                                color="inherit"
+                                onClick={(e) => handleOpenUserMenu(e)}
+                            >
+                                <MoreIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                            {settings.map((setting) => (
+                                <MenuItem key={setting.name} onClick={() => handleClick(setting.handler)}>
+                                    <Typography textAlign="center">{setting.name}</Typography>
+                                </MenuItem>
+                            ))}
+                        </Menu>
                     </CommonFlexRow>
                 </CommonFlexColumn>
                 <PostImage src={preview_image} />
