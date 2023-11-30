@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, {useMemo, useState, useCallback, useEffect, useContext} from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import ProfilePalatte from 'common-components/ProfilePalatte';
 import ReviewPalatte from 'common-components/ReviewPalatte';
@@ -31,6 +31,7 @@ import {
   ViewAllComments, CommentsDivider,
 } from './PostView.style';
 import { InterestTag, InterestTagText } from '../../new-story/editor/PreviewCard.style';
+import UserProfileContext from "../../context-providers/UserProfileProvider/UserProfileContext";
 
 let hidden = null;
 let visibilityChange = null;
@@ -67,6 +68,7 @@ const PostView = () => {
   const [isShowAllComments, setIsShowAllComments] = useState(false);
   const [reachedLimit, setReachedLimit] = useState(false);
   const [start, setStart] = useState(0);
+  const { userDetails } = useContext(UserProfileContext);
 
   const onComment = () => {
     AddComment(postID,commentText).then(()=>{
@@ -75,7 +77,7 @@ const PostView = () => {
         data: commentText,
         id: `${commentList.length+1}`,
         post_id: postID,
-        username: "nivethaa",
+        username: userDetails.name ? userDetails.name : userDetails.username,
       };
       setPost({...post,commentCount:post.commentCount+1});
       setCommentList([comment,...commentList]);
