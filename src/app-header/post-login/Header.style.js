@@ -120,6 +120,9 @@ export const ProfileNameStyle = styled.p`
     font-weight: normal;
     font-size: 18px;
     color: #000000;
+    white-space: nowrap;
+    overflow: hidden;    
+    text-overflow: ellipsis; 
 `;
 
 export const ProfileDropDownItems = styled.div`

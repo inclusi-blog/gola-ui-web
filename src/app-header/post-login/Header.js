@@ -41,7 +41,7 @@ const Header = ({ location: { pathname } }) => {
     (location.pathname.split('/')[1] === 'p' && location.pathname.split('/')[3] === 'edit');
   const profileOptionsRef = useRef(null);
   const profileContainerRef = useRef(null);
-  const { showProfileTooltip, setShowProfileTooltip } = useContext(UserProfileContext);
+  const { showProfileTooltip, setShowProfileTooltip, userDetails } = useContext(UserProfileContext);
 
   useOutsideAlerter(profileOptionsRef);
 
@@ -95,7 +95,7 @@ const Header = ({ location: { pathname } }) => {
               render={() => {
                 return (
                   <div style={{ width: 208, height: 497 }}>
-                    <ProfileNameStyle>Gokul Bruce</ProfileNameStyle>
+                    <ProfileNameStyle>{userDetails.name ? userDetails.name : userDetails.username}</ProfileNameStyle>
                     <ProfileDropDownItems>
                         <CustomProfileButton path={NEW_STORY_PATH} buttonName="New Story"/>
                         <CustomProfileButton path={STORIES_PATH} buttonName="My Stories"/>
