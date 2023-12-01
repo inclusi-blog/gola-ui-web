@@ -37,7 +37,7 @@ export default {
 
   forgetPassword: (email) => {
     return ajax.post('idp/v1/login/reset-password', {
-      email
+      email,
     });
   },
 

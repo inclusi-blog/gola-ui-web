@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 import ThemeProvider from 'context-providers/ThemeProvider';
 
 const BasePresentationLayer = ({ children }) => {
-  return (
-    <ThemeProvider>
-        {children}
-    </ThemeProvider>
-  );
+  return <ThemeProvider>{children}</ThemeProvider>;
 };
 
 BasePresentationLayer.propTypes = {

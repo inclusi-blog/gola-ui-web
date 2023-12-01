@@ -1,4 +1,4 @@
-import React, {useMemo, useState, useCallback, useEffect, useContext} from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useContext } from 'react';
 import { useIdleTimer } from 'react-idle-timer';
 import ProfilePalatte from 'common-components/ProfilePalatte';
 import ReviewPalatte from 'common-components/ReviewPalatte';
@@ -12,10 +12,10 @@ import FlowModal from 'common-components/FlowModal/FlowModal';
 import useEscapeHandler from 'hooks/useEscapeHandler';
 import useScrollBlock from 'hooks/useScrollBlock';
 import useBlur from 'hooks/useBlur';
-import moment from "moment";
-import PostEditor from "../../new-story/editor/Editor";
+import moment from 'moment';
+import PostEditor from '../../new-story/editor/Editor';
 import { PublishPreviewCard, PublishPreviewTitle } from '../../new-story/NewStory.style';
-import {AddComment, GetPost, ListComments} from './post.service';
+import { AddComment, GetPost, ListComments } from './post.service';
 import {
   MainContainer,
   PostMainImage,
@@ -28,10 +28,11 @@ import {
   CommentButton,
   CommentLabel,
   ViewCommentListContainer,
-  ViewAllComments, CommentsDivider,
+  ViewAllComments,
+  CommentsDivider,
 } from './PostView.style';
 import { InterestTag, InterestTagText } from '../../new-story/editor/PreviewCard.style';
-import UserProfileContext from "../../context-providers/UserProfileProvider/UserProfileContext";
+import UserProfileContext from '../../context-providers/UserProfileProvider/UserProfileContext';
 
 let hidden = null;
 let visibilityChange = null;
@@ -52,10 +53,10 @@ const PostView = () => {
   const [timerStatus, setTimerStatus] = useState('start');
   const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(0);
-  const {setRedirectUrl, setPostRedirect, setPreviewDraft} = useDraft();
+  const { setRedirectUrl, setPostRedirect, setPreviewDraft } = useDraft();
   const [showSharePopup, setShowSharePopup] = useState(false);
   // eslint-disable-next-line camelcase,no-unused-vars
-  const {post_url, username} = useParams();
+  const { post_url, username } = useParams();
   const location = useLocation();
   const history = useHistory();
   const [postID, setPostID] = useState();
@@ -71,23 +72,25 @@ const PostView = () => {
   const { userDetails } = useContext(UserProfileContext);
 
   const onComment = () => {
-    AddComment(postID,commentText).then(()=>{
-      const comment = {
-        commented_at: moment(new Date()).format('YYYY-MM-DDThh:mm:ss.SSSSSSZ'),
-        data: commentText,
-        id: `${commentList.length+1}`,
-        post_id: postID,
-        username: userDetails.name ? userDetails.name : userDetails.username,
-      };
-      setPost({...post,commentCount:post.commentCount+1});
-      setCommentList([comment,...commentList]);
-      setCommentText('');
-    }).catch((err)=>console.log("unable to comment on this post",err));
+    AddComment(postID, commentText)
+      .then(() => {
+        const comment = {
+          commented_at: moment(new Date()).format('YYYY-MM-DDThh:mm:ss.SSSSSSZ'),
+          data: commentText,
+          id: `${commentList.length + 1}`,
+          post_id: postID,
+          username: userDetails.name ? userDetails.name : userDetails.username,
+        };
+        setPost({ ...post, commentCount: post.commentCount + 1 });
+        setCommentList([comment, ...commentList]);
+        setCommentText('');
+      })
+      .catch((err) => console.log('unable to comment on this post', err));
   };
 
   const onClickAllComments = () => {
     setIsShowAllComments(true);
-    console.log("all comments clicked!!!!",commentList.length);
+    console.log('all comments clicked!!!!', commentList.length);
   };
 
   const pauseTimer = () => {
@@ -135,19 +138,20 @@ const PostView = () => {
 
   const fetchComments = () => {
     ListComments(postID, start, 5)
-        .then(({data}) => {
-          if (data) {
-            if (data.length !== 5) {
-              setReachedLimit(true);
-            }
-            setCommentList([...commentList, ...data]);
-            return;
+      .then(({ data }) => {
+        if (data) {
+          if (data.length !== 5) {
+            setReachedLimit(true);
           }
-          setReachedLimit(true);
-        }).catch((err) => {
-      // eslint-disable-next-line no-console
-      console.log("unable to fetch comments ", err);
-    });
+          setCommentList([...commentList, ...data]);
+          return;
+        }
+        setReachedLimit(true);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('unable to fetch comments ', err);
+      });
   };
 
   useEffect(() => {
@@ -159,7 +163,7 @@ const PostView = () => {
   useEffect(() => {
     if (postID) {
       GetPost(postID)
-        .then(({data}) => {
+        .then(({ data }) => {
           setPost({
             data: data.post_data,
             interests: data.interests,
@@ -185,7 +189,7 @@ const PostView = () => {
     // eslint-disable-next-line camelcase
     if (post_url) {
       const id = post_url.substring(post_url.length, post_url.length - 36);
-      const regexp = new RegExp("^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$");
+      const regexp = new RegExp('^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$');
       if (regexp.test(id)) {
         setPostID(post_url.substring(post_url.length, post_url.length - 36));
       }
@@ -225,7 +229,7 @@ const PostView = () => {
   const onPopupClose = () => {
     setShowSharePopup(false);
     delete location.state.shouldOpenSharePopup;
-    history.replace({...history.location, state: {}});
+    history.replace({ ...history.location, state: {} });
   };
 
   const handleScroll = (e) => {
@@ -235,64 +239,82 @@ const PostView = () => {
     }
   };
 
-  useEscapeHandler({onEscape: () => setShowSharePopup(false)});
-  useScrollBlock({isModalOpen: showSharePopup});
-  useBlur({nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup});
+  useEscapeHandler({ onEscape: () => setShowSharePopup(false) });
+  useScrollBlock({ isModalOpen: showSharePopup });
+  useBlur({ nodes: ['post-login-header', 'post-view'], isVisible: showSharePopup });
   /* eslint-disable-next-line no-return-assign */
   return (
-    <section style={{display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '1 1 auto', overflowX: 'hidden', overflowY: 'auto'}} id="post-view">
+    <section
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: '1 1 auto',
+        overflowX: 'hidden',
+        overflowY: 'auto',
+      }}
+      id="post-view"
+    >
       <If condition={post}>
-        <MainContainer >
+        <MainContainer>
           <PreviewPostOuterContainer
-              style={{marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover'}}
+            style={{ marginBottom: 16, backgroundImage: `url(${post.previewImage})`, backgroundSize: 'cover' }}
           >
-            <PostMainImage src={post.previewImage}/>
+            <PostMainImage src={post.previewImage} />
           </PreviewPostOuterContainer>
           <ProfilePalatte
-              publishedDate={publishedDate}
-              authorName={post.authorName}
-              isAuthorViewingPost={isViewIsAuthor}
+            publishedDate={publishedDate}
+            authorName={post.authorName}
+            isAuthorViewingPost={isViewIsAuthor}
           />
-          <div style={{borderBottom: '1px solid #DFDFDF ', marginTop: 60, marginBottom: 24}}>
-            <PostEditor value={post.data} readOnly/>
+          <div style={{ borderBottom: '1px solid #DFDFDF ', marginTop: 60, marginBottom: 24 }}>
+            <PostEditor value={post.data} readOnly />
           </div>
-          <ReviewPalatte likesCount={post.likeCount} commentsCount={post.commentCount} isViewerLiked={isViewerLiked} postID={postID}/>
-          <div style={{display: 'flex', alignItems: 'center', marginTop: 32}}>{getInterestPills()}</div>
+          <ReviewPalatte
+            likesCount={post.likeCount}
+            commentsCount={post.commentCount}
+            isViewerLiked={isViewerLiked}
+            postID={postID}
+          />
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: 32 }}>{getInterestPills()}</div>
           <CommentContainer>
-            <ApplyRow style={{justifyContent: 'center', alignItems: 'center'}}>
-              <ProfilePic src={ProfileImg}/>
+            <ApplyRow style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <ProfilePic src={ProfileImg} />
               {/* TODO: Add a state variable and change the variable to empty on focus - don't modify object event */}
-              <CommentBox value={commentText}
-                          placeholder="Write your thoughts..."
-                          onFocus={(e) => e.target.placeholder = ''}
-                          onBlur={(e) => e.target.placeholder = 'Write your thoughts...'}
-                          onChange={(event)=>{
-                            setCommentText(event.target.value);
-              }}/>
+              <CommentBox
+                value={commentText}
+                placeholder="Write your thoughts..."
+                onFocus={(e) => (e.target.placeholder = '')}
+                onBlur={(e) => (e.target.placeholder = 'Write your thoughts...')}
+                onChange={(event) => {
+                  setCommentText(event.target.value);
+                }}
+              />
               <CommentButton onClick={onComment}>
                 <CommentLabel>Comment</CommentLabel>
               </CommentButton>
             </ApplyRow>
           </CommentContainer>
-          <ViewCommentListContainer style={{height: 500, overflowY: 'auto', overflowX: 'hidden'}}  onScroll={handleScroll}>
+          <ViewCommentListContainer
+            style={{ height: 500, overflowY: 'auto', overflowX: 'hidden' }}
+            onScroll={handleScroll}
+          >
             <If condition={isShowAllComments}>
               {/* TODO: Use jsx control statements for running over for loop */}
-              <ApplyColumn style={{marginTop: 32}}>
-                {
-                  commentList.map((comment)=>{
-                    return (
-                        <div>
-                          <SingleCommentTile key={comment.id} singleComment={comment}/>
-                          <CommentsDivider/>
-                        </div>
-                    );
-                  })
-                }
+              <ApplyColumn style={{ marginTop: 32 }}>
+                {commentList.map((comment) => {
+                  return (
+                    <div>
+                      <SingleCommentTile key={comment.id} singleComment={comment} />
+                      <CommentsDivider />
+                    </div>
+                  );
+                })}
               </ApplyColumn>
-              <Else/>
-              <ApplyColumn style={{marginTop: 32}}>
+              <Else />
+              <ApplyColumn style={{ marginTop: 32 }}>
                 <If condition={commentList && commentList[0]}>
-                  <SingleCommentTile singleComment={commentList[0]}/>
+                  <SingleCommentTile singleComment={commentList[0]} />
                 </If>
                 <ViewAllComments onClick={onClickAllComments}>all comments</ViewAllComments>
               </ApplyColumn>
@@ -302,16 +324,16 @@ const PostView = () => {
         <If condition={showSharePopup}>
           <FlowModal onClose={() => onPopupClose()}>
             <PublishPreviewCard
-                style={{display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px'}}
+              style={{ display: 'flex', alignItems: 'center', flexDirection: 'column', padding: '16px 16px 35px 16px' }}
             >
-              <div style={{display: 'flex', justifyContent: 'flex-end', width: '100%'}}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                 {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
                 <div onClick={() => onPopupClose()}>
-                  <img src={Close} alt="success-tick" width={32} height={32}/>
+                  <img src={Close} alt="success-tick" width={32} height={32} />
                 </div>
               </div>
-              <img src={RedTick} alt="success-tick" width={56} height={56}/>
-              <PublishPreviewTitle style={{marginTop: 16}}>Publish post</PublishPreviewTitle>
+              <img src={RedTick} alt="success-tick" width={56} height={56} />
+              <PublishPreviewTitle style={{ marginTop: 16 }}>Publish post</PublishPreviewTitle>
             </PublishPreviewCard>
           </FlowModal>
         </If>

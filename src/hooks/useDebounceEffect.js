@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 const useDebouncedEffect = (effect, deps, delay) => {
   useEffect(() => {
@@ -6,7 +6,7 @@ const useDebouncedEffect = (effect, deps, delay) => {
 
     return () => clearTimeout(handler);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [...deps || [], delay]);
+  }, [...(deps || []), delay]);
 };
 
 export default useDebouncedEffect;

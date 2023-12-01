@@ -2,7 +2,7 @@ import React, { useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { createReactEditorJS } from 'react-editor-js';
 
-const PostEditor = ({onChangeRoute, value, readOnly, basicConfig}) => {
+const PostEditor = ({ onChangeRoute, value, readOnly, basicConfig }) => {
   const ReactEditorJS = createReactEditorJS();
   const editorJS = useRef(null);
 
@@ -11,14 +11,17 @@ const PostEditor = ({onChangeRoute, value, readOnly, basicConfig}) => {
   }, []);
 
   const handleSave = useCallback(() => {
-    editorJS.current.save().then((outputData) => {
-      onChangeRoute(outputData);
-      // eslint-disable-next-line no-console
-      console.log('Article data: ', JSON.stringify(outputData));
-    }).catch((error) => {
-      // eslint-disable-next-line no-console
-      console.log('Saving failed: ', error);
-    });
+    editorJS.current
+      .save()
+      .then((outputData) => {
+        onChangeRoute(outputData);
+        // eslint-disable-next-line no-console
+        console.log('Article data: ', JSON.stringify(outputData));
+      })
+      .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log('Saving failed: ', error);
+      });
   }, [onChangeRoute]);
 
   return (

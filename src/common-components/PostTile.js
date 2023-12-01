@@ -1,14 +1,14 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import SuperImg from 'assets/images/Super.png';
 import BookMarkImg from 'assets/images/Bookmark.png';
 // eslint-disable-next-line import/no-unresolved
 import SuperClickImg from 'assets/images/super_click.png';
 import BookmarkedImg from 'assets/images/bookmarked.svg';
 import EditImg from 'assets/images/Edit.svg';
-import {countFormatter} from 'utils/commonUtils';
-import moment from "moment";
+import { countFormatter } from 'utils/commonUtils';
+import moment from 'moment';
 import {
   InterestMainContainer,
   PostHeadLine,
@@ -26,20 +26,16 @@ import {
   CommonFlexEnd,
   PostImage,
 } from './PostTile.style';
-import {BookmarkPost} from "../Screens/Interestpage/interestpage.service";
-import {LikePost, UnlikePost} from "../Screens/postView/post.service";
-import {CancelToken} from "../helpers/ajaxHelper";
+import { BookmarkPost } from '../Screens/Interestpage/interestpage.service';
+import { LikePost, UnlikePost } from '../Screens/postView/post.service';
+import { CancelToken } from '../helpers/ajaxHelper';
 
-const PostTile = ({
-  details,
-  borderWidth,
-  canShowActionArea,
-}) => {
+const PostTile = ({ details, borderWidth, canShowActionArea }) => {
   const location = useLocation();
   const isSavedPage = location.pathname === '/reading-list/saved';
-  const [postDetails,setPostDetails] = useState(details);
-  const [isLiked,setIsLiked]=useState(postDetails?.isLiked);
-  const [likeCount,setLikeCount] = useState(postDetails.likeCount);
+  const [postDetails, setPostDetails] = useState(details);
+  const [isLiked, setIsLiked] = useState(postDetails?.isLiked);
+  const [likeCount, setLikeCount] = useState(postDetails.likeCount);
   const cancelTokens = [];
   const cleanup = useCallback(() => {
     if (cancelTokens.length > 0) {
@@ -52,47 +48,56 @@ const PostTile = ({
     return <PostTag>{postDetails.tags[0].name}</PostTag>;
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     return cleanup;
-  },[cleanup]);
+  }, [cleanup]);
 
   const onLikePost = () => {
     const cancelToken = CancelToken();
-    LikePost(cancelToken, postDetails.id).then(() => {
-      setIsLiked(true);
-      setLikeCount(likeCount+1);
-    }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.log('unable to like post', err);
-    });
+    LikePost(cancelToken, postDetails.id)
+      .then(() => {
+        setIsLiked(true);
+        setLikeCount(likeCount + 1);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('unable to like post', err);
+      });
     cancelTokens.push(cancelToken);
   };
 
   const onUnlikePost = () => {
     const cancelToken = CancelToken();
-    UnlikePost(cancelToken, postDetails.id).then(() => {
-      setIsLiked(false);
-      setLikeCount(likeCount-1);
-    }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.log('unable to unlike post', err);
-    });
+    UnlikePost(cancelToken, postDetails.id)
+      .then(() => {
+        setIsLiked(false);
+        setLikeCount(likeCount - 1);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('unable to unlike post', err);
+      });
     cancelTokens.push(cancelToken);
   };
 
   const onBookmark = () => {
-    BookmarkPost(postDetails.id).then(()=>{
-      setPostDetails({...postDetails,isBookmarked:true});
-    }).catch((err)=>{
-      // eslint-disable-next-line no-console
-      console.log("Unable to bookmark",err);
-    });
+    BookmarkPost(postDetails.id)
+      .then(() => {
+        setPostDetails({ ...postDetails, isBookmarked: true });
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('Unable to bookmark', err);
+      });
   };
   return (
     <div>
       <InterestMainContainer style={{ marginTop: 32 }}>
         <CommonFlexColumn style={{ marginRight: 24 }}>
-          <Link to={`/@${details.authorName}/${details.headLine.replaceAll(" ","-")}-${details.id}`} style={{ textDecoration: 'none' }}>
+          <Link
+            to={`/@${details.authorName}/${details.headLine.replaceAll(' ', '-')}-${details.id}`}
+            style={{ textDecoration: 'none' }}
+          >
             <PostHeadLine>{postDetails.headLine}</PostHeadLine>
           </Link>
           <PostContent>{postDetails.content}</PostContent>
@@ -114,7 +119,7 @@ const PostTile = ({
                       onClick={() => onBookmark()}
                     />
                   </If>
-                  <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={isLiked?onUnlikePost:onLikePost} />
+                  <HandSymbol src={isLiked ? SuperClickImg : SuperImg} onClick={isLiked ? onUnlikePost : onLikePost} />
                   <LikeCount>{countFormatter(likeCount)}</LikeCount>
                   <CommonFlexRow>
                     <SmallDots />

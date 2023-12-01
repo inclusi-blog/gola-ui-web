@@ -1,15 +1,10 @@
-import { useCallback } from "react";
-import ajax from "../helpers/ajaxHelper";
-import useDebouncedEffect from "./useDebounceEffect";
-import useDraft from "./useDraft";
+import { useCallback } from 'react';
+import ajax from '../helpers/ajaxHelper';
+import useDebouncedEffect from './useDebounceEffect';
+import useDraft from './useDraft';
 
-const useSaveDraft = ({editorData}) => {
-  const {
-    setIsSaving,
-    setIsInitiallySaved,
-    setDraftID,
-    draftID
-  } = useDraft();
+const useSaveDraft = ({ editorData }) => {
+  const { setIsSaving, setIsInitiallySaved, setDraftID, draftID } = useDraft();
 
   const SaveDraft = ({ post, commandToRun = () => {} }) => {
     setIsSaving(true);
@@ -49,15 +44,22 @@ const useSaveDraft = ({editorData}) => {
     window.history.replaceState(null, 'Draft', `/p/${id}/edit`);
   };
 
-  const onChangeContent = useCallback((postData) => {
-    SaveDraft({ post: postData, commandToRun: draftID ? () => {} : changeRouteName });
-  }, [SaveDraft, changeRouteName, draftID]);
+  const onChangeContent = useCallback(
+    (postData) => {
+      SaveDraft({ post: postData, commandToRun: draftID ? () => {} : changeRouteName });
+    },
+    [SaveDraft, changeRouteName, draftID]
+  );
 
-  useDebouncedEffect(() => {
-    if (Object.keys(editorData).length > 0){
-      onChangeContent(editorData);
-    }
-  }, [editorData], 2000);
+  useDebouncedEffect(
+    () => {
+      if (Object.keys(editorData).length > 0) {
+        onChangeContent(editorData);
+      }
+    },
+    [editorData],
+    2000
+  );
 };
 
 export default useSaveDraft;

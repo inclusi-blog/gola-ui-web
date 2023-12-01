@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import DraftTile from 'common-components/DraftTile';
-import { CancelToken } from "helpers/ajaxHelper";
-import { GetDrafts } from "../../new-story/draft.service";
+import { CancelToken } from 'helpers/ajaxHelper';
+import { GetDrafts } from '../../new-story/draft.service';
 
 const Drafts = () => {
   const [drafts, setDrafts] = useState([]);
@@ -15,12 +15,14 @@ const Drafts = () => {
 
   const getDrafts = () => {
     const cancelToken = CancelToken();
-    GetDrafts(cancelToken, 0, 5).then(({ data }) => {
-      setDrafts(data);
-    }).catch(err => {
-      // eslint-disable-next-line no-console
-      console.log('unable to fetch drafts', err);
-    });
+    GetDrafts(cancelToken, 0, 5)
+      .then(({ data }) => {
+        setDrafts(data);
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log('unable to fetch drafts', err);
+      });
     cancelTokens.push(cancelToken);
   };
 
@@ -35,7 +37,7 @@ const Drafts = () => {
   };
 
   const getDraftList = () => {
-    return drafts?.map((draft, id) => <DraftTile draftContent={draft} removeElement={() => removeDraft(id)}/>);
+    return drafts?.map((draft, id) => <DraftTile draftContent={draft} removeElement={() => removeDraft(id)} />);
   };
 
   return <div>{getDraftList()}</div>;

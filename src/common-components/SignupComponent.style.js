@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import {styled as muiStyled} from '@mui/material/styles';
-import {Container, Link, Typography} from "@mui/material";
+import { styled as muiStyled } from '@mui/material/styles';
+import { Container, Link, Typography } from '@mui/material';
 
 export const TermsConditionsLabel = muiStyled(Typography)`
   font-family: Poppins;

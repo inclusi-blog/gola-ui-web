@@ -115,19 +115,19 @@ export const SaveStatusText = styled(StoryTypeText)`
 `;
 
 export const ProfileNameStyle = styled.p`
-    font-family: Quando;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 18px;
-    color: #000000;
-    white-space: nowrap;
-    overflow: hidden;    
-    text-overflow: ellipsis; 
+  font-family: Quando;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const ProfileDropDownItems = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;

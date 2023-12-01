@@ -48,7 +48,7 @@ export const ApplyColumn = styled.div`
 `;
 
 export const CommentsDivider = styled.div`
-  border: 1px solid #DFDFDF;
+  border: 1px solid #dfdfdf;
   margin-top: 16px;
   margin-bottom: 18px;
 `;
@@ -110,7 +110,6 @@ export const ViewCommentListContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  
 `;
 
 export const SingleCommentContainer = styled.div`

@@ -1,16 +1,16 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from 'context-providers/auth-modal-provider/Context';
 import { useTranslation } from 'react-i18next';
 import { Redirect } from 'react-router';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
 import useBlur from 'hooks/useBlur';
 import useEscapeHandler from 'hooks/useEscapeHandler';
-import {Box, Container, Grid, useMediaQuery} from '@mui/material';
+import { Box, Container, Grid, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import {PillText} from "common-components/ComponentLibrary/Styles";
+import { PillText } from 'common-components/ComponentLibrary/Styles';
 import SignupOrSignInModal from './signup/SignupModal';
-import {Pill, SignupBorder, SignupText, TitleContent, TitleText} from './Welcome.Style';
-import PropTypes from "prop-types";
+import { Pill, SignupBorder, SignupText, TitleContent, TitleText } from './Welcome.Style';
+import PropTypes from 'prop-types';
 
 const styles = makeStyles({
   translationButton: {
@@ -25,11 +25,11 @@ const styles = makeStyles({
     marginTop: '62px',
     '@media (min-width: 360px)': {
       marginTop: '60px',
-      maxWidth: '282px'
+      maxWidth: '282px',
     },
     '@media (min-width: 533px)': {
       marginTop: '60px',
-      maxWidth: '507px'
+      maxWidth: '507px',
     },
     '@media (min-width: 768px)': {
       marginTop: '100px',
@@ -41,8 +41,7 @@ const styles = makeStyles({
       backgroundColor: '#fa163f',
     },
   },
-  welcomeSection: {
-  },
+  welcomeSection: {},
   titleBody: {
     '@media (min-width: 360px)': {
       width: '278px',
@@ -125,10 +124,10 @@ const styles = makeStyles({
     //     paddingLeft: '40px',
     //   }
     // },
-  }
+  },
 });
 
-const Welcome = ({location}) => {
+const Welcome = ({ location }) => {
   const { modalName, setModalName, showModal, setShowModal } = useContext(Context);
   const { isLoggedIn } = useContext(LoggedInContext);
   const style = styles();
@@ -227,11 +226,15 @@ const Welcome = ({location}) => {
           <TitleText lang={i18n.language}>{t('welcome.title')}</TitleText>
           <TitleContent lang={i18n.language}>{t('welcome.sentence')}</TitleContent>
         </Container>
-        <Container
-          style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}
-        >
+        <Container style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
           <Box sx={{ flexGrow: 1 }} className={style.pillsContainer}>
-            <Grid container rowSpacing={{ xs: 2, sm: 4, md: 6, lg: 5 }} columnSpacing={{ xs: 4, sm: 5, md: 6, lg: 7 }} style={{ marginLeft: 0, marginTop: 0 }} className={style.pillGrid}>
+            <Grid
+              container
+              rowSpacing={{ xs: 2, sm: 4, md: 6, lg: 5 }}
+              columnSpacing={{ xs: 4, sm: 5, md: 6, lg: 7 }}
+              style={{ marginLeft: 0, marginTop: 0 }}
+              className={style.pillGrid}
+            >
               {pills.map((item, index) => {
                 return (
                   <Grid item xs="auto" md={8} key={item.id} style={{ flexBasis: 'auto' }}>
@@ -277,7 +280,11 @@ const Welcome = ({location}) => {
         </Container>
       </Container>
       <If condition={showModal}>
-        <SignupOrSignInModal onClose={() => setShowModal(false)} isSignup={!!(modalName && modalName === 'signup')} verifier={verifier}/>
+        <SignupOrSignInModal
+          onClose={() => setShowModal(false)}
+          isSignup={!!(modalName && modalName === 'signup')}
+          verifier={verifier}
+        />
       </If>
     </section>
   );
@@ -285,8 +292,8 @@ const Welcome = ({location}) => {
 
 Welcome.propTypes = {
   location: PropTypes.shape({
-    state: PropTypes.shape
-  }).isRequired
+    state: PropTypes.shape,
+  }).isRequired,
 };
 
 export default Welcome;

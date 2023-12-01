@@ -6,7 +6,7 @@ import {
   GetPreSignPreviewImageURL,
   SyncPreviewImage,
   UpdateInterests,
-  UploadPreviewImage
+  UploadPreviewImage,
 } from '../draft.service';
 import {
   AddInterestTagText,
@@ -104,34 +104,40 @@ const PreviewCard = ({
   const onInputFileChange = (event) => {
     const file = event.target.files[0];
     const fileExtension = file.name.split('.').pop();
-    GetPreSignPreviewImageURL(fileExtension, draftID).then(({data})=>{
-      UploadPreviewImage(data.url, file).then(()=>{
-        const url = data.url.split('?')[0];
-        const urlPaths = url.split('/');
-        const uploadID = urlPaths.slice(urlPaths.length - 3);
-        SyncPreviewImage(uploadID.join('/'), draftID).then(()=>{
-          const reader = new FileReader();
-          reader.onload = function(event) {
-            setSelectedFile(event.target.result);
-            setPreviewImage(event.target.result);
-          };
-          reader.readAsDataURL(file);
-          setErrorStatus(false);
-        }).catch((err)=>{
-          // eslint-disable-next-line no-console
-          console.log(err);
-          setErrorStatus(true);
-        });
-      }).catch((err)=>{
+    GetPreSignPreviewImageURL(fileExtension, draftID)
+      .then(({ data }) => {
+        UploadPreviewImage(data.url, file)
+          .then(() => {
+            const url = data.url.split('?')[0];
+            const urlPaths = url.split('/');
+            const uploadID = urlPaths.slice(urlPaths.length - 3);
+            SyncPreviewImage(uploadID.join('/'), draftID)
+              .then(() => {
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                  setSelectedFile(event.target.result);
+                  setPreviewImage(event.target.result);
+                };
+                reader.readAsDataURL(file);
+                setErrorStatus(false);
+              })
+              .catch((err) => {
+                // eslint-disable-next-line no-console
+                console.log(err);
+                setErrorStatus(true);
+              });
+          })
+          .catch((err) => {
+            // eslint-disable-next-line no-console
+            console.log(err);
+            setErrorStatus(true);
+          });
+      })
+      .catch((err) => {
         // eslint-disable-next-line no-console
         console.log(err);
         setErrorStatus(true);
       });
-    }).catch((err)=>{
-      // eslint-disable-next-line no-console
-      console.log(err);
-      setErrorStatus(true);
-    });
   };
 
   return (

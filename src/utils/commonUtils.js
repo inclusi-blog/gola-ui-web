@@ -18,23 +18,20 @@ const getLikesUnit = (count) => {
 export const countFormatter = (Count) => {
   const count = String(Count);
   const unit = conversionMapper[getLikesUnit(count)];
-  const mainSegment = parseInt((count / unit.factor).toFixed(unit.roundOff),10);
+  const mainSegment = parseInt((count / unit.factor).toFixed(unit.roundOff), 10);
   return `${mainSegment}${unit.identifier}`;
 };
 
 export const validateEmail = (email) => {
   return String(email)
-      .toLowerCase()
-      .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
 };
 
 export const convertDateStringToFormattedDate = (inputDateString) => {
-  const months = [
-    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-  ];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
   const date = new Date(inputDateString);
   const month = months[date.getMonth()];
@@ -43,5 +40,3 @@ export const convertDateStringToFormattedDate = (inputDateString) => {
 
   return `${month} ${day}, ${year}`;
 };
-
-

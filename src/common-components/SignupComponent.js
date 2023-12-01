@@ -1,6 +1,6 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {debounce} from 'lodash';
+import { debounce } from 'lodash';
 import EmptyNotify from 'assets/images/EmptyNotify.svg';
 import WarningNotify from 'assets/images/WarningNotify.png';
 import ValidatorWarning from 'assets/images/ValidatorWarning.svg';
@@ -23,7 +23,7 @@ import {
   ValidationFactorContainer,
   ValidationFactorName,
 } from './SignupComponent.style';
-import {useMediaQuery} from "@mui/material";
+import { useMediaQuery } from '@mui/material';
 
 const SignupComponent = ({ renderUsernameField }) => {
   const showWarning = false;
@@ -143,10 +143,22 @@ const SignupComponent = ({ renderUsernameField }) => {
       >
         <AuthInputLabel>Email</AuthInputLabel>
         <If condition={emailAlreadyExists}>
-          <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img
+            src={WarningNotify}
+            width={matches ? 7 : 12}
+            height={matches ? 7 : 12}
+            alt="warning"
+            style={{ marginLeft: 6, marginRight: 8 }}
+          />
           <EmailExistenceError showExistsError={emailAlreadyExists}>Email already exists.</EmailExistenceError>
           <Else />
-          <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img
+            src={EmptyNotify}
+            width={matches ? 7 : 12}
+            height={matches ? 7 : 12}
+            alt="no warning"
+            style={{ marginLeft: 6, marginRight: 8 }}
+          />
         </If>
       </div>
       <EmailInput
@@ -161,34 +173,57 @@ const SignupComponent = ({ renderUsernameField }) => {
       />
       <PasswordContainer>
         <AuthInputLabel>Password</AuthInputLabel>
-        <SignupTooltip className="tooltip" arrow placement="right" title={
-          <div style={{background: 'white'}}>
+        <SignupTooltip
+          className="tooltip"
+          arrow
+          placement="right"
+          title={
+            <div style={{ background: 'white' }}>
               {isValidPassword.map((item) => {
                 return (
                   <ValidationFactorContainer key={item.id}>
-                    <img src={item.isValid ? SuccessTick : ValidatorWarning} width={12} height={12} alt="acceptance factor" />
+                    <img
+                      src={item.isValid ? SuccessTick : ValidatorWarning}
+                      width={12}
+                      height={12}
+                      alt="acceptance factor"
+                    />
                     <ValidationFactorName>{item.name}</ValidationFactorName>
                   </ValidationFactorContainer>
                 );
               })}
-          </div>
-        } open={showCritieria}>
+            </div>
+          }
+          open={showCritieria}
+        >
           <Choose>
             <When condition={showWarning}>
-              <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+              <img
+                src={WarningNotify}
+                width={matches ? 7 : 12}
+                height={matches ? 7 : 12}
+                alt="warning"
+                style={{ marginLeft: 6, marginRight: 8 }}
+              />
             </When>
             <Otherwise>
-              <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+              <img
+                src={EmptyNotify}
+                width={matches ? 7 : 12}
+                height={matches ? 7 : 12}
+                alt="no warning"
+                style={{ marginLeft: 6, marginRight: 8 }}
+              />
             </Otherwise>
           </Choose>
         </SignupTooltip>
-          <ReactIsCapsLockActive>
-            {(active) => (
-              <If condition={active}>
-                <CapslockNotifierText>Caps on</CapslockNotifierText>
-              </If>
-            )}
-          </ReactIsCapsLockActive>
+        <ReactIsCapsLockActive>
+          {(active) => (
+            <If condition={active}>
+              <CapslockNotifierText>Caps on</CapslockNotifierText>
+            </If>
+          )}
+        </ReactIsCapsLockActive>
       </PasswordContainer>
       <PasswordInput
         isError={passwordInvalidErr}
@@ -203,9 +238,7 @@ const SignupComponent = ({ renderUsernameField }) => {
           setPasswordValue(event.target.value);
         }}
       />
-      <SignInButton onClick={() => onSubmit()}>
-        Sign up
-      </SignInButton>
+      <SignInButton onClick={() => onSubmit()}>Sign up</SignInButton>
     </SignupWrapper>
   );
 };

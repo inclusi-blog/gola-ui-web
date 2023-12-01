@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import styled from 'styled-components';
-import {styled as muiStyled} from '@mui/material/styles';
-import {LoadingButton} from "@mui/lab";
-import {Button, Container, Box, Typography, Input, Tooltip} from "@mui/material";
-import {tooltipClasses} from "@mui/material/Tooltip";
+import { styled as muiStyled } from '@mui/material/styles';
+import { LoadingButton } from '@mui/lab';
+import { Button, Container, Box, Typography, Input, Tooltip } from '@mui/material';
+import { tooltipClasses } from '@mui/material/Tooltip';
 
 export const SignupHeader = muiStyled(Typography)`
   width: 279px;
@@ -637,7 +637,7 @@ export const UsernameInputWrapper = styled.div`
 export const SignupOuterContainer = muiStyled(Container)`
   ${(props) => props.theme.breakpoints.up('sm')} {
     width: 340px;
-    height: ${props => props.isSignup ? 400 : 375}px;
+    height: ${(props) => (props.isSignup ? 400 : 375)}px;
     padding-top: 8px;
     padding-bottom: 12px;
     padding-left: 5px;
@@ -646,7 +646,7 @@ export const SignupOuterContainer = muiStyled(Container)`
   
   ${(props) => props.theme.breakpoints.up('md')} {
     width: 340px;
-    height: ${props => props.isSignup ? 400 : 375}px;
+    height: ${(props) => (props.isSignup ? 400 : 375)}px;
     padding-top: 8px;
     padding-bottom: 12px;
     padding-left: 5px;
@@ -746,22 +746,22 @@ export const EmailNotifierIcon = muiStyled(Container)`
   }
 `;
 
-const CustomToolTip = muiStyled(({ className, ...props }) => (
-    <Tooltip {...props} classes={{ popper: className }}/>
-))(() => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: 'white',
-    color: 'rgba(0, 0, 0, 0.87)',
-    border: '1px solid black',
-    borderRadius: 8,
-  },
-  [`& .${tooltipClasses.arrow}`]: {
-    '&:before': {
-      background: 'white',
-      border: '1px solid black'
-    }
-  }
-}));
+const CustomToolTip = muiStyled(({ className, ...props }) => <Tooltip {...props} classes={{ popper: className }} />)(
+  () => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: 'white',
+      color: 'rgba(0, 0, 0, 0.87)',
+      border: '1px solid black',
+      borderRadius: 8,
+    },
+    [`& .${tooltipClasses.arrow}`]: {
+      '&:before': {
+        background: 'white',
+        border: '1px solid black',
+      },
+    },
+  })
+);
 
 export const SignupTooltip = muiStyled(CustomToolTip)`
   letter-spacing: 0em;

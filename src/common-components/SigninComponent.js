@@ -1,8 +1,8 @@
-import React, {useContext, useState} from 'react';
+import React, { useContext, useState } from 'react';
 import LoggedInContext from 'context-providers/loggedin-provider/LoggedInContext';
-import WarningNotify from "assets/images/WarningNotify.png";
-import EmptyNotify from "assets/images/EmptyNotify.svg";
-import {Tooltip, useMediaQuery} from "@mui/material";
+import WarningNotify from 'assets/images/WarningNotify.png';
+import EmptyNotify from 'assets/images/EmptyNotify.svg';
+import { Tooltip, useMediaQuery } from '@mui/material';
 import encrypt from '../helpers/encrypt';
 import {
   broadCastFetchLoginChallenge,
@@ -17,11 +17,8 @@ import {
   SignInButton,
   SignupWrapper,
 } from '../Screens/welcome/signup/Signup.style';
-import {
-  EmailExistenceError,
-  PasswordContainer,
-} from './SignupComponent.style';
-import {validateEmail} from "../utils/commonUtils";
+import { EmailExistenceError, PasswordContainer } from './SignupComponent.style';
+import { validateEmail } from '../utils/commonUtils';
 
 const SigninComponent = () => {
   const [email, setEmail] = useState('');
@@ -50,7 +47,7 @@ const SigninComponent = () => {
 
   const handleFailureLogin = (err) => {
     setIsLoading(false);
-    if (err?.response?.data?.errorCode === "ERR_IDP_INVALID_CREDENTIALS") {
+    if (err?.response?.data?.errorCode === 'ERR_IDP_INVALID_CREDENTIALS') {
       setPasswordErr('Invalid email or password');
     }
   };
@@ -71,7 +68,6 @@ const SigninComponent = () => {
     }
     setPasswordErr(null);
 
-
     const code = generateRandomString();
     let loginChallengeFromResponse = '';
     try {
@@ -88,37 +84,57 @@ const SigninComponent = () => {
   return (
     <SignupWrapper>
       <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
         <AuthInputLabel>Email</AuthInputLabel>
         <If condition={emailErr}>
-          <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img
+            src={WarningNotify}
+            width={matches ? 7 : 12}
+            height={matches ? 7 : 12}
+            alt="warning"
+            style={{ marginLeft: 6, marginRight: 8 }}
+          />
           <EmailExistenceError showExistsError={emailErr}>{emailErr}</EmailExistenceError>
           <Else />
-          <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+          <img
+            src={EmptyNotify}
+            width={matches ? 7 : 12}
+            height={matches ? 7 : 12}
+            alt="no warning"
+            style={{ marginLeft: 6, marginRight: 8 }}
+          />
         </If>
       </div>
       <EmailInput placeholder="example@gmail.com" value={email} onChange={({ target }) => setEmail(target.value)} />
       <PasswordContainer>
         <AuthInputLabel>Password</AuthInputLabel>
-        <Tooltip arrow placement="right" title={
-          <div>
-            Use a secure password
-          </div>
-        }>
-          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+        <Tooltip arrow placement="right" title={<div>Use a secure password</div>}>
+          <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
             <Choose>
               <When condition={passwordErr}>
-                <img src={WarningNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="warning" style={{ marginLeft: 6, marginRight: 8 }} />
+                <img
+                  src={WarningNotify}
+                  width={matches ? 7 : 12}
+                  height={matches ? 7 : 12}
+                  alt="warning"
+                  style={{ marginLeft: 6, marginRight: 8 }}
+                />
                 <EmailExistenceError showExistsError={passwordErr}>{passwordErr}</EmailExistenceError>
               </When>
               <Otherwise>
-                <img src={EmptyNotify} width={matches ? 7 : 12} height={matches ? 7 : 12} alt="no warning" style={{ marginLeft: 6, marginRight: 8 }} />
+                <img
+                  src={EmptyNotify}
+                  width={matches ? 7 : 12}
+                  height={matches ? 7 : 12}
+                  alt="no warning"
+                  style={{ marginLeft: 6, marginRight: 8 }}
+                />
               </Otherwise>
             </Choose>
           </div>

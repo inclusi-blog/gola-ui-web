@@ -6,7 +6,7 @@ import {
   FollowInterest,
   GetCategoriesAndInterests,
   GetUserFollowingInterest,
-  UnFollowInterest
+  UnFollowInterest,
 } from './follow.service';
 import {
   MainBlock,
@@ -75,10 +75,10 @@ const FollowingPage = () => {
       .then(({ data }) => {
         if (data.status === RESPONSE_STATUSES.SUCCESS) {
           const updatedInterests = [];
-          categories.forEach(category => {
+          categories.forEach((category) => {
             updatedInterests.push({
               name: category.name,
-              interestList: category.interestList.map(interest => {
+              interestList: category.interestList.map((interest) => {
                 if (interest.id === interestID) {
                   return {
                     ...interest,
@@ -86,17 +86,18 @@ const FollowingPage = () => {
                   };
                 }
                 return interest;
-              })
+              }),
             });
           });
           // eslint-disable-next-line no-console
           console.log('this is updated', updatedInterests);
           setCategories(updatedInterests);
         }
-      }).catch((err) => {
-      // eslint-disable-next-line no-console
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
         console.log('unable to unfollow interests ', err);
-    });
+      });
   };
 
   const getInterestPills = () => {

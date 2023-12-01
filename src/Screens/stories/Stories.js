@@ -1,6 +1,6 @@
 /* eslint react/prop-types: 0 */
 import React from 'react';
-import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
+import { Route, Switch, Redirect, useHistory } from 'react-router-dom';
 import Drafts from './Drafts';
 import Published from './Published';
 import { RoutedTabs, NavTab } from './router-nav-tabs';
@@ -16,7 +16,7 @@ export default ({ match }) => {
           <NewStoryButton isBackgroundLessButton style={{ marginRight: 30 }}>
             <ButtonLabel isBackgroundLessButton>IMPORT</ButtonLabel>
           </NewStoryButton>
-          <NewStoryButton isBackgroundLessButton={false} onClick={() => history.push("/new-story")}>
+          <NewStoryButton isBackgroundLessButton={false} onClick={() => history.push('/new-story')}>
             <ButtonLabel isBackgroundLessButton={false}>New story</ButtonLabel>
           </NewStoryButton>
         </div>

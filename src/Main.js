@@ -11,8 +11,8 @@ import InterestPage from './Screens/Interestpage/InterestPage';
 import PostView from './Screens/postView/PostView';
 import ReadingList from './Screens/ReadingList/ReadingList';
 import FollowingPage from './Screens/following-page/FollowingPage';
-import {NEW_STORY_PATH, STORIES_PATH} from './helpers/routes';
-import UserProfilePage from "./Screens/UserProfilePage/UserProfilePage";
+import { NEW_STORY_PATH, STORIES_PATH } from './helpers/routes';
+import UserProfilePage from './Screens/UserProfilePage/UserProfilePage';
 
 const Main = () => {
   return (

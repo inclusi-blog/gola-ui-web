@@ -15,11 +15,7 @@ import InlineCode from '@editorjs/inline-code';
 import SimpleImage from '@editorjs/simple-image';
 import Mention from '@mrpritchett/editorjs-mentions';
 import Undo from 'editorjs-undo';
-import {
-  GetPreSignDraftImageURL, SyncDraftImage,
-  UploadDraftImage,
-} from "../draft.service";
-
+import { GetPreSignDraftImageURL, SyncDraftImage, UploadDraftImage } from '../draft.service';
 
 const EditorBasicConfig = (draftID) => {
   return {
@@ -32,8 +28,8 @@ const EditorBasicConfig = (draftID) => {
     linkTool: {
       class: LinkTool,
       config: {
-        endpoint: 'http://localhost:8080'
-      }
+        endpoint: 'http://localhost:8080',
+      },
     },
     image: {
       class: Image,
@@ -41,31 +37,37 @@ const EditorBasicConfig = (draftID) => {
         uploader: {
           uploadByFile: async (file) => {
             const fileExtension = file.name.split('.').pop();
-            return GetPreSignDraftImageURL(fileExtension, draftID).then(({data})=>{
-              return UploadDraftImage(data.url, file).then(()=>{
-                const url = data.url.split('?')[0];
-                const urlPaths = url.split('/');
-                const uploadID = urlPaths.slice(urlPaths.length - 3);
-                return SyncDraftImage(uploadID.join('/'), draftID).then(({data: uploadedData})=>{
-                  return {
-                    success: 1,
-                    file: {
-                      url: `https://api.narratenet.com/api/post/v1/draft/image/${draftID}/${uploadedData.image_id}`,
-                      // any other image data you want to store, such as width, height, color, extension, etc
-                    }
-                  };
-                }).catch((err)=>{
-                  // eslint-disable-next-line no-console
-                  console.log(err);
-                });
-              }).catch((err)=>{
+            return GetPreSignDraftImageURL(fileExtension, draftID)
+              .then(({ data }) => {
+                return UploadDraftImage(data.url, file)
+                  .then(() => {
+                    const url = data.url.split('?')[0];
+                    const urlPaths = url.split('/');
+                    const uploadID = urlPaths.slice(urlPaths.length - 3);
+                    return SyncDraftImage(uploadID.join('/'), draftID)
+                      .then(({ data: uploadedData }) => {
+                        return {
+                          success: 1,
+                          file: {
+                            url: `https://api.narratenet.com/api/post/v1/draft/image/${draftID}/${uploadedData.image_id}`,
+                            // any other image data you want to store, such as width, height, color, extension, etc
+                          },
+                        };
+                      })
+                      .catch((err) => {
+                        // eslint-disable-next-line no-console
+                        console.log(err);
+                      });
+                  })
+                  .catch((err) => {
+                    // eslint-disable-next-line no-console
+                    console.log(err);
+                  });
+              })
+              .catch((err) => {
                 // eslint-disable-next-line no-console
                 console.log(err);
               });
-            }).catch((err)=>{
-              // eslint-disable-next-line no-console
-              console.log(err);
-            });
           },
         },
       },
@@ -79,10 +81,9 @@ const EditorBasicConfig = (draftID) => {
     simpleImage: SimpleImage,
     mention: {
       class: Mention,
-      config: {
-      }
+      config: {},
     },
-    undo: Undo
+    undo: Undo,
   };
 };
 

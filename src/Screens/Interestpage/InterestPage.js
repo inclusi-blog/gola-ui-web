@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import FollowerPic from 'assets/images/followerPic.svg';
 import PostTile from 'common-components/PostTile';
-import {useParams} from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import {
   MainContainer,
   PageTitle,
@@ -11,35 +11,39 @@ import {
   FollowLabel,
   BorderLine,
 } from './InterestPage.style';
-import { GetInterestDetails, GetPostsByInterest} from "./interestpage.service";
-import {countFormatter} from "../../utils/commonUtils";
+import { GetInterestDetails, GetPostsByInterest } from './interestpage.service';
+import { countFormatter } from '../../utils/commonUtils';
 
 const InterestPage = () => {
   const [postDetails, setPostDetails] = useState([]);
   const [interestDetails, setInterestDetails] = useState({});
-  const {interestName} = useParams();
+  const { interestName } = useParams();
 
-  useEffect(()=>{
-    GetInterestDetails(interestName).then(({data})=>{
-      setInterestDetails(data);
-    }).catch((err)=>{
-      // eslint-disable-next-line no-console
-      console.log("Unable to get interest details.",err);
-    });
-  },[]);
-
-  useEffect(()=>{
-    if(interestDetails.interest_id){
-      GetPostsByInterest(interestDetails.interest_id).then(({data})=>{
-        if (data) {
-          setPostDetails(data);
-        }
-      }).catch((err)=>{
+  useEffect(() => {
+    GetInterestDetails(interestName)
+      .then(({ data }) => {
+        setInterestDetails(data);
+      })
+      .catch((err) => {
         // eslint-disable-next-line no-console
-        console.log("Unable to get post details by interest.",err);
+        console.log('Unable to get interest details.', err);
       });
+  }, []);
+
+  useEffect(() => {
+    if (interestDetails.interest_id) {
+      GetPostsByInterest(interestDetails.interest_id)
+        .then(({ data }) => {
+          if (data) {
+            setPostDetails(data);
+          }
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('Unable to get post details by interest.', err);
+        });
     }
-  },[interestDetails]);
+  }, [interestDetails]);
 
   const OnBookmarkStatusChange = (postID) => {
     setPostDetails(
@@ -80,11 +84,11 @@ const InterestPage = () => {
         isRecentEdit: false,
       };
       return (
-          <PostTile
-              details={details}
-              onBookmarkChange={(postID) => OnBookmarkStatusChange(postID)}
-              OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
-          />
+        <PostTile
+          details={details}
+          onBookmarkChange={(postID) => OnBookmarkStatusChange(postID)}
+          OnReadLaterChange={(selectedIndex) => OnReadLaterStatusChange(selectedIndex)}
+        />
       );
     });
   };
@@ -112,7 +116,7 @@ const InterestPage = () => {
               <FollowButton>
                 <If condition={interestDetails.is_followed}>
                   <FollowLabel>Following</FollowLabel>
-                  <Else/>
+                  <Else />
                   <FollowLabel>Follow</FollowLabel>
                 </If>
               </FollowButton>

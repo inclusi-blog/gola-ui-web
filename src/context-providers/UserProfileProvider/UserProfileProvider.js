@@ -1,27 +1,27 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Context from './UserProfileContext';
-import LoggedInContext from "../loggedin-provider/LoggedInContext";
-import {getUserProfileDetails} from "../../Screens/UserProfilePage/userprofile.service";
+import LoggedInContext from '../loggedin-provider/LoggedInContext';
+import { getUserProfileDetails } from '../../Screens/UserProfilePage/userprofile.service';
 
 const UserProfileProvider = ({ children }) => {
   const [showProfileTooltip, setShowProfileTooltip] = useState(false);
   const [userDetails, setUserDetails] = useState({});
-  const {isLoggedIn} = useContext(LoggedInContext);
+  const { isLoggedIn } = useContext(LoggedInContext);
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            getUserProfileDetails()
-                .then(({ data }) => {
-                    console.log(data);
-                    setUserDetails(data);
-                })
-                .catch((err) => {
-                    // eslint-disable-next-line no-console
-                    console.log('something went wrong - unable to get User Profile Details : ', err);
-                });
-        }
-    }, [isLoggedIn]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserProfileDetails()
+        .then(({ data }) => {
+          console.log(data);
+          setUserDetails(data);
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log('something went wrong - unable to get User Profile Details : ', err);
+        });
+    }
+  }, [isLoggedIn]);
 
   return (
     <Context.Provider
@@ -29,7 +29,7 @@ const UserProfileProvider = ({ children }) => {
         showProfileTooltip,
         setShowProfileTooltip,
         userDetails,
-        setUserDetails
+        setUserDetails,
       }}
     >
       {children}

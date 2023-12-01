@@ -67,7 +67,6 @@ export const HorizontalLine = styled.div`
 `;
 
 export const ReadMore = styled.div`
-  width: 86px;
   height: 21px;
   font-family: Roboto;
   font-style: normal;

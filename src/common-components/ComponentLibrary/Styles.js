@@ -23,7 +23,7 @@ export const AppTitle = styled(Typography)`
     line-height: 147px;
     letter-spacing: 0em;
   }
-  
+
   ${(props) => props.theme.breakpoints.up('xl')} {
     font-size: 96px;
     font-style: normal;
@@ -61,7 +61,7 @@ export const AppDescription = styled(Typography)`
     line-height: 40px;
     letter-spacing: 0em;
   }
-  
+
   ${(props) => props.theme.breakpoints.up('xl')} {
     font-size: 24px;
     font-style: normal;
@@ -79,7 +79,6 @@ export const PillText = styled(Typography)`
   letter-spacing: 0em;
   text-align: center;
 
-  
   ${(props) => props.theme.breakpoints.up('sm')} {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -89,7 +88,7 @@ export const PillText = styled(Typography)`
     line-height: 20px;
     font-size: 12px;
   }
-  
+
   ${(props) => props.theme.breakpoints.up('md')} {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -99,7 +98,7 @@ export const PillText = styled(Typography)`
     font-size: 16px;
     line-height: 27px;
   }
-  
+
   ${(props) => props.theme.breakpoints.up('lg')} {
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -109,7 +108,7 @@ export const PillText = styled(Typography)`
     font-size: 16px;
     line-height: 27px;
   }
-  
+
   ${(props) => props.theme.breakpoints.up('xl')} {
     text-overflow: unset;
     white-space: inherit;

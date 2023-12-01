@@ -3,16 +3,16 @@ import { useHistory } from 'react-router';
 import { useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import useBlur from '../hooks/useBlur';
-import useDebouncedEffect from "../hooks/useDebounceEffect";
+import useDebouncedEffect from '../hooks/useDebounceEffect';
 import useDraft from '../hooks/useDraft';
 import useEscapeHandler from '../hooks/useEscapeHandler';
-import useSaveDraft from "../hooks/useSaveDraft";
+import useSaveDraft from '../hooks/useSaveDraft';
 import { GetDraft, SaveTagline } from './draft.service';
-import PostEditor from "./editor/Editor";
+import PostEditor from './editor/Editor';
 import PreviewCard from './editor/PreviewCard';
 import './fab-style.css';
 import DraftPreviewModal from './preview-modal/DraftPreviewModal';
-import EditorBasicConfig from "./editor/constants";
+import EditorBasicConfig from './editor/constants';
 
 const NewStory = () => {
   const [contentData, setContentData] = useState({});
@@ -28,9 +28,9 @@ const NewStory = () => {
     postRedirect,
     redirectUrl,
     draftID,
-    isInitiallySaved
+    isInitiallySaved,
   } = useDraft();
-  useSaveDraft({editorData: contentData});
+  useSaveDraft({ editorData: contentData });
   const [basicConfig, setBasicConfig] = useState(EditorBasicConfig(draftID));
   const [titleText, setTitleText] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
@@ -56,11 +56,15 @@ const NewStory = () => {
       });
   };
 
-  useDebouncedEffect(() => {
-    if (tagline){
-      SaveTaglineAndChangeRouteName(tagline);
-    }
-  },[tagline], 3000);
+  useDebouncedEffect(
+    () => {
+      if (tagline) {
+        SaveTaglineAndChangeRouteName(tagline);
+      }
+    },
+    [tagline],
+    3000
+  );
 
   useEffect(() => {
     if (contentData?.blocks) {
@@ -90,12 +94,12 @@ const NewStory = () => {
         });
       return;
     }
-    setContentData({time: Date.now()});
+    setContentData({ time: Date.now() });
   }, []);
 
   useEffect(() => {
     if (isInitiallySaved) {
-      console.log("initially saved so updating the editor config");
+      console.log('initially saved so updating the editor config');
       setBasicConfig(EditorBasicConfig(draftID));
     }
   }, [draftID, isInitiallySaved]);
@@ -138,7 +142,7 @@ const NewStory = () => {
   useBlur({ nodes: ['post-login-header', 'new-story'], isVisible: showPreviewModal });
 
   const updateDraft = (postData) => {
-      setContentData(postData);
+    setContentData(postData);
   };
 
   return (
@@ -182,11 +186,7 @@ const NewStory = () => {
             marginTop: titleText?.length ? 83 : 246,
           }}
         >
-          <PostEditor
-            onChangeRoute={updateDraft}
-            value={contentData}
-            basicConfig={basicConfig}
-          />
+          <PostEditor onChangeRoute={updateDraft} value={contentData} basicConfig={basicConfig} />
         </div>
         <DraftPreviewModal onClose={() => setShowPreviewModal(false)} showPreviewModal={showPreviewModal} />
       </div>

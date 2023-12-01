@@ -12,21 +12,23 @@ import CommonToolTip from 'common-components/CommonToolTip/CommonToolTip';
 import UserProfileContext from 'context-providers/UserProfileProvider/UserProfileContext';
 import useOutsideAlerter from 'hooks/useOutsideAlerter';
 import CustomProfileButton from 'common-components/CustomProfileButton';
-import {NEW_STORY_PATH, STORIES_PATH} from 'helpers/routes';
+import { NEW_STORY_PATH, STORIES_PATH } from 'helpers/routes';
 import {
-    AppHeaderName,
-    HeaderWrapper,
-    LeftHeader,
-    LogoIcon,
-    RightHeader,
-    Explore,
-    SearchIcon,
-    Bookmark,
-    PublishButton,
-    PublishButtonText,
-    StoryTypeText,
-    SaveStatusText,
-    ProfileContainer, ProfileNameStyle, ProfileDropDownItems,
+  AppHeaderName,
+  HeaderWrapper,
+  LeftHeader,
+  LogoIcon,
+  RightHeader,
+  Explore,
+  SearchIcon,
+  Bookmark,
+  PublishButton,
+  PublishButtonText,
+  StoryTypeText,
+  SaveStatusText,
+  ProfileContainer,
+  ProfileNameStyle,
+  ProfileDropDownItems,
 } from './Header.style';
 import LanguageChangeButton from '../LanugageChangeButton';
 
@@ -49,7 +51,16 @@ const Header = ({ location: { pathname } }) => {
     <HeaderWrapper id="post-login-header">
       <div style={{ width: '1260px', display: 'flex', flexDirection: 'row', alignItems: 'center', height: '64px' }}>
         <LeftHeader>
-          <Link style={{ display: 'flex', flexDirection: 'row', underline: 'none', alignItems: 'center', textDecoration: 'none'}} to="/">
+          <Link
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              underline: 'none',
+              alignItems: 'center',
+              textDecoration: 'none',
+            }}
+            to="/"
+          >
             <LogoIcon alt="logo" src={Logo} />
             <AppHeaderName>{t('welcome.title')}</AppHeaderName>
           </Link>
@@ -97,8 +108,8 @@ const Header = ({ location: { pathname } }) => {
                   <div style={{ width: 208, height: 497 }}>
                     <ProfileNameStyle>{userDetails.name ? userDetails.name : userDetails.username}</ProfileNameStyle>
                     <ProfileDropDownItems>
-                        <CustomProfileButton path={NEW_STORY_PATH} buttonName="New Story"/>
-                        <CustomProfileButton path={STORIES_PATH} buttonName="My Stories"/>
+                      <CustomProfileButton path={NEW_STORY_PATH} buttonName="New Story" />
+                      <CustomProfileButton path={STORIES_PATH} buttonName="My Stories" />
                     </ProfileDropDownItems>
                   </div>
                 );
