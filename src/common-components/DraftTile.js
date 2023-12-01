@@ -1,10 +1,9 @@
 import moment from "moment";
 import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import MoreIcon from '@mui/icons-material/MoreHoriz';
-import {useHistory} from "react-router-dom";
 import {
   ApplyRow,
   ApplyColumn,
