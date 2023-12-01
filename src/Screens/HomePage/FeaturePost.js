@@ -28,7 +28,8 @@ const FeaturePost = ({post}) => {
         setAnchorElUser(null);
     };
 
-    const handleClick = () => {
+    const handleClick = (handler) => {
+        handler();
         handleCloseUserMenu();
     };
     return (
@@ -101,7 +102,7 @@ const FeaturePost = ({post}) => {
                                 onClose={handleCloseUserMenu}
                             >
                                 {settings.map((setting) => (
-                                    <MenuItem key={setting.name} onClick={() => handleClick()}>
+                                    <MenuItem key={setting.name} onClick={() => handleClick(setting.handler)}>
                                         <Typography textAlign="center">{setting.name}</Typography>
                                     </MenuItem>
                                 ))}

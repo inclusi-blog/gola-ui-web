@@ -43,8 +43,8 @@ const GeneralFeed = () => {
   const { selectedSort } = useGeneralFeedSorter();
   const [posts, setPosts] = useState([]);
   const [start, setStart] = useState(0);
-  const settings = [{name: "Open", handler: () => {}}];
   const history = useHistory();
+  const settings = [{name: "Open", handler: (authorName, url) => history.push(`/@${authorName}/${url}`)}];
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
@@ -55,8 +55,8 @@ const GeneralFeed = () => {
     setAnchorElUser(null);
   };
 
-  const handleClick = (handler) => {
-    handler();
+  const handleClick = (author_name, url, handler) => {
+    handler(author_name, url);
     handleCloseUserMenu();
   };
 
@@ -168,7 +168,7 @@ const GeneralFeed = () => {
                           onClose={handleCloseUserMenu}
                       >
                         {settings.map((setting) => (
-                            <MenuItem key={setting.name} onClick={() => handleClick(setting.handler)}>
+                            <MenuItem key={setting.name} onClick={() => handleClick(post.author_name, post.url, setting.handler)}>
                               <Typography textAlign="center">{setting.name}</Typography>
                             </MenuItem>
                         ))}
