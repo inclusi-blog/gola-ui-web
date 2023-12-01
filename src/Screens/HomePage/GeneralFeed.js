@@ -35,6 +35,7 @@ import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import MoreIcon from "@mui/icons-material/MoreHoriz";
 import {DeleteDraft} from "../../new-story/draft.service";
 import {useHistory} from "react-router-dom";
+import FeaturePost from "./FeaturePost";
 
 const GeneralFeed = () => {
   // eslint-disable-next-line no-unused-vars
@@ -44,12 +45,26 @@ const GeneralFeed = () => {
   const [start, setStart] = useState(0);
   const settings = [{name: "Open", handler: () => {}}];
   const history = useHistory();
+  const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const handleClick = (handler) => {
+    handler();
+    handleCloseUserMenu();
+  };
 
   useEffect(() => {
     GetHomeFeed(start, 5).then(({data}) => {
       setPosts(data);
     }).catch((err) => {
-      console.log("unable to fetch posts ", err)
+      console.log("unable to fetch posts ", err);
     });
   }, []);
 
@@ -79,76 +94,6 @@ const GeneralFeed = () => {
   useEffect(() => {
     sidebarOptionsConfig[selectedSort]();
   }, [selectedSort]);
-
-  const FeaturePost = ({post}) => {
-    return (
-        <div style={{ width: 397, height: 464 }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <PostPicture src={post.preview_image} style={{ display: 'flex', width: 397, height: 326 }} />
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div>
-              <PostTitle
-                  style={{ display: 'flex', marginTop: 8, fontSize: 20, width: 397, height: 78, marginBottom: 0 }}
-              >
-                {post.title}
-              </PostTitle>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'row', height: 57 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', width: 280, height: 57, flex: 3 }}>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <PostDate style={{ margin: 5, marginLeft: 1, marginRight: 11 }}>{convertDateStringToFormattedDate(post.published_date)}</PostDate>
-                  <For each="tag" of={post.interest_names} index="idx">
-                    <If condition={idx < 3}>
-                      <PostTags style={{ marginRight: 5, marginLeft: 5, marginTop: 0, marginBottom: 0 }}> {tag}</PostTags>
-                    </If>
-                  </For>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <PostAuthorName onClick={() => history.push(`/@${post.author_name}`)} style={{ margin: 2, marginTop: 5 }}>{post.author_name}</PostAuthorName>
-                </div>
-              </div>
-              <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    alignItems: 'flex-end',
-                    height: 55,
-                    flex: 1,
-                    margin: 0,
-                  }}
-              >
-                <PostSuperSymbol src={Super} style={{ width: 15, height: 19, margin: 0, marginBottom: 10 }} />
-                <PostLikes style={{ width: 41, height: 36, margin: 0, marginLeft: 4 }}>{countFormatter(post.like_count)}</PostLikes>
-                <div
-                    style={{ display: 'flex', width: 18, height: 4, marginBottom: 16, marginLeft: 12, cursor: 'pointer' }}
-                >
-                  <PostDots src={ThreeDots} style={{ display: 'flex', width: 4, height: 4, marginRight: 3 }} />
-                  <PostDots src={ThreeDots} style={{ display: 'flex', width: 4, height: 4, marginRight: 3 }} />
-                  <PostDots src={ThreeDots} style={{ display: 'flex', width: 4, height: 4 }} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    );
-  };
-
-  const [anchorElUser, setAnchorElUser] = useState(null);
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleClick = () => {
-    handleCloseUserMenu();
-  };
 
   return (
     <div>
@@ -223,7 +168,7 @@ const GeneralFeed = () => {
                           onClose={handleCloseUserMenu}
                       >
                         {settings.map((setting) => (
-                            <MenuItem key={setting.name} onClick={() => handleClick()}>
+                            <MenuItem key={setting.name} onClick={() => handleClick(setting.handler)}>
                               <Typography textAlign="center">{setting.name}</Typography>
                             </MenuItem>
                         ))}

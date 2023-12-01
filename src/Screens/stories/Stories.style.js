@@ -17,11 +17,16 @@ export const StoriesTitleRow = styled.div`
   justify-content: space-between;
 `;
 
-export const NewStoryButton = styled(Button)`
-  height: 20px;
+export const NewStoryButton = styled.button`
+  height: 35px;
   padding: 8px 20px;
   background-color: ${(props) => (props.isBackgroundLessButton ? 'white' : '#FA163F')};
   cursor: default;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
 `;
 
 export const ButtonLabel = styled(NewStoryLabel)`

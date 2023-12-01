@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
 import {IconButton, Menu, MenuItem, Tooltip, Typography} from "@mui/material";
 import MoreIcon from '@mui/icons-material/MoreHoriz';
+import {useHistory} from "react-router-dom";
 import {
   ApplyRow,
   ApplyColumn,
@@ -15,7 +16,6 @@ import {
 } from './DraftList.style';
 import {PostHeadLine} from "./PostTile.style";
 import {DeleteDraft} from "../new-story/draft.service";
-import {useHistory} from "react-router";
 
 const DraftTile = ({ draftContent, removeElement }) => {
   const createdAt = moment(draftContent.created_at);
