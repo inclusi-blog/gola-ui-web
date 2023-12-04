@@ -93,7 +93,7 @@ const GeneralFeed = () => {
 
         <SidePostContainer style={{ display: 'flex', flexDirection: 'column', marginLeft: 54 }}>
           <If condition={posts.length >= 4}>
-            <For each="post" of={posts.slice(1,4)} index="idx">
+            <For each="post" of={posts.slice(1,5)} index="idx">
               <div style={{ display: 'flex', width: 416, height: 137 }}>
                 <div style={{ width: 256, height: 137, marginRight: 25 }}>
                   <div style={{ display: 'flex', width: 255, height: 83 }}>
