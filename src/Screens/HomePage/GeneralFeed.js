@@ -92,103 +92,105 @@ const GeneralFeed = () => {
         </If>
 
         <SidePostContainer style={{ display: 'flex', flexDirection: 'column', marginLeft: 54 }}>
-          <For each="post" of={posts} index="idx">
-            <div style={{ display: 'flex', width: 416, height: 137 }}>
-              <div style={{ width: 256, height: 137, marginRight: 25 }}>
-                <div style={{ display: 'flex', width: 255, height: 83 }}>
-                  <PostTitle style={{ margin: 0, fontSize: 16 }}>{post.title}</PostTitle>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
-                    <div style={{ display: 'flex', width: 195, height: 22 }}>
-                      <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14, width: 85 }}>
-                          {convertDateStringToFormattedDate(post.published_date)}
-                        </PostDate>
-                        <For each="tag" of={post.interest_names} index="idx">
-                          <If condition={idx < 3}>
-                            <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>{tag}</PostTags>
-                          </If>
-                        </For>
-                      </div>
-                    </div>
-                    <div
-                      style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}
-                    >
-                      <div style={{ display: 'flex', marginTop: 4 }}>
-                        <PostAuthorName
-                          onClick={() => history.push(`/@${post.author_name}`)}
-                          style={{ margin: 0, fontSize: 14 }}
-                        >
-                          {post.author_name}
-                        </PostAuthorName>
-                      </div>
-                    </div>
+          <If condition={posts.length >= 4}>
+            <For each="post" of={posts.slice(1,4)} index="idx">
+              <div style={{ display: 'flex', width: 416, height: 137 }}>
+                <div style={{ width: 256, height: 137, marginRight: 25 }}>
+                  <div style={{ display: 'flex', width: 255, height: 83 }}>
+                    <PostTitle style={{ margin: 0, fontSize: 16 }}>{post.title}</PostTitle>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                    <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
-                    <PostLikes
-                      style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}
-                    >
-                      {countFormatter(post.like_count)}
-                    </PostLikes>
-                    <div
-                      style={{
-                        display: 'flex',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <Tooltip title="Open settings">
-                        <IconButton
-                          size="small"
-                          aria-label="display more actions"
-                          edge="end"
-                          color="inherit"
-                          onClick={(e) => handleOpenUserMenu(e)}
-                        >
-                          <MoreIcon />
-                        </IconButton>
-                      </Tooltip>
-                      <Menu
-                        sx={{ mt: '45px' }}
-                        id="menu-appbar"
-                        anchorEl={anchorElUser}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        keepMounted
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={Boolean(anchorElUser)}
-                        onClose={handleCloseUserMenu}
+                  <div style={{ display: 'flex', flexDirection: 'row' }}>
+                    <div style={{ display: 'flex', width: 195, flexDirection: 'column', height: 54 }}>
+                      <div style={{ display: 'flex', width: 195, height: 22 }}>
+                        <div style={{ display: 'flex', flexDirection: 'row' }}>
+                          <PostDate style={{ margin: 0, marginTop: 3, fontSize: 14, width: 85 }}>
+                            {convertDateStringToFormattedDate(post.published_date)}
+                          </PostDate>
+                          <For each="tag" of={post.interest_names} index="idx">
+                            <If condition={idx < 3}>
+                              <PostTags style={{ fontSize: 13, margin: 0, marginLeft: 6 }}>{tag}</PostTags>
+                            </If>
+                          </For>
+                        </div>
+                      </div>
+                      <div
+                          style={{ display: 'flex', justifyContent: 'space-between', width: 195, height: 24, marginTop: 8 }}
                       >
-                        {settings.map((setting) => (
-                          <MenuItem
-                            key={setting.name}
-                            onClick={() => handleClick(post.author_name, post.url, setting.handler)}
+                        <div style={{ display: 'flex', marginTop: 4 }}>
+                          <PostAuthorName
+                              onClick={() => history.push(`/@${post.author_name}`)}
+                              style={{ margin: 0, fontSize: 14 }}
                           >
-                            <Typography textAlign="center">{setting.name}</Typography>
-                          </MenuItem>
-                        ))}
-                      </Menu>
+                            {post.author_name}
+                          </PostAuthorName>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end' }}>
+                      <PostSuperSymbol src={Super} style={{ width: 11, height: 14, marginBottom: 6, marginRight: 4 }} />
+                      <PostLikes
+                          style={{ display: 'flex', width: 27, height: 24, marginBottom: 5, marginTop: 0, fontSize: 16 }}
+                      >
+                        {countFormatter(post.like_count)}
+                      </PostLikes>
+                      <div
+                          style={{
+                            display: 'flex',
+                            cursor: 'pointer',
+                          }}
+                      >
+                        <Tooltip title="Open settings">
+                          <IconButton
+                              size="small"
+                              aria-label="display more actions"
+                              edge="end"
+                              color="inherit"
+                              onClick={(e) => handleOpenUserMenu(e)}
+                          >
+                            <MoreIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Menu
+                            sx={{ mt: '45px' }}
+                            id="menu-appbar"
+                            anchorEl={anchorElUser}
+                            anchorOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            keepMounted
+                            transformOrigin={{
+                              vertical: 'top',
+                              horizontal: 'right',
+                            }}
+                            open={Boolean(anchorElUser)}
+                            onClose={handleCloseUserMenu}
+                        >
+                          {settings.map((setting) => (
+                              <MenuItem
+                                  key={setting.name}
+                                  onClick={() => handleClick(post.author_name, post.url, setting.handler)}
+                              >
+                                <Typography textAlign="center">{setting.name}</Typography>
+                              </MenuItem>
+                          ))}
+                        </Menu>
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div style={{ display: 'flex', width: 135, height: 135 }}>
+                  <PostPicture src={post.preview_image} width={135} height={135} />
+                </div>
               </div>
-              <div style={{ display: 'flex', width: 135, height: 135 }}>
-                <PostPicture src={post.preview_image} width={135} height={135} />
-              </div>
-            </div>
 
-            <If condition={idx !== posts.length - 1}>
-              <HorizontalLine
-                style={{ width: 416, height: 0, right: 260, top: 349, marginTop: 12, marginBottom: 15 }}
-              />
-            </If>
-          </For>
+              <If condition={idx !== posts.length - 1}>
+                <HorizontalLine
+                    style={{ width: 416, height: 0, right: 260, top: 349, marginTop: 12, marginBottom: 15 }}
+                />
+              </If>
+            </For>
+          </If>
         </SidePostContainer>
       </GeneralPostsContainer>
 
@@ -196,8 +198,8 @@ const GeneralFeed = () => {
         <ReadMore style={{ display: 'flex', marginTop: 53, marginLeft: 407, flex: 1 }}>Read More</ReadMore>
         <Split style={{ display: 'flex', marginTop: 24 }} />
 
-        <If condition={posts.length > 3}>
-          <ExpandedPost posts={posts.slice(3)} />
+        <If condition={posts.length > 4}>
+          <ExpandedPost posts={posts.slice(4)} />
         </If>
       </div>
     </div>
